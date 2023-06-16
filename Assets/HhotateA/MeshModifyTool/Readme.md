@@ -1,11 +1,11 @@
 download https://github.com/HhotateA/AvatarModifyTools/releases/tag/v1
 
-# にゃんにゃんメッシュエディター(MeshModifyTool)
+# NyanNyan Mesh Editor (MeshModifyTool)
 
-![alt](./Manual/000.png)
-VRChat用アバターの着せ替えなどを想定した，UnityのEditorで簡単なメッシュ変形ができるツールです．
+! [alt](./Manual/000.png)
+This tool enables simple mesh deformation with Unity's Editor, for example, to change the avatar's clothes for VRChat.
 
-## 導入方法，使用手順
+## Import method, using manual
 1. あらかじめアバターアップロード用プロジェクトのバックアップを取っておく．
 2. MeshModifyTool.unitypackageをUnityProjectにインポートする．
 3. Unityの上部メニュー，Window/HhotateA/にゃんにゃんメッシュエディター(MeshModifyTool)を開く.
@@ -15,87 +15,87 @@ VRChat用アバターの着せ替えなどを想定した，UnityのEditorで簡
 7. メッシュを編集する．
 8. Saveをクリックして保存．
 
-## 注意事項
-- バグった場合はウィンドウを一度閉じてください．編集内容は消えますが，たいていは元に戻ります．(あらかじめバックアップを取ることを忘れないでください)
-- ToMeで作成したツールですので，あまりメンテナンスしないかも．
+## Notes.
+- If a bug occurs, close the window. Your edits will be lost, but they will usually be restored. (Do not forget to make a backup of your edits beforehand.)
+- This tool was created by ToMe, so it may not be maintained very often.
 
-## 利用規約
-- アバターへの同梱，改良，ツールの一部，まるごと含め，二次配布可とします．
-- 二次配布する場合，連絡とクレジット表記があるとうれしいです．(必須ではありません)
-- 本ツールを使用して発生した問題に対しては製作者は一切の責任を負いません.
-- VRChatやUnity等の仕様変更により本ツールの機能が使えなくなった場合、製作者は責任を負いません。
+## Terms of Use
+- Secondary distribution is permitted, including bundling with avatars, modification, or the entire tool.
+- If you distribute the tool, please notify us and credit us. (Not required).
+- The creator assumes no responsibility for any problems that may occur using this tool.
+- The creator is not responsible for any problems that may occur when using this tool.
 
-## 機能説明
+## Function Description
 
-アバター編集画面は右クリック長押しで回転，マウスホイール長押しで移動
+Right-click and hold to rotate the avatar editing screen, and mouse wheel to move it.
 
 ![alt](./Manual/001.png)
-- Setup : root以下のMesh一覧を更新します．
-- Mesh一覧 : 編集したいメッシュ名をクリックします．左のチェックボックスでオブジェクトを非表示にできます．
+- Setup : Update the list of meshes under the root.
+- Mesh List : Click the name of the mesh you wish to edit. Click the checkbox on the left to hide the object.
 
-- SaveAsBlendShape : 左のテキストボックス名のBlendShapeとして，現在の編集を保存する
+- SaveAsBlendShape : Save the current edit as a BlendShape of the left text box name.
 
-- Undo : 編集をやり直します
-- Redo : Undoを取り消します
+- Undo : Redo the editing.
+- Redo : Undo the Undo
 
-### 通常編集モード
+### Normal edit mode
 ![alt](./Manual/002.png)
- クリックした位置のメッシュを引っ張る,膨らませることができる．
- 
-- Power : 押し出し，引っ張りの強さ（-1 押し出し，+1 押し出し）
-- Width : クリック点からの編集の影響範囲
-- Strengh : 範囲内の変形の滑らかさ（1≧なめらか，1≦均一）
+ The mesh at the clicked position can be pulled and inflated.
 
-- Mirror(x,y,z) : x(y,z)軸対称に編集を行う設定
- 
- ### 頂点編集モード
+- Power : Strength of push/pull (-1 push, +1 push)
+- Width : The range of influence of the edit from the click point.
+- Strengh : Smoothness of the deformation within the range (1≧smooth, 1≦uniform)
+
+- Mirror(x,y,z) : Edit symmetrically along x(y,z) axis.
+
+ ### Vertex edit mode
 ![alt](./Manual/003.png)
-  クリックした頂点を，青点から赤点に移動させる．
-  
- - Width : クリック点からの編集の影響範囲
- - Strengh : 範囲内の変形の滑らかさ（1≧なめらか，1≦均一）
+  Move the clicked vertex from the blue point to the red point.
 
-- Mirror(x,y,z) : x(y,z)軸対称に編集を行う設定
+ - Width : The range of influence of the edit from the clicked point.
+ - Strengh : Smoothness of the transformation within the range (1≥smooth, 1≤uniform)
 
-### メッシュ編集機能
+- Mirror(x,y,z) : Editing is performed symmetrically along the x(y,z) axis.
+
+### Mesh editing functions
 ![alt](./Manual/004.png)
- ポリゴンごとに移動,コピーなどの編集を行う
- 
- - Land選択 : 繋がった頂点を一括選択する(ちょっと重いので注意)
- - ポリゴン選択 : 1ポリゴンごとに選択する
- 
- - Transform : 選択中ポリゴンを移動する
- - Copy : 選択中ポリゴンを複製する(Can not undo) [参考](https://twitter.com/HhotateA_xR/status/1395655196781387778?s=20)
- - Deleate : 選択中ポリゴンを削除する(Can not undo)
- 
+ Move, copy, and edit each polygon
+
+ - Land selection : select all connected vertices at once (note that it is a bit heavy)
+ - Polygon selection : Select one polygon at a time
+
+ - Transform : Move the selected polygon
+ - Copy : Duplicate the selected polygon (Can not undo) [Reference](https://twitter.com/HhotateA_xR/status/1395655196781387778?s=20)
+ - Deleate : Delete selected polygon(Can not undo)
+
  ### ActiveExperimental
 ![alt](./Manual/005.png)
 ![alt](./Manual/006.png)
- - SelectVertexMode : 通常編集,頂点編集機能時に操作点が頂点に吸われる設定
- - RealtimeTransform : 頂点編集,メッシュ編集機能時にScene上のオブジェクトとして編集を行う [参考](https://twitter.com/HhotateA_xR/status/1396059845766172674?s=20)
- - SelectOverlapping : メッシュ編集機能時に重複頂点を一括選択する
- 
+ - SelectVertexMode : Operation points are sucked to vertices during normal editing and vertex editing functions.
+ - RealtimeTransform : Edit as an object on Scene during vertex and mesh editing [Reference](https://twitter.com/HhotateA_xR/status/1396059845766172674?s=20)
+ - SelectOverlapping : select overlapping vertices at once during mesh editing
+
  ### ActiveExperimentalBeta
 ![alt](./Manual/007.png)
- - Delete : メッシュ編集時の"Delete"でポリゴンを同時削除する
- - MergeBones : ボーン削減機能(HumanBone:HumanoidBoneに含まれないボーンを参照から外す, ActiveBone:Sceneで非表示設定のボーンを参照から外す)
- - ChangeBone : ボーンの参照を別のHumanoidに移す(Merge:存在しない補助ボーンを追加する, Combine:存在しない補助ボーンをConstraintで追従する, Constraint:Constraintの設定のみ行う)
- - CombineMesh : メッシュの結合を行う(ActiveMesh:root以下のすべての表示中Meshを結合した1つのSkinnedMeshを作成する, Material:選択中メッシュのサブメッシュをShaderごとに結合する) [参考](https://twitter.com/HhotateA_xR/status/1398421460973064196?s=20) [参考](https://twitter.com/HhotateA_xR/status/1392077207061745664?s=20)
- - RandmizeVertex : アバターのリッピングを防止するためメッシュをランダムに変形する．(非推奨)
- - CopyBoneWeight : 他SkinedMeshからBoneWeightをコピーする(非推奨)
- - Decimate : ポリゴン数を目標値まで削減する(非推奨)
- - WeightCopy : メッシュ編集機能で選択中のポリゴンのウェイト値を，他頂点からコピーする． [参考](https://twitter.com/HhotateA_xR/status/1398421178432192513?s=20)
- - Decimate : クリックしたポリゴンを削減する．
+ - Delete : Simultaneous deletion of polygons by "Delete" during mesh editing
+ - MergeBones : Bone reduction function (HumanBone:Remove bones not included in HumanoidBone from reference, ActiveBone:Remove bones that are hidden in Scene from reference)
+ - ChangeBone : move the reference of a bone to another Humanoid (Merge: add a non-existent auxiliary bone, Combine: follow a non-existent auxiliary bone with Constraint, Constraint: only Constraint settings are available)
+ - CombineMesh : Combine meshes (ActiveMesh:Create a SkinnedMesh that combines all visible meshes under root, Material:Combine sub-meshes of selected mesh for each Shader) [Reference](https:// twitter.com/HhotateA_xR/status/1398421460973064196?s=20) [Reference](https://twitter.com/HhotateA_xR/status/1392077207061745664?s=20)
+ - RandmizeVertex : Randomly deforms the mesh to prevent avatar ripping. (Deprecated)
+ - CopyBoneWeight : Copy BoneWeight from other SkinedMesh (deprecated)
+ - Decimate : Reduce polygon count to a target value (deprecated)
+ - WeightCopy : Copy the weight value of the selected polygon from other vertices in the mesh editing function. [Reference](https://twitter.com/HhotateA_xR/status/1398421178432192513?s=20)
+ - Decimate : Decimate the clicked polygon.
 
-## 制作者
+## Produced by.
 @HhotateA_xR
-問題報告は https://github.com/HhotateA/AvatarModifyTools へ
+To report a problem, go to https://github.com/HhotateA/AvatarModifyTools
 
-## 更新履歴
-2021/05/29 v1.1 リリース開始
-2021/07/08 v1.2 TextureModifyToolのリリースとAvatarModifityToolのアップデート
+## Update History
+2021/05/29 v1.1 release started
+2021/07/08 v1.2 Release of TextureModifyTool and update of AvatarModifityTool
 2021/07/31 v1.25
 2021/08/13 v1.26
 2021/08/27 v1.27
 2021/09/03 v1.29
-2021/09/10 v1.30 UnityMeshSimplifierの組み込み
+2021/09/10 v1.30 Incorporation of UnityMeshSimplifier

@@ -1,71 +1,71 @@
-# エモートモーションキット(EmoteMotionKit)
+# EmoteMotionKit
 
-VRChatアバターのアイドルアニメーションや，エモートを設定できるツールです．
-横になる睡眠モーションや，座りモーションをメニューから切り替えたり，
-好きなアクションエモートを好きな時に再生することができます．
+This tool allows you to set idle animations and emotes for your VRChat avatar.
+You can switch between lying sleeping motion and sitting motion from the menu, and playback your favorite action emotes whenever you want.
+You can also play your favorite action emotes whenever you want.
 
-## 導入手順
-1. あらかじめアバターアップロード用プロジェクトのバックアップを取っておく．
-2. VRCSDK3-AVATARを最新版に更新する．
-3. EmoteMotionKit.unitypackageをUnityProjectにインポートする．
-4. Unityの上部メニュー，Window/HhotateA/EmoteMotionKitを開く.
-5. "Avatar"の欄にシーン上のアバターオブジェクトをドラッグ&ドロップで参照する
-6. レイヤーの設定をする．
-    - EmoteLayer : EmoteMotionを追加するレイヤー
-        - Base : Locomotionレイヤーに登録する．
-        - Action : Actionレイヤーに登録する．（VRChatのエモートと同じ設定）
-        - Additive : Idleレイヤーに登録する．（アイドルに加算されるアニメーション）
-    - Use FX : FXレイヤーにアニメーションをコピーする．（表情などの合成用）
-    - Is Saved : エモートの状態を保存する
-7. アニメーションを登録する
-8. アニメーションの設定を行う
-    - TrackingSpace : （Animator Tracking Controlの設定）
-        - TrackingBase : Trackingを優先する
-        - FootAnimation : 足の動きをアニメーションで上書きする
-        - BodyAnimation : 頭以外の動きをアニメーションで上書きする
-        - AnimationBase : アニメーションを優先する
-        - Emote : アニメーションで上書きする
-    - IsEmote : エモート(ループしないアニメーション)として設定する．
-    - Stop Locomotion : アニメーション以外での移動を禁止する（Animator Locomotion Controlの設定）
-    - Enter Pose Space : 視点をアニメーションで移動する(Animator Temporary Pose Spaceの設定)
-9. ”Setup”ボタンを押す．
-10. 通常の手順でアバターをアップロードする．
+## Introduction Procedure
+1. Make a backup of your avatar upload project in advance.
+2. Update VRCSDK3-AVATAR to the latest version.
+3. Import EmoteMotionKit.unitypackage into UnityProject.
+4. Open Window/HhotateA/EmoteMotionKit in the top menu of Unity.
+5. Refer to the "Avatar" field by dragging and dropping an avatar object on the scene.
+6. Set the layer settings.
+    - EmoteLayer : Layer to which EmoteMotion is added.
+        - Base : Register to Locomotion layer.
+        - Action : Register in the Action layer. (Same setting as VRChat's Emote)
+        - Additive : Add to Idle layer. （Additive : Add the animation to the Idle layer.)
+    - Use FX : Copy the animation to FX layer. （Use FX : Copy the animation to the FX layer (for compositing facial expressions, etc.)
+    - Is Saved : Save the state of the emote.
+7. Register an animation
+8. Configure animation settings.
+    - TrackingSpace : (Animator Tracking Control setting)
+        - TrackingBase : Prioritize Tracking
+        - FootAnimation : Override animation for foot movement
+        - BodyAnimation : Override animation for movements other than head
+        - AnimationBase : Prioritize animation
+        - Emote : Override with animation
+    - IsEmote : Set as an emote (non-looping animation).
+    - Stop Locomotion : Prohibit movement except for animation (Animator Locomotion Control setting)
+    - Enter Pose Space : Move the viewpoint with animation (setting of Animator Temporary Pose Space)
+9. Press the "Setup" button.
+10. Upload your avatar in the usual way.
 
-## 使用方法
-1. AvatarのExpressionMenuからEmoteMotionを選択する．
-2. 任意のEmote or IdleAnimationを選択すると再生される．
+## How to use
+1. Select EmoteMotion from Avatar's ExpressionMenu.
+2. Select any Emote or IdleAnimation to play it.
 
-## アンインストール手順
-### v1.27以降
- 1. 本ツールの"Modify Options"オプションから"Force Revert"ボタンを押す．
- 2. 「Status : Complete Revert」というメッセージが出れば成功
+## Uninstallation procedure
+### v1.27 or later
+ 1. Press the "Force Revert" button from the "Modify Options" option of the tool.
+ 2. Success if the message "Status : Complete Revert" appears.
 
 ## Modify Options
-- Override Write Default : WriteDefaultの値を上書きします．(VRChat非推奨項目)
-- RenameParameters : パラメーター名に含まれる2バイト文字をハッシュ化して取り除きます．
-- Auto Next Page : メニューの項目数が上限に達した場合，自動で次ページを作成します．
+- Override Write Default : Override the WriteDefault value. (VRChat deprecated item)
+- RenameParameters : Hash and remove 2-byte characters in parameter names.
+- Auto Next Page : When the number of menu items reaches the limit, the next page is automatically created.
 
-- Force Revert : このツールでセットアップされた設定を元に戻します．
+- Force Revert : Revert the settings set up by this tool.
 
-## 注意事項
-- アバターのfxAnimatorController,ExpressionMenu,ExpressionParametersに破壊的な変更を加えます．あらかじめ忘れずにバックアップを取ってください．
-- 過去バージョンと競合してエラーが出る場合はFullPackageを試してください．
+## Notes
+- This tool destructively changes fxAnimatorController, ExpressionMenu, and ExpressionParameters of the avatar. Be sure to make a backup copy of the file.
+- If there is an error due to conflicts with previous versions, please try FullPackage.
 
-## 利用規約
-- アバターへの同梱，改良，ツールの一部，まるごと含め，二次配布可とします．
-- 二次配布する場合，連絡とクレジット表記があるとうれしいです．(必須ではありません)
-- 本ツールを使用して発生した問題に対しては製作者は一切の責任を負いません.
-- VRChatやUnity等の仕様変更により本ツールの機能が使えなくなった場合、製作者は責任を負いません。
+## Terms of Use
+- Secondary distribution is permitted, including bundling with avatars, modifications, or entire tools.
+- If you distribute the tools, we would appreciate it if you notify us and give us credit. (Not required).
+- The creator assumes no responsibility for any problems that may occur using this tool.
+- The creator is not responsible for any problems that may occur when using this tool.
 
-## 動作確認環境
+## System Requirements
 - Unity2019.4.24f1
 - VRCSDK3-AVATAR-2021.08.11.15.16_Public
 
-## 制作者
+## Produced by.
 @HhotateA_xR
-問題報告は https://github.com/HhotateA/AvatarModifyTools へ
+To report a problem, go to https://github.com/HhotateA/AvatarModifyTools
 
-## 更新履歴
-2021/08/27 v1.27β
+## Update history
+2021/08/27 v1.27beta
 2021/09/03 v1.29
 2021/09/10 v1.30

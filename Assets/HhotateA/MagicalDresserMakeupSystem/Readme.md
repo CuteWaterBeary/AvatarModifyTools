@@ -1,19 +1,19 @@
-# マジックドレッサーメイクアップ(MagicalDresserMakeupSystem)
+# MagicalDresserMakeupSystem
 
-VRChatのアバターで，メニューから服や髪色や，BlendShapeの上書きを設定できるツールです．
+This is a tool that allows you to set clothes, hair color, and BlendShape override on your VRChat avatar from the menu.
 
-## 導入方法
-1. あらかじめアバターアップロード用プロジェクトのバックアップを取っておく．
+## How to install
+1. Make a backup of your avatar upload project in advance.
 2. VRCSDK3-AVATARを最新版に更新する．
 3. ItemPickupSetup.unitypackageをUnityProjectにインポートする．
 4. Unityの上部メニュー，Window/HhotateA/アバターアイテムセットアップ(ItemPickupSetup)を開く．
 5. "Avatar"の欄にシーン上のアバターオブジェクトをドラッグ&ドロップで参照する.
 6. "Renderer"の欄にアバター内の手に持ちたいオブジェクトをドラッグ&ドロップで参照する.
 7. ColorChangeの設定を行う．
-    - None : 色改変を行わない
-    - Texture : テクスチャを入れ替える色改変(安定)
-    - RGB : グレースケールにRGBを乗算する色設定
-    - HSV : HSVフィルターを用いた色設定
+    - None : No color modification
+    - Texture : Color modification to replace texture (stable)
+    - RGB : Multiply grayscale by RGB
+    - HSV : Color setting using HSV filter
 8. ShapeChangeの設定を行う
     - None : BlendShapeを設定しない．
     - Radial : 選択したBlendShapeを非段階的に設定する．
@@ -21,12 +21,12 @@ VRChatのアバターで，メニューから服や髪色や，BlendShapeの上�
 9. ”Setup”ボタンを押す．
 10. 通常の手順でアバターをアップロードする．
 
-## 使用方法
+## How to use
 1. AvatarのExpressionMenuから"MagicalDresserMakeupSystem"メニューを開きアイテムを選択する．
 2. 色，またはBlendShapeの値を設定できるฅ(＾・ω・＾ฅ)
 
-## アンインストール手順
-### v1.27以降
+## Uninstallation procedure
+### v1.27 or later
  1. 本ツールの"Modify Options"オプションから"Force Revert"ボタンを押す．
  2. 「Status : Complete Revert」というメッセージが出れば成功
 ### v1.26以前
@@ -36,32 +36,32 @@ VRChatのアバターで，メニューから服や髪色や，BlendShapeの上�
 4. HSV設定した場合，Rendererの子オブジェクトの"(clone)_Filter"という名前のオブジェクトを削除する
 
 ## Modify Options
-- Override Write Default : WriteDefaultの値を上書きします．(VRChat非推奨項目)
-- RenameParameters : パラメーター名に含まれる2バイト文字をハッシュ化して取り除きます．
-- Auto Next Page : メニューの項目数が上限に達した場合，自動で次ページを作成します．
+- Override Write Default : Override the value of WriteDefault. (VRChat deprecated item)
+- RenameParameters : Hash and remove 2-byte characters in parameter names.
+- Auto Next Page : When the number of menu items reaches the limit, the next page is automatically created.
 
-- Force Revert : このツールでセットアップされた設定を元に戻します．
+- Force Revert : Revert the settings set up by this tool.
 
-## 注意事項
-- アバターのfxAnimatorController,ExpressionMenu,ExpressionParametersに破壊的な変更を加えます．あらかじめ忘れずにバックアップを取ってください．
-- ExpressionParameters,ExpressionMenuの項目が上限に達していた場合，正常に導入できない場合があります．その場合は一時的に項目を減らすなどの対処をお願い致します．
-- 過去バージョンと競合してエラーが出る場合はFullPackageを試してください．
+## Caution.
+- This is a destructive change to fxAnimatorController, ExpressionMenu, and ExpressionParameters of the avatar. Please remember to make a backup copy of your avatar.
+- If the maximum number of items in ExpressionParameters and ExpressionMenu has been reached, it may not be possible to install correctly. In such cases, please reduce the number of items temporarily.
+- If an error occurs due to a conflict with a previous version, please try FullPackage.
 
-## 利用規約
-- アバターへの同梱，改良，ツールの一部，まるごと含め，二次配布可とします．
-- 二次配布する場合，連絡とクレジット表記があるとうれしいです．(必須ではありません)
-- 本ツールを使用して発生した問題に対しては製作者は一切の責任を負いません.
-- VRChatやUnity等の仕様変更により本ツールの機能が使えなくなった場合、製作者は責任を負いません。
+## Terms of Use
+- Secondary distribution is permitted, including bundling with avatars, modifications, or entire tools.
+- If you distribute the tools, we would appreciate it if you notify us and give us credit. (Not required).
+- The creator assumes no responsibility for any problems that may occur using this tool.
+- The creator is not responsible for any problems that may occur when using this tool.
 
-## 動作確認環境
+## System Requirements
 - Unity2019.4.24f1
 - VRCSDK3-AVATAR-2021.08.11.15.16_Public
 
-## 制作者
+## Produced by.
 @HhotateA_xR
-問題報告は https://github.com/HhotateA/AvatarModifyTools へ
+To report a problem, go to https://github.com/HhotateA/AvatarModifyTools
 
-## 更新履歴
+## Update history
 2021/08/13 v1.26
 2021/08/27 v1.27
 2021/09/03 v1.29

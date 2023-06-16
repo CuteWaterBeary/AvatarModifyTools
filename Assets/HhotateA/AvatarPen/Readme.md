@@ -1,57 +1,57 @@
-# アバターペンセットアップ(AvatarPenSetup)
+# AvatarPenSetup
 
-VRChatのアバターで使用できる，トレイルタイプの指ペンの簡易セットアップツールです．
+This is a simple setup tool for a trail-type finger pen that can be used with VRChat avatars.
 
-## 導入方法
-1. あらかじめアバターアップロード用プロジェクトのバックアップを取っておく．
-2. VRCSDK3-AVATARを最新版に更新する．
-3. AvatarPenSetupTool.unitypackageをUnityProjectにインポートする．
-4. Unityの上部メニュー，Window/HhotateA/AvatarPenSetupを開く．
-5. "Avatar"の欄にシーン上のアバターオブジェクトをドラッグ&ドロップで参照する
-6. ”Setup”ボタンを押す．
-7. 通常の手順でアバターをアップロードする．
+## How to install
+Make a backup of your avatar upload project in advance. 2.
+Update VRCSDK3-AVATAR to the latest version. 3.
+Import AvatarPenSetupTool.unitypackage into UnityProject. 4.
+Open Window/HhotateA/AvatarPenSetup from the top menu of Unity. 5.
+Drag and drop an avatar object on the scene into the "Avatar" field. 6.
+Press the "Setup" button. 7.
+Upload the avatar as usual.
 
-## 使用方法
-1. AvatarのExpressionMenuからPenを選択する．
-2. 色を選択する．
-3. 右手をFingerpointにしたときに，指先からトレイルが出ます．
-4. PenMenuのEraseで消し消しฅ(＾・ω・＾ฅ)
+## How to use
+1) Select Pen from the ExpressionMenu of Avatar. 2) Select a color.
+Select a color. 3.
+When the right hand is set to Fingerpoint, a trail will appear from the fingertip. 4.
+4. use Erase in the PenMenu to erase ฅ(＾ω・＾ฅ)
 
-## アンインストール手順
-1. Fx_Animatorから"AvatarPen"から始まる名前のレイヤーを削除する．
-2. VRCExpressionsMenuから"AvatarPen"から始まる名前の項目を削除する．
-3. VRCExpressionParameters"AvatarPen"から始まる名前の項目を削除する．
-4. アバター指先の"Avatar_Pen"オブジェクトを削除する．
+## Uninstallation procedure
+1. delete the layer whose name begins with "AvatarPen" from Fx_Animator. 2.
+Delete the item whose name begins with "AvatarPen" from VRCExpressionsMenu. 3.
+Delete VRCExpressionParameters with names beginning with "AvatarPen". 4.
+Delete the "Avatar_Pen" object of the avatar fingertip.
 
 ## Modify Options
-- Override Write Default : WriteDefaultの値を上書きします．(VRChat非推奨項目)
-- RenameParameters : パラメーター名に含まれる2バイト文字をハッシュ化して取り除きます．
-- Auto Next Page : メニューの項目数が上限に達した場合，自動で次ページを作成します．
+- Override Write Default : Override the value of WriteDefault. (VRChat deprecated item)
+- RenameParameters : Hash and remove 2-byte characters in parameter names.
+- Auto Next Page : When the number of menu items reaches the limit, the next page is automatically created.
 
-- Force Revert : このツールでセットアップされた設定を元に戻します．
+- Force Revert : Revert the settings set up by this tool.
 
-## 注意事項
-- アバターのfxAnimatorController,ExpressionMenu,ExpressionParametersに破壊的な変更を加えます．あらかじめ忘れずにバックアップを取ってください．
-- 過去バージョンと競合してエラーが出る場合はFullPackageを試してください．
+## Caution.
+- This is a destructive change to fxAnimatorController, ExpressionMenu, and ExpressionParameters of the avatar. Please remember to make a backup copy of the file.
+- If there is an error due to conflicts with previous versions, please try FullPackage.
 
-## 利用規約
-- アバターへの同梱，改良，ツールの一部，まるごと含め，二次配布可とします．
-- 二次配布する場合，連絡とクレジット表記があるとうれしいです．(必須ではありません)
-- 本ツールを使用して発生した問題に対しては製作者は一切の責任を負いません.
-- VRChatやUnity等の仕様変更により本ツールの機能が使えなくなった場合、製作者は責任を負いません。
+## Terms of Use
+- Secondary distribution is permitted, including bundling with avatars, modification, and partial or complete tools.
+- If you distribute the tools, we would appreciate a notice and credit. (Not required).
+- The creator assumes no responsibility for any problems that may occur using this tool.
+- The creator is not responsible for any problems that may occur when using this tool.
 
-## 動作確認環境
+## System Requirements
 - Unity2019.4.24f1
 - VRCSDK3-AVATAR-2021.08.11.15.16_Public
 
-## 制作者
+## Producer
 @HhotateA_xR
-問題報告は https://github.com/HhotateA/AvatarModifyTools へ
+To report a problem, go to https://github.com/HhotateA/AvatarModifyTools
 
-## 更新履歴
+## Update History
 2021/04/04 v0.9
-2021/04/06 v1.1 EmojiParticleSetupToolに伴うAvatarModifyToolの破壊的アップデート
-2021/07/08 v1.2 TextureModifyToolのリリースとAvatarModifityToolのアップデート
+2021/04/06 v1.1 Destructive update of AvatarModifyTool with EmojiParticleSetupTool
+2021/07/08 v1.2 Release of TextureModifyTool and update of AvatarModifityTool
 2021/07/31 v1.25
 2021/08/13 v1.26
 2021/08/27 v1.27

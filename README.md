@@ -1,34 +1,34 @@
 # AvatarModifyTools
 
-VRChatのアバター改変を支援するためのいくつかのエディタ拡張です．
+Some editor extensions to help you modify your VRChat avatar.
 
 Here are some tools to help you modify your VRChat avatar.
 
 ### AvatarModifyTool
- アバター改変の手順を自動化し，ワンクリックでアバター改変を適応するツールです．
- Unity拡張を1から作らなくても，アクセサリーやアバターギミックのワンクリックセットアップツールをつくれるライブラリとしての使用を想定しています．
- 
+ This tool automates the avatar modification process and adapts avatar modifications with a single click.
+ It is intended to be used as a library for creating one-click setup tools for accessories and avatar gimmicks without having to create Unity extensions from scratch.
+
 ### AvatarModifyData
-  アバターの改変内容を保存するためのアセットファイルです．
- 
- - Locomotion_controller : Avatar3.0のBaseレイヤーに追加したいレイヤーを含むアニメーターコントローラーです．
- - idle_controller : Avatar3.0のAdditiveレイヤーに追加したいレイヤーを含むアニメーターコントローラーです．
- - gesture_controller : Avatar3.0のGestureレイヤーに追加したいレイヤーを含むアニメーターコントローラーです．
- - action_controller : Avatar3.0のActionレイヤーに追加したいレイヤーを含むアニメーターコントローラーです．
- - fx_controller : Avatar3.0のFxレイヤーに追加したいレイヤーを含むアニメーターコントローラーです．
- 
- - parameter : Avatar3.0のパラメータードライバーに追加したい項目です．
- - menu : Avatar3.0のメニューに追加したい項目です．サブメニューに派生させることができます．
- 
- - Item : アバターTransform内に追加したいGameobjectです．
-    - prefab : 生成するするPrefabです．prefabのrootにParentConstraintがついている場合Constraintによる接続に切り替わり，prefabはAvatar直下に生成されます．
-    - target : 対応するアバター側のボーンです．
-  
-    この機能を使いプレハブをアバターのボーンに差し込んだ場合，上記AnimatorControllerで参照しているすべてのアニメーションのパスが正しく書き換わります．<br>
-  例えば，AvatarRoot直下の"AvatarPen"オブジェクトのオンオフをするアニメーションがあり，"AvatarPen"をこの機能で指先に移動させた場合，Animationのパスが自動で書き換わり，正常に動作し続けます．
- 
- ### サンプルコード
- 
+  An asset file for saving avatar modifications.
+
+ - Locomotion_controller : Animator controller that includes a layer to be added to the Base layer of Avatar3.0.
+ - idle_controller : Animator controller that includes a layer to be added to the Additive layer of Avatar3.0.
+ - gesture_controller : Animator controller that includes a layer to be added to the Gesture layer of Avatar3.0.
+ - action_controller : Animator controller that includes a layer to be added to the Action layer of Avatar3.0.
+ - fx_controller : Animator controller that includes a layer to be added to Fx layer of Avatar3.0.
+
+ - parameter : Items to be added to the Avatar3.0 parameter driver.
+ - menu : Items to be added to the Avatar3.0 menu. It can be derived from submenus.
+
+ - Item : Gameobject to be added to the Avatar Transform.
+    - prefab : Prefab to be generated; if the root of the prefab has ParentConstraint, the connection will be switched to Constraint and the prefab will be generated directly under Avatar.
+    - target : The corresponding avatar's bone.
+
+    When the prefab is inserted into the avatar's bone using this function, all animation paths referenced in AnimatorController above will be rewritten correctly. <br> <br
+  For example, if you have an animation that turns on/off the "AvatarPen" object directly under the AvatarRoot, and you move the "AvatarPen" to the fingertip using this function, the Animation path is automatically rewritten and continues to work correctly.
+
+ ### sample code
+
  ```c#
 using HhotateA.AvatarModifyTools.Core;
 using UnityEditor;
@@ -46,43 +46,43 @@ public class TestSetupTool : EditorWindow
     }
 
     private VRCAvatarDescriptor avatar;
-    
-    // AvatarModifyDataのGUIDをここに代入
+
+    // Assign GUID of AvatarModifyData here
     const string assetGUID = "e5cd1ff11d13fed44bd5d0b8b4a2be8c";
 
     private void OnGUI()
     {
         avatar = (VRCAvatarDescriptor) EditorGUILayout.ObjectField("Avatar", avatar, typeof(VRCAvatarDescriptor), true);
-        
+
         if (GUILayout.Button("Setup"))
         {
             var asset = AssetUtility.LoadAssetAtGuid<AvatarModifyData>(assetGUID);
             var mod = new AvatarModifyTool(avatar);
             mod.ModifyAvatar(asset);
         }
-        
+
         EditorGUILayout.LabelField("powered by AvatarModifyTool @HhotateA_xR");
     }
 }
 ```
 
-## Lisence 
-本ツールのすべてのソースコードはフリーライセンスとして公開されています．
-- 再配布：可能
-- 改変：可能
-- 商用利用：可能
-- 作者表記：不要
-- ライセンスの継承：不要
-- 販売アバターへの同梱，派生ツール，ツールの一部，まるごと含め，二次配布可とします．
-- 二次配布する場合，連絡とクレジット表記があるとうれしいです．(必須ではありません)
-- 本ツールを使用して発生した問題に対しては製作者は一切の責任を負いません.
-- VRChatやUnity等の仕様変更により本ツールの機能が使えなくなった場合、製作者は責任を負いません。
+## Lisence
+All source code of this tool is released under a free license.
+- Redistribution: Permitted
+- Modification: Yes
+- Commercial use: Yes
+- Author's notation: Not required
+- License inheritance: Not required
+- Secondary distribution is permitted, including bundling with avatars for sale, derivative tools, and parts of tools, as well as whole tools.
+- In the case of secondary distribution, we would appreciate it if you could notify us and credit us. (Not required).
+- The creator assumes no responsibility for any problems that may occur using this tool.
+- The creator is not responsible for any problems that may occur when using this tool.
 
-## 動作確認環境
+## System Requirements
 - Unity 2018.4.20f1
 - VRCSDK3-AVATAR-2021.06.03.14.57_Public
 
-## 更新履歴
+## Update History
 
 2021/04/04 v0.9<br>
 2021/04/06 v1.1<br>

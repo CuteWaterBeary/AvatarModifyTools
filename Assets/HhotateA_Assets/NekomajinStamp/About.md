@@ -1,15 +1,16 @@
-# 導入方法
-1. あらかじめVRCSDK3-AVATARとEmojiParticleSetupToolを導入しておく．
-2. Assets/HhotateA/NekomajinStamp/IconSetupData.assetをダブルクリックで開く．
-3. 出てきたWindowの"Avatar"の欄にシーン上のアバターオブジェクトをドラッグ&ドロップで参照する
-4. パーティクルを出すところを(Head/LeftHand/RightHand)から選択する．
-5. ”Setup”ボタンを押す．
-6. 通常の手順でアバターをアップロードする．
+# How to introduce VRCSDK3-AVATAR and EmojiParticleSetupTool
 
-# 規約・注意事項
-- イラストはいら( @irasist_)さんに描いていただいたものを，許可を得ておまけとして同封しているもので，著作権および作品のすべての権利はクリエイターに帰属します。
+1. Install VRCSDK3-AVATAR and EmojiParticleSetupTool beforehand.
+2. Double-click Assets/HhotateA/NekomajinStamp/IconSetupData.asset.
+3. Drag and drop an avatar object on the scene into the "Avatar" field of the window that appears.
+4. Select the particle emission point from (Head/LeftHand/RightHand).
+5. Press the "Setup" button.
+6. Upload the avatar as usual.
+
+# Terms and Conditions
+- The illustrations are drawn by Ira ( @irasist_) and enclosed as an extra with permission, and the copyright and all rights to the work belong to the creator.
 https://skeb.jp/@irasist_/works/3
-- NekomajinStamp以下のフォルダ内容物はすべて再配布禁止です
-- 例外としてEmojiParticleSetupToolを用いた改変でのアバターに付属するVRChatへのアップロードは許可します．
+- Redistribution of the contents of the folders under NekomajinStamp is prohibited.
+- As an exception, uploading to VRChat attached to the avatar with modification using EmojiParticleSetupTool is permitted.
 
 2021/04/06 @HhotateA_xR

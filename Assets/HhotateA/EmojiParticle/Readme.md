@@ -1,65 +1,65 @@
-# 絵文字パーティクルセットアップ(EmojiParticleSetup)
+# EmojiParticleSetup
 
-VRChatのアバターで使用できる，絵文字パーティクルのセットアップツールです．
-イラストのスタンプをVRChatのEmojiの用にメニューから再生することができるようになります．
+This is an Emoji Particle Setup tool for VRChat avatars.
+It allows you to play the stamp of an illustration from the menu like VRChat's Emoji.
 
-## 導入方法
-1. あらかじめアバターアップロード用プロジェクトのバックアップを取っておく．
-2. VRCSDK3-AVATARを最新版に更新する．
-3. EmojiParticleSetupTool.unitypackageをUnityProjectにインポートする．
-4. Unityの上部メニュー，Window/HhotateA/EmojiParticleSetupを開く.
-5. 出したい絵文字(スタンプイラスト)の画像とタイトルをすべて登録する．
-6. "Avatar"の欄にシーン上のアバターオブジェクトをドラッグ&ドロップで参照する
-7. パーティクルを出すところを(Head/LeftHand/RightHand)から選択する．
-8. ”Setup”ボタンを押す．
-9. 通常の手順でアバターをアップロードする．
+## How to install
+Make a backup of your avatar upload project in advance. 2.
+Update VRCSDK3-AVATAR to the latest version. 3.
+Import EmojiParticleSetupTool.unitypackage into UnityProject. 4.
+Open Window/HhotateA/EmojiParticleSetup from the Unity top menu. 5.
+Register all the images and titles of the emoji (stamp illustrations) you wish to display. 6.
+Drag and drop an avatar object on the scene into the "Avatar" field. 7.
+Select the place to emit particles from (Head/LeftHand/RightHand). 8.
+Press the "Setup" button. 9.
+Upload the avatar in the usual way. 9.
 
-10. Projectウィンドウ内で，Setup時に保存したファイルをダブルクリックすることで，設定を再開できます🐈
+In the Project window, double-click the file saved at the time of Setup to resume the setup 🐈.
 
-## 使用方法
-1. AvatarのExpressionMenuからEmojiParticleを選択する．
-2. Emojiを選ぶとパーティクルを出せるよーฅ(＾・ω・＾ฅ)
+## How to use
+1. select EmojiParticle from the ExpressionMenu of Avatar. 2.
+2. select Emoji to create particles ฅ(＾ω・＾ฅ)
 
-## アンインストール手順
-### v1.27以降
- 1. 本ツールの"Modify Options"オプションから"Force Revert"ボタンを押す．
- 2. 「Status : Complete Revert」というメッセージが出れば成功
-### v1.26以前
-1. Fx_Animatorから"EmojiParticle"から始まる名前のレイヤー,パラメーターを削除する．
-2. VRCExpressionsMenuから"EmojiParticle"から始まる名前の項目を削除する．
-3. VRCExpressionParameters"EmojiParticle"から始まる名前の項目を削除する．
-4. アバター内の"EmojiParticle"オブジェクトを削除する
+## Uninstallation procedure
+### v1.27 or later
+ 1. Press the "Force Revert" button from the "Modify Options" option of the tool.
+ 2. Success if the message "Status : Complete Revert" appears.
+### Before v1.26
+1. Delete layers and parameters with names starting with "EmojiParticle" from Fx_Animator.
+2. Delete items with names beginning with "EmojiParticle" from VRCExpressionsMenu.
+3. VRCExpressionParameters Deletes entries with names beginning with "EmojiParticle".
+4. Deleting an "EmojiParticle" object in an avatar
 
 ## Modify Options
-- Override Write Default : WriteDefaultの値を上書きします．(VRChat非推奨項目)
-- RenameParameters : パラメーター名に含まれる2バイト文字をハッシュ化して取り除きます．
-- Auto Next Page : メニューの項目数が上限に達した場合，自動で次ページを作成します．
+- Override Write Default : Override the value of WriteDefault. (VRChat deprecated item)
+- RenameParameters : Hash and remove 2-byte characters in parameter names.
+- Auto Next Page : When the number of menu items reaches the limit, the next page is automatically created.
 
-- Force Revert : このツールでセットアップされた設定を元に戻します．
+- Force Revert : Undo the settings set up by this tool.
 
-## 注意事項
-- アバターのfxAnimatorController,ExpressionMenu,ExpressionParametersに破壊的な変更を加えます．あらかじめ忘れずにバックアップを取ってください．
-- ExpressionParameters,ExpressionMenuの項目が上限に達していた場合，正常に導入できない場合があります．その場合は一時的に項目を減らすなどの対処をお願い致します．
-- VRChatのミラーにパーティクルが映らないことがあります．目視またはカメラで確認してください．
-- 過去バージョンと競合してエラーが出る場合はFullPackageを試してください．
+## Caution.
+- This is a destructive change to fxAnimatorController, ExpressionMenu, and ExpressionParameters of the avatar. Please remember to make a backup copy of your avatar.
+- If the maximum number of items in ExpressionParameters and ExpressionMenu has been reached, it may not be possible to install correctly. In such cases, please reduce the number of items temporarily.
+- There is a case that particles do not appear in the mirror of VRChat. Please check visually or with a camera.
+- If there is an error due to a conflict with a previous version, please try Full Package.
 
-## 利用規約
-- アバターへの同梱，改良，ツールの一部，まるごと含め，二次配布可とします．
-- 二次配布する場合，連絡とクレジット表記があるとうれしいです．(必須ではありません)
-- 本ツールを使用して発生した問題に対しては製作者は一切の責任を負いません.
-- VRChatやUnity等の仕様変更により本ツールの機能が使えなくなった場合、製作者は責任を負いません。
+## Terms of Use
+- Secondary distribution is permitted, including bundling with avatars, modifications, or entire tools.
+- If you distribute the tools, we would appreciate it if you notify us and give us credit. (Not required).
+- The creator assumes no responsibility for any problems that may occur using this tool.
+- The creator is not responsible for any problems that may occur when using this tool.
 
-## 動作確認環境
+## Action Confirmation Environment
 - Unity2019.4.24f1
 - VRCSDK3-AVATAR-2021.08.11.15.16_Public
 
-## 制作者
+## Produced by.
 @HhotateA_xR
-問題報告は https://github.com/HhotateA/AvatarModifyTools へ
+To report a problem, go to https://github.com/HhotateA/AvatarModifyTools
 
-## 更新履歴
+## Update History
 2021/04/05 v1.0
-2021/07/08 v1.2 TextureModifyToolのリリースとAvatarModifityToolのアップデート
+2021/07/08 v1.2 Release of TextureModifyTool and update of AvatarModifityTool
 2021/07/31 v1.25
 2021/08/13 v1.26
 2021/08/27 v1.27
