@@ -135,7 +135,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
 
         private void OnGUI()
         {
-            TitleStyle("Emote Motion Kit");.
+            TitleStyle("Emote Motion Kit");
             DetailStyle("This tool is used to set idle animations and emotes.",EnvironmentGUIDs.readme);
 #if VRC_SDK_VRCSDK3
 
