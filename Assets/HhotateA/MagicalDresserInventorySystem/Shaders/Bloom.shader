@@ -19,7 +19,7 @@
 		Tags { "RenderType"="Transparent" "Queue"="Transparent+1500"}
 		LOD 100
 
-		Pass{ //元オブジェクトの描画
+		Pass{ // Drawing the source object
 			Blend SrcAlpha OneMinusSrcAlpha
 			ZWrite On
 			Cull Back
@@ -59,7 +59,7 @@
 			ENDCG
 		}
 
-		Pass{ //Bloom部分の描画
+		Pass{ // Drawing the Bloom section
 			Blend SrcAlpha One
 			ZWrite off
 			Cull [_CullMode]
@@ -115,9 +115,9 @@
 				for(int scale=1;scale<roop+1;scale++){
 					for(int index=0;index<3;index++){
 						if(_Base==0){
-							output.vertex = UnityObjectToClipPos(input[index].vertex+input[index].vertex*scale*_range/float(roop)); //ループごとにスケールを大きくしていく(ノーマル方向に広げるとポリゴンがうくョ)
+							output.vertex = UnityObjectToClipPos(input[index].vertex+input[index].vertex*scale*_range/float(roop)); // Increase the scale for each loop (normal direction: polygons are not used).
 						}else{
-							output.vertex = UnityObjectToClipPos(input[index].vertex+input[index].normal*scale*_range/float(roop)); //ループごとにスケールを大きくしていく(ノーマル方向に広げるとポリゴンがうくョ)
+							output.vertex = UnityObjectToClipPos(input[index].vertex+input[index].normal*scale*_range/float(roop)); // Increase the scale for each loop (normal direction: polygons are not used).
 						}
 
 						output.uv = input[index].uv;
@@ -131,8 +131,8 @@
 			fixed4 frag (g2f i) : SV_Target{
 				// sample the texture
 				fixed4 col = tex2D(_BloomTex, i.uv);
-				col *= lerp(0.0,_brightness,saturate((length(col.rgb)-_threshold)/_softknee)); //しきい値以下の色なら光らせない(干渉区間あり)
-				col *= gammacorrect( _knee, i.alpha); //なんかいい感じに(悲しいことに_kee=0はバグる)
+				col *= lerp(0.0,_brightness,saturate((length(col.rgb)-_threshold)/_softknee)); // If the color is below the threshold, it does not light up (with interference section).
+				col *= gammacorrect( _knee, i.alpha); //something nice (sadly _kee=0 is buggy)
 				col *= _bloomcol;
 				clip(_AnimationTime-i.alpha*0.5);
 				clip(i.alpha*0.5-_AnimationTime+0.5);

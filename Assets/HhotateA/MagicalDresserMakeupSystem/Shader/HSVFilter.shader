@@ -39,7 +39,7 @@
             fixed4 _ForceColor;
             sampler2D _GrabPassTexture;
             float _H,_S,_V;
-            
+
 		    inline float3 rgb2hsv(float3 c) {
 			    float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
 			    float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
@@ -49,7 +49,7 @@
 			    float e = 1.0e-10;
 			    return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 		    }
-		    
+
 		    inline fixed3 hsv2rgb(float3 hsv){
 			    fixed4 t = fixed4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
 			    fixed3 p = abs(frac(hsv.xxx + t.xyz) * 6.0 - t.www);
