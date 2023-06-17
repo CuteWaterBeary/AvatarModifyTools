@@ -5,7 +5,7 @@ using UnityEditor;
 namespace HhotateA.AvatarModifyTools.Core
 {
     /// <summary>
-    /// 編集画面のカメラ画像出すための補助クラス
+    /// Auxiliary class for displaying the camera image on the editing screen
     /// </summary>
     public class AvatarMonitor
     {

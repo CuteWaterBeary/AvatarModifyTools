@@ -53,7 +53,7 @@ namespace HhotateA.AvatarModifyTools.Core
                         }
                         else
                         {
-                            // 透明で上書き
+                            // Transparent overwrite
                             combinatedTexture.SetPixels(row * resolution, column * resolution,
                                 resolution, resolution,
                                 Enumerable.Repeat<Color>(Color.clear, resolution * resolution).ToArray());
@@ -61,7 +61,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     }
                     else
                     {
-                        // 透明で上書き
+                        // Transparent overwrite
                         combinatedTexture.SetPixels(row * resolution, column * resolution,
                             resolution, resolution,
                             Enumerable.Repeat<Color>(Color.clear, resolution * resolution).ToArray());
@@ -86,7 +86,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 var tempTex = new Texture2D(newWidth-2*margin, newHeight-2*margin);
                 Graphics.ConvertTexture(texture, tempTex);
                 var resizedTexture = new Texture2D(newWidth, newHeight);
-                // 透明で上書き
+                // Transparent overwrite
                 resizedTexture.SetPixels(0, 0, newWidth, newHeight, Enumerable.Repeat<Color>(Color.clear, newWidth * newHeight).ToArray());
                 resizedTexture.SetPixels(margin, margin, newWidth-2*margin, newHeight-2*margin, GetTexturePixels(tempTex));
                 resizedTexture.Apply();

@@ -11,7 +11,7 @@ using System.Reflection;
 namespace HhotateA.AvatarModifyTools.Core
 {
     /// <summary>
-    /// 便利関数用staticクラス
+    /// static class for convenience functions
     /// </summary>
     public static class AssetUtility
     {
@@ -64,7 +64,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// GUIDからオブジェクトを取得する
+        /// Obtaining an object from a GUID
         /// </summary>
         /// <returns></returns>
         public static GameObject GetObjectByGuid(int guid)
@@ -179,7 +179,7 @@ namespace HhotateA.AvatarModifyTools.Core
             return bones;
         }
 
-        // パラメータ文字列から2バイト文字の除去を行う
+        // Remove 2-byte characters from parameter strings
         public static string GetSafeParam(this string param,string prefix = "",bool hash = true)
         {
             if (String.IsNullOrWhiteSpace(param)) return "";

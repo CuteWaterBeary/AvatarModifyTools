@@ -27,7 +27,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return false;
         }
 
-        [MenuItem("Window/HhotateA/マジックドレッサーインベントリ(MDInventorySystem)",false,106)]
+        [MenuItem("Window/HhotateA/Magic Dresser Inventory (MDInventorySystem)",false,106)]
         public static void ShowWindow()
         {
             OpenSavedWindow();
@@ -95,7 +95,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         public static void OpenSavedWindow(MagicalDresserInventorySaveData saveddata = null)
         {
             var wnd = GetWindow<MagicalDresserInventorySetup>();
-            wnd.titleContent = new GUIContent("マジックドレッサーインベントリ(MDInventorySystem)");
+            wnd.titleContent = new GUIContent("Magic Dresser Inventory (MDInventorySystem)");
             wnd.minSize = new Vector2(850, 500);
             wnd.maxSize = new Vector2(850,2000);
 
@@ -289,8 +289,8 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
 
         private void OnGUI()
         {
-            TitleStyle("マジックドレッサーインベントリ");
-            DetailStyle("アバターのメニューから，服やアイテムの入れ替えを行える設定ツールです．",EnvironmentGUIDs.readme);
+            TitleStyle("Magic Dresser Inventory");
+            DetailStyle("This tool allows you to change clothing and items in the avatar's menu.",EnvironmentGUIDs.readme);
 #if VRC_SDK_VRCSDK3
 
             EditorGUILayout.Space();
@@ -305,7 +305,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             EditorGUILayout.Space();
             if (!avatar)
             {
-                GUILayout.Label("シーン上のアバターをドラッグ＆ドロップ");
+                GUILayout.Label("Drag and drop avatars on the scene");
                 EditorGUILayout.Space();
                 using (new EditorGUILayout.HorizontalScope())
                 {
@@ -783,7 +783,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                                                 {
                                                                     if (!syncElement.syncOn)
                                                                     {
-                                                                        // 重複防止
+                                                                        // Repeat Prevention
                                                                         syncElement.syncOn = true;
                                                                         syncElement.syncOff = false;
                                                                     }
@@ -798,7 +798,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                                                 {
                                                                     if (!syncElement.syncOff)
                                                                     {
-                                                                        // 重複防止
+                                                                        // Repeat Prevention
                                                                         syncElement.syncOff = true;
                                                                         syncElement.syncOn = false;
                                                                     }
@@ -948,7 +948,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                     LoadReorderableList();
                                 }
 
-                                // avatarの設定
+                                // avatar settings
                                 if (avatar)
                                 {
                                     data.ApplyRoot(avatar.gameObject);
@@ -1116,7 +1116,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         {
                             if (o == null)
                             {
-                                // 消されたときのみ上書き
+                                // Overwritten only when erased
                                 // item.obj = null;
                                 onRemoveObject?.Invoke();
                             }
@@ -1266,7 +1266,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         var toggle = EditorGUILayout.Toggle("", rendOption.changeMaterialsOptions[i].change, GUILayout.Width(25));
                         if (toggle != rendOption.changeMaterialsOptions[i].change)
                         {
-                            // 変更があった場合レイヤー内に伝播
+                            // Propagate any changes in the layer
                             if (menuElements[menuReorderableList.index].isToggle)
                             {
                                 ToggleMaterialOption(menuElements[menuReorderableList.index], rendOption.rend, i, toggle);
@@ -1331,7 +1331,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         var toggle = EditorGUILayout.Toggle("", rendOption.changeBlendShapeOptions[i].change, GUILayout.Width(25));
                         if (toggle != rendOption.changeBlendShapeOptions[i].change)
                         {
-                            // 変更があった場合レイヤー内に伝播
+                            // Propagate any changes in the layer
                             if (menuElements[menuReorderableList.index].isToggle)
                             {
                                 ToggleBlendshapeOption(menuElements[menuReorderableList.index], rendOption.rend as SkinnedMeshRenderer, i, toggle);
@@ -1475,7 +1475,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                     var inactiveItems = menuElement.SafeInactiveItems();
                     inactiveItems.AddRange(ComputeLayerInactiveItems(menuElement));
 
-                    // rend option (material,blend shapeの変更適応)
+                    // render option (change adaptation of material,blend shape)
                     foreach (var activeItem in activeItems)
                     {
                         var inactiveItem = inactiveItems.FirstOrDefault(e => activeItem.obj == e.obj);
@@ -1486,7 +1486,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         }
                     }
 
-                    // On時のTransitionとIdle
+                    // Transition and Idle when On
                     foreach (var item in activeItems)
                     {
                         if (item.active)
@@ -1499,7 +1499,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         }
 
                     }
-                    // Off時のTransitionとIdle
+                    // Transition and Idle when Off
                     foreach (var item in inactiveItems)
                     {
                         if (item.active)
@@ -1563,7 +1563,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
 
                 if (data.layerSettingses[(int) layer].isRandom)
                 {
-                    // ランダム設定の反映
+                    // Reflection of random settings
                     c.AddDefaultState("Initialize",null);
                     c.AddState("Default",null);
                     c.AddTransition("Initialize","Default");
@@ -1614,7 +1614,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                 else
                                 if(data.materialOverride)
                                 {
-                                    // デフォルトのマテリアルで上書き（同期エラー対策）
+                                    // Overwrite with default material (to prevent synchronization errors)
                                     activeAnim.AddKeyframe_Material(rendOption.rend,rendOption.rend.sharedMaterials[j],0f,j);
                                     activeAnim.AddKeyframe_Material(rendOption.rend,rendOption.rend.sharedMaterials[j],1f/60f,j);
                                 }
@@ -1642,7 +1642,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         c.AddTransition("Default",i.ToString() + "_Initialize",param,i);
                         if (menuElement.isTaboo)
                         {
-                            // タブー設定に当たったらデフォルトに送る
+                            // When you hit a taboo setting, send it to default.
                             c.ParameterDriver(i.ToString() + "_Initialize",param,0);
                             c.AddTransition(i.ToString() + "_Initialize",0.ToString() + "_Active");
                         }
@@ -1676,7 +1676,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         {
                             var fromItem = fromItems.FirstOrDefault(e => e.obj == item.obj);
                             var toItem = toItems.FirstOrDefault(e => e.obj == item.obj);
-                            // レイヤー内で参照されているアイテムすべてについてとらんじちよん
+                            // Translation for all items referenced in the layer
                             if (fromItem == null && toItem == null)
                             {
 
@@ -1691,9 +1691,9 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                             }
                             else
                             {
-                                // rend option (material,blend shapeの変更適応)
+                                // render option (change of material,blend shape)
                                 RendererOptionTransition(fromItem,toItem,transitionAnim);
-                                // 次のステートでも表示状態の変更がなければ状態変更のアニメをつけない処理
+                                // If there is no change in the display state in the next state, no state change animation is added.
                                 if (data.createAnimWhenNotChangedActive || fromItem.active != toItem.active)
                                 {
                                     // transition animation
@@ -1708,7 +1708,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 }
             }
 
-            // パラメーターシンク
+            // parameter sync
             foreach (var menuElement in menuElements)
             {
                 foreach (var syncElement in menuElement.activeSyncElements)
@@ -1745,7 +1745,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         }
                     }
 
-                    // ランダムで代入時も同様に処理
+                    // Processed in the same way when assigning at random
                     if (data.layerSettingses[(int) menuElement.layer].isRandom)
                     {
                         if (menuElement.isToggle)
@@ -1785,7 +1785,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             MenuCreater m = new MenuCreater(fileName);
             if (data.useMenuTemplate)
             {
-                // テンプレートの整合性チェック
+                // Template consistency check
                 data.ReloadTemplates();
                 foreach (var menu in data.menuTemplate)
                 {
@@ -1910,7 +1910,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             {
                 ActiveAnimation(setAnim,element.obj,true);
 
-                // option処理
+                // option handling
                 foreach (var rendOption in element.rendOptions)
                 {
                     if(rendOption.rend == null) continue;
@@ -1927,7 +1927,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         else
                         if(data.materialOverride)
                         {
-                            // デフォルトのマテリアルで上書き（同期エラー対策）
+                            // Overwrite with default material (to prevent synchronization errors)
                             setAnim.AddKeyframe_Material(rendOption.rend,rendOption.rend.sharedMaterials[i],0f,i);
                             setAnim.AddKeyframe_Material(rendOption.rend,rendOption.rend.sharedMaterials[i],1f/60f,i);
                         }
@@ -1954,7 +1954,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
 
             if (transitionAnim != null)
             {
-                // 上書き設定
+                // overwrite settings
                 if (parentmenu != null)
                 {
                     if (parentmenu.isOverrideActivateTransition)
@@ -2021,7 +2021,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             {
                 ActiveAnimation(setAnim,element.obj,false);
 
-                // option処理
+                // option handling
                 foreach (var rendOption in element.rendOptions)
                 {
                     if(rendOption.rend == null) continue;
@@ -2034,7 +2034,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         }
                         if(data.materialOverride)
                         {
-                            // デフォルトのマテリアルで上書き（同期エラー対策）
+                            // Overwrite with default material (to prevent synchronization errors)
                             /*setAnim.AddKeyframe_Material(rendOption.rend,rendOption.rend.sharedMaterials[i],0f,i);
                             setAnim.AddKeyframe_Material(rendOption.rend,rendOption.rend.sharedMaterials[i],1f/60f,i);*/
                         }
@@ -2054,7 +2054,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
             if(transitionAnim != null)
             {
-                // 上書き設定
+                // overwrite settings
                 if (parentmenu != null)
                 {
                     if (parentmenu.isOverrideInactivateTransition)
@@ -2264,7 +2264,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
         }
 
-        // 生成したマテリアルを保存する
+        // Save the generated material
         void SaveMaterials(string path,bool subAsset = false)
         {
             foreach (var mats in matlist)
@@ -2285,7 +2285,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             matlist = new Dictionary<Material, Dictionary<Material, Material>>();
         }
 
-        // メニューで設定されている状態に，シーンのアクティブ，マテリアル，BlendShapeを反映する
+        // Reflects the scene active, material, and BlendShape to the state set in the menu
         void SetObjectActiveForScene(MenuElement menu,bool active = true, bool material = true, bool blendShape = true)
         {
             RevertObjectActiveForScene(active,material,blendShape);
@@ -2343,7 +2343,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
         }
 
-        // シーンのアクティブ，マテリアル，BlendShapeをリセットする
+        // Resets the scene's active, material, and BlendShape
         void RevertObjectActiveForScene(bool active = true, bool material = true, bool blendShape = true)
         {
             if (active)
@@ -2371,7 +2371,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
         }
 
-        // デフォルトのアクティブ状態(シーン)を記録&取得する
+        // Record & retrieve the default active state (scene)
         bool GetDefaultActive(GameObject obj)
         {
             if (!obj) return false;
@@ -2384,7 +2384,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return defaultActive[obj];
         }
 
-        // デフォルトのマテリアル状態(シーン)を記録&取得する
+        // Record and retrieve the default material state (scene)
         bool GetDefaultRendEnable(Renderer rend)
         {
             if (rend == null) return false;
@@ -2397,7 +2397,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return defaultRendEnable[rend];
         }
 
-        // デフォルトのマテリアル状態(シーン)を記録&取得する
+        // Record and retrieve the default material state (scene)
         Material GetDefaultMaterial(Renderer rend, int index)
         {
             if (rend == null) return null;
@@ -2415,7 +2415,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return null;
         }
 
-        // デフォルトのBlendShape状態(シーン)を記録&取得する
+        // Record & retrieve the default BlendShape state (scene)
         float GetDefaultBlendshape(SkinnedMeshRenderer rend, int index)
         {
             if (rend == null) return -1f;
@@ -2433,7 +2433,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return defaultBlendShapes[key];
         }
 
-        // RendererOptionが編集済みかどうか
+        // Whether the RendererOption has been edited or not.
         bool IsModifyRendererOption(ItemElement item)
         {
             return item.rendOptions.Any(ro =>
@@ -2443,7 +2443,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
 
         }
 
-        // アイテムのアクティブを2メニュー間で合わせる
+        // Match the item's active between the two menus.
         void SyncItemActive(List<ItemElement> srcs, List<ItemElement> dsts, bool invert = false, bool checkOptions = true)
         {
             foreach (var dst in dsts)
@@ -2505,7 +2505,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return activeItems.Where(e=>menu.SafeInactiveItems().All(f=>f.obj!=e.obj)).Select(e=>e.Clone(true)).ToList();
         }
 
-        // レイヤー内の未設定アイテムを走査し返す
+        // Scan and return unset items in a layer
         List<ItemElement> ComputeLayerAnotherItems(MenuElement menu)
         {
             if (!menu.isToggle)
@@ -2515,7 +2515,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                     Select(e => e.Clone(true)).ToList();
                 if (IsMenuElementDefault(menu))
                 {
-                    // デフォルトエレメントならアクティブをシーンの状態に合わせる
+                    // Match active to scene state if default element.
                     foreach (var item in items)
                     {
                         item.active = GetDefaultActive(item.obj);
@@ -2527,7 +2527,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                             {
                                 if (rendOption.rend == another.rend)
                                 {
-                                    // Material設定の上書き
+                                    // Override Material Settings
                                     for (int i = 0; i < rendOption.changeMaterialsOptions.Count; i++)
                                     {
                                         if (rendOption.changeMaterialsOptions[i] != null) break;
@@ -2540,7 +2540,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                                 };
                                         }
                                     }
-                                    // BlendShapel設定の上書き
+                                    // Override BlendShapel settings
                                     for (int i = 0; i < rendOption.changeBlendShapeOptions.Count; i++)
                                     {
                                         if (rendOption.changeBlendShapeOptions[i].change) break;
@@ -2579,7 +2579,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return new List<ItemElement>();
         }
 
-        // そのメニューがデフォルト値か返す
+        // Returns whether the menu is the default value.
         bool IsMenuElementDefault(MenuElement menu)
         {
             if (menu.isToggle)
@@ -2593,7 +2593,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
         }
 
-        // レイヤーのデフォルトステートがない場合，シーン状態をデフォルトステートとして記録する
+        // If there is no default state for a layer, the scene state is recorded as the default state
         List<ItemElement> ComputeDefaultItems(LayerGroup layer)
         {
             var items = GetActiveItems(layer);
@@ -2604,7 +2604,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return items;
         }
 
-        // レイヤー内の全メニューを走査し，未設定のActiveアイテムを集める
+        // Scan all menus in a layer and collect unset Active items
         List<ItemElement> GetActiveItems(LayerGroup layer)
         {
             var items = new List<ItemElement>();
@@ -2622,7 +2622,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return DistinctList(items);
         }
 
-        // レイヤー内の全メニューを走査し，未設定のInactiveアイテムを集める
+        // Scan all menus in a layer and collect unset Inactive items
         List<ItemElement> GetInactiveItems(LayerGroup layer)
         {
             var items = new List<ItemElement>();
@@ -2640,7 +2640,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return items;
         }
 
-        // ItemElementの重複削除
+        // Remove duplicate ItemElement
         List<ItemElement> DistinctList(List<ItemElement> origin)
         {
             var items = new List<ItemElement>();
@@ -2655,7 +2655,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return items;
         }
 
-        // レイヤー内のRendererOptionの有効無効を同期
+        // Synchronize enable/disable of RendererOption in layers
         void ToggleMaterialOption(LayerGroup layer,Renderer rend,int index,bool val)
         {
             foreach (var r in data.menuElements.
@@ -2674,7 +2674,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
         }
 
-        // メニュー内のRendererOptionの有効無効を同期
+        // Synchronize enable/disable of RendererOption in the menu
         void ToggleMaterialOption(MenuElement menu,Renderer rend,int index,bool val)
         {
             foreach (var ie in menu.SafeActiveItems())
@@ -2709,7 +2709,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
         }
 
-        // レイヤー内のRendererOptionの有効無効を同期
+        // Synchronize enable/disable of RendererOption in layers
         void ToggleBlendshapeOption(LayerGroup layer,SkinnedMeshRenderer rend,int index,bool val)
         {
             foreach (var r in data.menuElements.
@@ -2729,7 +2729,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
         }
 
-        // メニュー内のRendererOptionの有効無効を同期
+        // Synchronize enable/disable of RendererOption in the menu
         void ToggleBlendshapeOption(MenuElement menu,SkinnedMeshRenderer rend,int index,bool val)
         {
             foreach (var ie in menu.SafeActiveItems())

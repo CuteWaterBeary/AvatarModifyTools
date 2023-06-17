@@ -10,7 +10,7 @@ namespace HhotateA.AvatarModifyTools.AvatarPen
 {
     public class AvatarPenSetup : WindowBase
     {
-        [MenuItem("Window/HhotateA/アバターペンセットアップ(AvatarPenSetup)",false,101)]
+        [MenuItem("Window/HhotateA/AvatarPenSetup",false,101)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<AvatarPenSetup>();
@@ -21,8 +21,8 @@ namespace HhotateA.AvatarModifyTools.AvatarPen
 
         private void OnGUI()
         {
-            TitleStyle("アバターペンセットアップ");
-            DetailStyle("アバターに指ペンを実装する，簡単なセットアップツールです．",EnvironmentGUIDs.readme);
+            TitleStyle("Avatar Pen Setup");
+            DetailStyle("A simple setup tool to implement a finger pen on your avatar.",EnvironmentGUIDs.readme);
 #if VRC_SDK_VRCSDK3
 
             EditorGUILayout.Space();

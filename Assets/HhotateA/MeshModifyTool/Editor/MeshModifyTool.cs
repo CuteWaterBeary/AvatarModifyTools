@@ -11,37 +11,37 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
 {
     public class MeshModifyTool : EditorWindow
     {
-        [MenuItem("Window/HhotateA/にゃんにゃんメッシュエディター(MeshModifyTool)",false,201)]
+        [MenuItem("Window/HhotateA/UnityMeshSimplifierNyanMeshModifyTool",false,201)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<MeshModifyTool>();
-            wnd.titleContent = new GUIContent("にゃんにゃんメッシュエディター");
+            wnd.titleContent = new GUIContent("MeshModifyTool");
             wnd.minSize = new Vector2(800,400);
         }
 
-        // ボタン設定
+        // Button setting
         private int drawButton = 0;
         private int rotateButton = 1;
         private int moveButton = 2;
 
-        // ショートカット取得
+        // Shortcut acquisition
         private bool keyboardShortcut = false;
         private bool keyboardShift = false;
         private bool keyboardCtr = false;
         private bool keyboardAlt = false;
         private int shortcutToolBuffer = -1;
 
-        // 改造するメッシュのルートオブジェクト
+        // Root object of the mesh to be modified
         private GameObject avatar;
-        // avatar配下のMeshオブジェクト
+        // Mesh object under avatar
         private Renderer[] rends;
-        // rendsごとのMeshsCreater
+        // MeshsCreater per rends
         private MeshCreater[] meshsCreaters;
-        // rendsにもともと入っていたメッシュの保存
+        // Save the mesh that was originally in rends
         private Mesh[] defaultMeshs;
-        // 現在編集中のrendsのindex
+        // index of rends currently being edited
         private int editIndex = -1;
-        // 現在編集中のMeshsCreaterを取得する便利関数
+        // Convenience function to get the currently edited MeshsCreater
         MeshCreater editMeshCreater
         {
             get
@@ -63,12 +63,12 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             }
         }
 
-        // Remesh機能用
+        // For Remesh function
         private int triangleCount = 0;
 
         private SkinnedMeshRenderer weightOrigin;
 
-        // カメラ表示用補助クラス
+        // Auxiliary class for camera display
         AvatarMonitor avatarMonitor;
         private const int previewLayer = 2;
         private Vector2 rendsScroll = Vector2.zero;
@@ -79,7 +79,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         private Material[] normalMaterials;
         private float normalAlpha = 0f;
 
-        // スカルプトモード，ペン設定
+        // Sculpt mode, pen setting
         private MeshPenTool.ExtraTool penMode = MeshPenTool.ExtraTool.Default;
         private float brushPower = 0.001f;
         private float brushWidth = 0.03f;
@@ -90,34 +90,34 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                             penMode == MeshPenTool.ExtraTool.SelectVertex ||
                             penMode == MeshPenTool.ExtraTool.UnSelectVertex);
 
-        // 頂点編集モード用，操作点
+        // For vertex edit mode, operation point
         private GameObject controllPoint_from;
         private GameObject controllPoint_to;
 
-        // ワイヤーフレーム表示用オブジェクト
+        // Objects for wireframe display
         private GameObject controllMesh_edit;
         private MeshCollider controllMesh_editCollider;
         private MeshFilter controllMesh_editFilter;
-        // メッシュ編集モード用，頂点リスト
+        // Vertex list for mesh edit mode
         private List<int> controll_vertexes = new List<int>();
-        // メッシュ編集モード用オブジェクト
+        // Objects for mesh edit mode
         private GameObject controllMesh_select;
         private MeshFilter controllMesh_selectFilter;
 
-        // メッシュ編集モード用Transform
+        // Transform for mesh edit mode
         private Vector3 transformPosition;
         private Vector3 transformRotation;
         private Vector3 transformScale;
 
-        // UV変形用
+        // For UV deformation
         private UVViewer uvViewer;
         private Vector4 uvTexelSize;
         private Material activeMaterial;
 
-        // 保存するBlendShapeの名前
+        // Name of the BlendShape to be saved
         private string blendShapeName = "BlendShapeName";
 
-        // 各種設定項目
+        // Various setting items
         private bool isSelectVertex = true;
         private bool isRandomizeVertex = false;
         private bool isRealtimeTransform = true;
@@ -142,7 +142,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         // mesh simpler
         private float meshSimplerQuality = 0.5f;
 
-        // MergeBone機能用
+        // MergeBone machine can be used
         private bool isMergeBone = false;
         /*private Animator originHuman;
         private Animator targetHuman;*/
@@ -171,10 +171,10 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             ForceCombine,
         }
 
-        // 不安定項目を非有効化する設定
+        // Setting to deactivate unstable items
         private bool disableNotRecommend = true;
 
-        // 編集ツールプリセット
+        // Editing Tool Presets
         private MeshPenTool[] _penTools;
         private MeshPenTool[] penTools
         {
@@ -195,7 +195,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             }
         }
 
-        // 拡張編集ツールプリセット
+        // Extended editing tool presets
         private MeshPenTool[] _extraTools;
         MeshPenTool[] extraTools
         {
@@ -215,7 +215,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             }
         }
 
-        // 拡張編集ツールプリセット
+        // Extended editing tool presets
         private MeshPenTool[] _betaTools;
         MeshPenTool[] betaTools
         {
@@ -237,7 +237,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
 
         private int casheCount = -1;
 
-        // 最終選択頂点のデータ
+        // Data of the last selected vertex
         Vector2 rowScroll = Vector2.zero;
         // private bool displayRawData => activeExperimentalBeta;
         Vector3 rawPosition = Vector3.zero;
@@ -250,19 +250,19 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         private int[] rawIDs = Enumerable.Range(0, 3).ToArray();
 
         /// <summary>
-        /// 表示部，実装は置かないこと
+        /// Do not place the display and mounting
         /// </summary>
         private void OnGUI()
         {
             using (new EditorGUILayout.HorizontalScope())
             {
-                // ウィンドウ左側
+                // left side of the window
                 using (new EditorGUILayout.VerticalScope())
                 {
                     if (rends == null)
                     {
-                        WindowBase.TitleStyle("にゃんにゃんメッシュエディター");
-                        WindowBase.DetailStyle("Unityだけでアバターのメッシュ改変ができるツールです．",EnvironmentGUIDs.readme);
+                        WindowBase.TitleStyle("Nyan Mesh Editor");
+                        WindowBase.DetailStyle("This tool allows you to modify the avatar's mesh using only Unity.",EnvironmentGUIDs.readme);
                         avatar = EditorGUILayout.ObjectField("", avatar, typeof(GameObject), true) as GameObject;
                         if (GUILayout.Button("Setup"))
                         {
@@ -293,7 +293,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                     }
                     EditorGUILayout.EndScrollView();
 
-                    // 選択中オブジェクトが非アクティブになったら，選択解除
+                    // When the selected object becomes inactive, deselect it.
                     if (editIndex != -1)
                     {
                         if (!rends[editIndex].gameObject.activeSelf)
@@ -444,10 +444,10 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
 
                                 using (new EditorGUI.DisabledScope(disableNotRecommend))
                                 {
-                                    // あんまよくない
+                                    // not very good
                                     isRandomizeVertex = EditorGUILayout.Toggle("RandomizeVertex", isRandomizeVertex);
 
-                                    // 動かない（重すぎる）
+                                    // Doesn't work (too heavy)
                                     using (new EditorGUILayout.HorizontalScope())
                                     {
                                         weightOrigin = EditorGUILayout.ObjectField("", weightOrigin,
@@ -465,7 +465,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                                         }
                                     }
 
-                                    // 精度悪い，重い
+                                    // Poor accuracy, heavy
                                     using (new EditorGUILayout.HorizontalScope())
                                     {
                                         triangleCount = EditorGUILayout.IntField("", triangleCount, GUILayout.Width(155));
@@ -877,7 +877,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             }
 
             var ec = Event.current;
-            // キー関係
+            // key-related
             if (keyboardShortcut)
             {
                 Undo.ClearAll();
@@ -976,14 +976,14 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// 毎フレーム更新する
+        /// Update every frame
         /// </summary>
         private void Update () {
             Repaint();
         }
 
         /// <summary>
-        /// Window閉じるとき処理，メッシュの後片付け
+        /// Processing when closing the window, cleaning up the mesh
         /// </summary>
         private void OnDestroy()
         {
@@ -1145,7 +1145,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// MeshCreaterのメッシュをファイルに保存する
+        /// Saving a MeshCreater mesh to a file
         /// </summary>
         /// <param name="mc"></param>
         /// <param name="dir"></param>
@@ -1203,12 +1203,12 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// カメラ表示，インタラクト処理
+        /// Camera display, Interact processing
         /// </summary>
         /// <param name="mc"></param>
         void AvatarMonitorTouch(MeshCreater mc)
         {
-            // ショートカット使用中は書かない
+            // Do not write while using shortcuts
             if (keyboardShortcut && keyboardAlt) return;
             var ec = Event.current;
             if (penMode == MeshPenTool.ExtraTool.Default)
@@ -1388,7 +1388,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// 頂点編集モード用コントロールポイントの作成
+        /// Creating control points for vertex edit mode
         /// </summary>
         /// <param name="mc"></param>
         /// <param name="pos"></param>
@@ -1427,7 +1427,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// 頂点編集モード用コントロールポイントの削除
+        /// Delete control points for vertex edit mode
         /// </summary>
         void DestroyControllPoint()
         {
@@ -1436,11 +1436,11 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// Mirrorを適応した変形
+        /// Mirror-adapted deformations
         /// </summary>
         /// <param name="mc"></param>
         /// <param name="from"></param>
-        /// <param name="to_null">nullならカメラ方向に変形</param>
+        /// <param name="to_null">Transforms toward camera if null</param>
         /// <param name="cashes"></param>
         void TransfromMeshMirror(MeshCreater mc,Vector3 from, Vector3? to_null = null,bool cashes = true)
         {
@@ -1496,11 +1496,11 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// 頂点編集
+        /// Vertex Editing
         /// </summary>
         /// <param name="mc"></param>
         /// <param name="from"></param>
-        /// <param name="to">isVecならローカル方向</param>
+        /// <param name="to">Local direction if isVec</param>
         /// <param name="isVec"></param>
         void TransformMesh(MeshCreater mc,Vector3 from,Vector3 to,bool isVec)
         {
@@ -1522,7 +1522,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// メッシュ編集，選択解除
+        /// Mesh editing, deselection
         /// </summary>
         void ResetSelect()
         {
@@ -1530,7 +1530,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// メッシュ編集，選択反転
+        /// Mesh editing, selection inversion
         /// </summary>
         /// <param name="max"></param>
         void RevertSelect(int max)
@@ -1539,7 +1539,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// UITransformリセット
+        /// UITransform reset
         /// </summary>
         /// <param name="mc"></param>
         void ResetSelectTransform(MeshCreater mc)
@@ -1551,7 +1551,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// メッシュ編集，メッシュ移動
+        /// Mesh editing, mesh moving
         /// </summary>
         void TransfomControllMesh()
         {
@@ -1581,7 +1581,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// メッシュ編集，メッシュコピーと移動
+        /// Mesh editing, mesh copying and moving
         /// </summary>
         void CopyControllMesh()
         {
@@ -1593,7 +1593,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// メッシュ編集，メッシュ削除
+        /// Mesh editing, mesh deletion
         /// </summary>
         void DeleateControllMesh()
         {
@@ -1603,7 +1603,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// 編集用メッシュの一括削除
+        /// Batch deletion of mesh for editing
         /// </summary>
         void DestroyControllMeshes()
         {
@@ -1615,7 +1615,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// メッシュの更新
+        /// Mesh Update
         /// </summary>
         /// <param name="cashes"></param>
         /// <param name="mc"></param>
@@ -1682,7 +1682,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// ワイヤーフレームのメッシュコライダー取得
+        /// Wireframe mesh collider acquisition
         /// </summary>
         /// <returns></returns>
         MeshCollider GetEditMeshCollider()
@@ -1691,7 +1691,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// ワイヤーフレーム用メッシュの更新
+        /// Update mesh for wireframe
         /// </summary>
         GameObject SetEditMesh(MeshCreater mc,Mesh mesh)
         {
@@ -1719,7 +1719,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// ワイヤーフレーム用メッシュの作成
+        /// Creation of mesh for wireframes
         /// </summary>
         Mesh CreateEditMesh(MeshCreater mc,List<int> verts)
         {
@@ -1748,7 +1748,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// ワイヤーフレーム用メッシュの削除
+        /// Delete mesh for wireframe
         /// </summary>
         void DestroyEditMesh(MeshCreater mc = null)
         {
@@ -1781,7 +1781,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// メッシュ編集モード用メッシュの更新
+        /// Update mesh for mesh edit mode
         /// </summary>
         GameObject SetSelectMesh(MeshCreater mc,Mesh mesh)
         {
@@ -1805,7 +1805,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// メッシュ編集モード用メッシュの作成
+        /// Creation of mesh for mesh edit mode
         /// </summary>
         Mesh CreateSelectMesh(MeshCreater mc,List<int> verts,Vector3? wp)
         {
@@ -1824,7 +1824,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// メッシュ編集モード用メッシュの削除
+        /// Delete mesh for mesh edit mode
         /// </summary>
         void DestroySelectMesh()
         {
@@ -1835,8 +1835,8 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// ポリゴン数削減
-        /// たぶん動かない
+        /// Polygon count reduction
+        /// Probably doesn't work
         /// </summary>
         void Decimate()
         {
@@ -1878,21 +1878,21 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// ボーンの参照先を変更する
+        /// Changing Bone References
         /// </summary>
         MeshCreater MergeBone(MeshCreater mc,string dir,string file)
         {
-            // ここからボーンの参照
+            // Bone reference from here
             mc.ChangeBones(targetHuman,avatar,true);
             return mc;
         }
 
         /// <summary>
-        /// ボーンの参照先を，コンストレイントボーンに変更する
+        /// Change the bone reference to a constrained bone
         /// </summary>
         MeshCreater CombineBone(MeshCreater mc,string dir,string file)
         {
-            // ここからボーンの参照
+            // Bone reference from here
             var t = targetHuman.GetBones();
             var o = avatar.GetBones();
             var p = targetHuman.transform.Find(avatar.name + "_bones") ??
@@ -1932,7 +1932,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// コンストレイントボーンを設定する
+        /// Set up a constrained bone
         /// </summary>
         void ConstraintBone()
         {
@@ -1968,7 +1968,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// HumanBone以外を参照から外す
+        /// Remove all but HumanBone from references
         /// </summary>
         /// <param name="rend"></param>
         void DisableNonHumanBone(SkinnedMeshRenderer rend)
@@ -1982,7 +1982,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// ヒエラルキー上で非アクティブなボーンを参照から外す
+        /// Remove inactive bones from the hierarchy by dereferencing them
         /// </summary>
         /// <param name="rend"></param>
         MeshCreater DeleateDisableBone(MeshCreater mc)
@@ -2027,7 +2027,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         /// <summary>
-        /// 編集ツールの設定値保存用
+        /// For saving editing tool settings
         /// </summary>
         class MeshPenTool
         {

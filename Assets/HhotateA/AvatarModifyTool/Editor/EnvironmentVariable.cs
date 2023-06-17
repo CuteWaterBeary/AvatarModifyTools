@@ -1,7 +1,7 @@
 ﻿namespace HhotateA.AvatarModifyTools.Core
 {
     /// <summary>
-    /// 環境変数用staticクラス
+    /// static class for environment variables
     /// </summary>
     public static class EnvironmentVariable
     {
@@ -125,7 +125,7 @@
             new string[] { "RightLittleIntermediate","IntermediateLittle_Right","IntermediateLittle_R"},
             new string[] { "RightLittleDistal","DistalLittle_Right","DistalLittle_R"},
             new string[] { "UpperChest"},
-            new string[] { "LastBone","Armature"}, // 本来的ではないけど，Rootもhitさせたい
+            new string[] { "LastBone","Armature"}, // Not essential, but I want to make Root hit as well.
         };
     }
 }

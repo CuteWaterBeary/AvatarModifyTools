@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using HhotateA.AvatarModifyTools.Core;
 using UnityEngine;
 namespace HhotateA.AvatarModifyTools.MagicalDresserMakeupSystem

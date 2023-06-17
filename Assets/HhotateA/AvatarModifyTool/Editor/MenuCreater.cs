@@ -254,7 +254,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ディレクトリにアセットを作成する
+        /// Create assets in the directory
         /// </summary>
         /// <returns></returns>
         public VRCExpressionsMenu CreateAsset(string path = null, bool subAsset = false)

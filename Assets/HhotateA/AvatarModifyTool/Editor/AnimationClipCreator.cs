@@ -136,7 +136,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             if (objectReferenceKeyframes.ContainsKey(target))
             {
-                // 時間重複したキーフレーム防止策
+                // Time-duplicated keyframe prevention measures
                 while (objectReferenceKeyframes[target].Any(f => Mathf.Abs(f.time - frame.time)<1f/60f))
                 {
                     frame.time += 1f / 60f;
@@ -242,7 +242,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             if (keyframesList.ContainsKey(target))
             {
-                // 時間重複したキーフレーム防止策
+                // Time-duplicated keyframe prevention measures
                 while (keyframesList[target].Any(f => Mathf.Abs(f.time - frame.time) < 1f / 60f))
                 {
                     frame.time += 1f / 60f;
@@ -317,7 +317,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ディレクトリにアセットを作成する
+        /// Create assets in the directory
         /// </summary>
         public AnimationClip CreateAsset(string path = null, bool subAsset = false)
         {

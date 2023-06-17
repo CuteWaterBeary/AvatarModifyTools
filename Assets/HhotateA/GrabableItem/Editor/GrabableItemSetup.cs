@@ -13,7 +13,7 @@ namespace HhotateA.AvatarModifyTools.GrabableItem
 {
     public class GrabableItemSetup : WindowBase
     {
-        [MenuItem("Window/HhotateA/アバターアイテムセットアップ(GrabableItemSetup)",false,105)]
+        [MenuItem("Window/HhotateA/GrabableItemSetup",false,105)]
 
         public static void ShowWindow()
         {
@@ -41,9 +41,9 @@ namespace HhotateA.AvatarModifyTools.GrabableItem
 
         private void OnGUI()
         {
-            TitleStyle("アバターアイテムセットアップ(GrabableItemSetup)");
+            TitleStyle("Avatar Item Setup (GrabableItemSetup)");
             DetailStyle(
-                "アバターに付属したアイテムを，手に持ったり，ワールドに置いたりするための簡単なセットアップツールです．",
+                "A simple setup tool for holding items attached to avatars and placing them in the world.",
                 EnvironmentGUIDs.readme);
 #if VRC_SDK_VRCSDK3
 
@@ -61,7 +61,7 @@ namespace HhotateA.AvatarModifyTools.GrabableItem
 
             using (new EditorGUILayout.VerticalScope(GUI.skin.box))
             {
-                // EditorGUILayout.LabelField("手に持つアイテム");
+                // EditorGUILayout.LabelField("Item in hand");.
                 var newTarget = (GameObject) EditorGUILayout.ObjectField("Object", target, typeof(GameObject), true);
                 if (newTarget != target)
                 {
@@ -71,7 +71,7 @@ namespace HhotateA.AvatarModifyTools.GrabableItem
                         saveName = target.name + "GrabControll";
                         if (avatarAnim)
                         {
-                            // アイテムが頭ボーン配下ならセーフモードに設定する．
+                            // If the item is under the head bone, set it to safe mode.
                             safeMode = HasRootParent(target.transform,
                                 avatarAnim.GetBoneTransform(HumanBodyBones.Head));
                         }
@@ -81,7 +81,7 @@ namespace HhotateA.AvatarModifyTools.GrabableItem
                 EditorGUILayout.Space();
                 EditorGUILayout.Space();
 
-                // EditorGUILayout.LabelField("手のボーン：オブジェクトを持つトリガー");
+                // EditorGUILayout.LabelField("Hand bone: trigger with object");.
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     handBone = (GameObject) EditorGUILayout.ObjectField("HandBone", handBone, typeof(GameObject), true);
@@ -92,7 +92,7 @@ namespace HhotateA.AvatarModifyTools.GrabableItem
 
                 if (constraintMode)
                 {
-                    // EditorGUILayout.LabelField("：オブジェクトを置くトリガー");
+                    // EditorGUILayout.LabelField(": Trigger to place object");.
                     using (new EditorGUILayout.HorizontalScope())
                     {
                         using (new EditorGUI.DisabledScope(true))

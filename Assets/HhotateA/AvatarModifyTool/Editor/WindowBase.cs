@@ -106,7 +106,7 @@ namespace HhotateA.AvatarModifyTools.Core
 #endif
             if (!avatar)
             {
-                EditorGUILayout.LabelField("アバターをドラッグドロップしてください．");
+                EditorGUILayout.LabelField("Drag and drop avatars.");
             }
         }
 
@@ -234,8 +234,8 @@ namespace HhotateA.AvatarModifyTools.Core
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("ボタンを押すと，アバターのFX用AnimatorController，ExpressionParamrter，ExpressionMenuに改変を加えます．",instructions);
-            EditorGUILayout.LabelField("操作は元に戻せないので，必ずバックアップをとっていることを確認してください．",instructions);
+            EditorGUILayout.LabelField("button modifies the AnimatorController, ExpressionParamrter, and ExpressionMenu for the avatar's FX.",instructions);
+            EditorGUILayout.LabelField("The operation cannot be undone, so be sure you have made a backup.",instructions);
 
             EditorGUILayout.Space();
 

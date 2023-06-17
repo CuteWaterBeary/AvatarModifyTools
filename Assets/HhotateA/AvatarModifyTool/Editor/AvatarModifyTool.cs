@@ -17,7 +17,7 @@ using VRC.SDK3.Avatars.Components;
 namespace HhotateA.AvatarModifyTools.Core
 {
     /// <summary>
-    /// VRCAvatarDescriptorへのアセット適応を一括して行うクラス
+    /// Class for batch adaptation of assets to VRCAvatarDescriptor
     /// </summary>
     public class AvatarModifyTool
     {
@@ -44,7 +44,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
         }
 
-        // コンストラクタ,VRCSDKない環境でもうまく動くよう引数を調節
+        // constructor, adjusting arguments to work well without VRCSDK
 #if VRC_SDK_VRCSDK3
         public AvatarModifyTool(VRCAvatarDescriptor a, string dir = "Assets/Export")
         {
@@ -116,17 +116,17 @@ namespace HhotateA.AvatarModifyTools.Core
                 }
             }
 #if VRC_SDK_VRCSDK3
-            // オフセットの記録
+            // Offset Recording
             animMod.layerOffset = ComputeLayersOffset(assets);
 #endif
-            // Animatorの改変
+            // Modification of Animator
             ModifyAvatarAnimatorController(AnimatorLayerType.Locomotion,assets.locomotion_controller);
             ModifyAvatarAnimatorController(AnimatorLayerType.Idle,assets.idle_controller);
             ModifyAvatarAnimatorController(AnimatorLayerType.Gesture,assets.gesture_controller);
             ModifyAvatarAnimatorController(AnimatorLayerType.Action,assets.action_controller);
             ModifyAvatarAnimatorController(AnimatorLayerType.Fx,assets.fx_controller);
 #if VRC_SDK_VRCSDK3
-            // Avatar項目の改変
+            // Modification of Avatar items
             ModifyExpressionParameter(assets.parameter);
             ModifyExpressionMenu(assets.menu);
 #endif
@@ -136,7 +136,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// アバターのmodを取り除く
+        /// Remove avatar mod
         /// </summary>
         /// <param name="assets"></param>
         /// <param name="keyword"></param>
@@ -175,7 +175,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// keywordを元に，アバターの改変を取り除く
+        /// Remove avatar modifications based on keywords
         /// </summary>
         /// <param name="keyword"></param>
         /// <exception cref="NullReferenceException"></exception>
@@ -290,7 +290,7 @@ namespace HhotateA.AvatarModifyTools.Core
         #region ObjectCombinator
 
         /// <summary>
-        /// prefabをボーン下にインスタンスする
+        /// Instantiate prefab below the bone
         /// </summary>
         /// <param name="avatar"></param>
         /// <param name="prefab"></param>
@@ -300,7 +300,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             fromPath = "";
             toPath = "";
-            // オブジェクトのインスタンシエイト
+            // Object instantiation
             var instance = GameObject.Instantiate(prefab, avatar.transform);
             instance.name = prefab.name;
 
@@ -325,7 +325,7 @@ namespace HhotateA.AvatarModifyTools.Core
             var constraint = instance.GetComponent<ParentConstraint>();
             if (constraint)
             {
-                // コンストレイントでの設定
+                // Configuration in Constraints
                 constraint.constraintActive = false;
                 constraint.weight = 1f;
                 if (humanoid != null)
@@ -347,7 +347,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
             else if (humanoid)
             {
-                //ボーン差し替えでの設定
+                //Bone replacement settings
                 if (humanoid.isHuman)
                 {
                     Transform bone = humanoid.GetBoneTransform(target);
@@ -370,12 +370,12 @@ namespace HhotateA.AvatarModifyTools.Core
 
         void RevertGameObject(GameObject prefab, HumanBodyBones target = HumanBodyBones.Hips)
         {
-            // オブジェクトのインスタンシエイト
+            // Object instantiation
             var humanoid = avatar.GetComponent<Animator>();
             var constraint = prefab.GetComponent<ParentConstraint>();
             if (constraint)
             {
-                // コンストレイントでの設定
+                // Configuration in Constraints
                 foreach (Transform child in avatar.transform)
                 {
                     if (child.name == prefab.name) GameObject.DestroyImmediate(child.gameObject);
@@ -383,7 +383,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
             else if (humanoid)
             {
-                //ボーン差し替えでの設定
+                //Bone replacement settings
                 if (humanoid.isHuman)
                 {
                     Transform bone = humanoid.GetBoneTransform(target);
@@ -653,7 +653,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ExpressionsMenuの安全な結合
+        /// ExpressionsMenu safe binding
         /// </summary>
         /// <param name="menus"></param>
         /// <param name="origin"></param>
@@ -668,7 +668,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 foreach (var control in menus.controls)
                 {
                     int menuMax = 8;
-                    while (current.controls.Count >= menuMax && AutoAddNextPage) // 項目が上限に達していたら次ページに飛ぶ
+                    while (current.controls.Count >= menuMax && AutoAddNextPage) // If the item reaches the limit, jump to the next page.
                     {
                         if (current.controls[menuMax - 1].name == "NextPage" &&
                             current.controls[menuMax - 1].type == VRCExpressionsMenu.Control.ControlType.SubMenu &&
@@ -901,7 +901,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ExpressionParametersの安全な結合
+        /// Safe binding of ExpressionParameters
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="origin"></param>
@@ -940,7 +940,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             var newParm = parameters.parameters.Where(p => p.name != GetSafeParam(name)).ToList();
 
-            // 新規パラメータ追加
+            // New parameter added
             newParm.Add(new VRCExpressionParameters.Parameter()
             {
                 name = GetSafeParam(name),
@@ -1072,7 +1072,7 @@ namespace HhotateA.AvatarModifyTools.Core
             return null;
         }
 
-        // パラメータ文字列から2バイト文字の除去を行う
+        // Remove 2-byte characters from parameter strings
         public string GetSafeParam(string param)
         {
             return param.GetSafeParam(prefix, RenameParameters);

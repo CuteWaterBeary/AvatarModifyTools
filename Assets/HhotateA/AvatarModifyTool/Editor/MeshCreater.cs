@@ -16,38 +16,38 @@ namespace HhotateA.AvatarModifyTools.Core
         public event Action<Mesh> OnReloadMesh;
         public string name;
 
-        // 頂点の固有データ
+        // Vertex-specific data
         List<Vector3> vertexs = new List<Vector3>();
         List<Vector3> normals = new List<Vector3>();
         List<Vector4> tangents = new List<Vector4>();
         List<Color> colors = new List<Color>();
         List<Vector2>[] uvs = Enumerable.Range(0, 8).Select(_ => new List<Vector2>()).ToArray();
         List<BoneWeight> boneWeights = new List<BoneWeight>();
-        // サブメッシュのデータ
+        // Sub-mesh data
         List<List<int>> triangles = new List<List<int>>();
         List<Material> materials = new List<Material>();
-        List<Transform> meshTransforms = new List<Transform>(); //MeshRendererのTransform
-        // ボーン情報
+        List<Transform> meshTransforms = new List<Transform>(); // Transform of MeshRenderer
+        // Bone information
         List<Transform> bones = new List<Transform>();
-        List<Matrix4x4> bindPoses = new List<Matrix4x4>(); // 一応事前計算してるけど，メッシュ化時でもいいかも
-        // その他メッシュの固有情報
+        List<Matrix4x4> bindPoses = new List<Matrix4x4>(); // I'm pre-computing, but it could be done at meshing time.
+        // Other mesh-specific information
         List<BlendShapeData> blendShapes = new List<BlendShapeData>();
 
-        // Undo,Redo用のキャッシュ
-        // 頂点位置の履歴(index0は常に初期位置の記録(BlendShapeに基準となる))
+        // Cache for Undo,Redo
+        // history of vertex positions (index0 is always the initial position record (reference to BlendShape))
         private List<List<Vector3>> vertexsCaches = new List<List<Vector3>>();
-        // 最大キャッシュ数
+        // Maximum number of caches
         private int maxCaches
         {
             get => EnvironmentVariable.maxCaches;
         }
-        // 現在参照中のキャッシュインデックス
+        // Currently referenced cache index
         private int currentCacheIndex = -1;
 
         public bool IsRecalculateNormals { get; set; } = false;
         public bool IsRecalculateBlendShapeNormals { get; set; } = false;
-        Transform rendBone; // 追加したRendererのTransform
-        Transform rootBone; // 追加したskinmeshのrootBone
+        Transform rendBone; // Transform of renderer added
+        Transform rootBone; // rootBone of skinmesh added
         public Transform RendBone
         {
             get { return rendBone; }
@@ -82,7 +82,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
             if (rend is SkinnedMeshRenderer)
             {
-                // メッシュのセットアップ
+                // Mesh setup
                 var skinmesh = rend as SkinnedMeshRenderer;
                 var originMesh = skinmesh.sharedMesh;
                 name = skinmesh.name;
@@ -90,25 +90,25 @@ namespace HhotateA.AvatarModifyTools.Core
                 rootBone = skinmesh.rootBone;
                 if (skinmesh.bones.Length > 0)
                 {
-                    // トランスフォームのリセット
+                    // Reset transforms
                     rendBone.localPosition = Vector3.zero;
                     rendBone.rotation = Quaternion.identity;
                     rendBone.localScale = Vector3.one;
-                    // ボーンに紐づけられているならベイクする
+                    // Bake if tied to a bone.
                     AddSkinnedMesh(skinmesh,true);
                 }
                 else
                 {
-                    // ボーンに紐づけられていないならベイクしない
+                    // If it's not tied to a bone, it won't bake.
                     AddSkinnedMesh(skinmesh,false);
                 }
-                // skinmesh はbakeするので いらないかも？
+                // skinmesh is baked, so it may not be necessary?
                 Create(originMesh);
             }
             else
             if (rend is MeshRenderer)
             {
-                // メッシュのセットアップ
+                // Mesh setup
                 var mesh = rend.GetComponent<MeshFilter>() as MeshFilter;
                 var originMesh = mesh.sharedMesh;
                 name = mesh.sharedMesh.name;
@@ -156,7 +156,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 複数のMeshCreaterを合体する
+        /// Combine multiple MeshCreators
         /// </summary>
         /// <param name="mcs"></param>
         public MeshCreater(Transform avatarRoot,MeshCreater[] mcs)
@@ -198,7 +198,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// SkinMeshを読み込む(ボーンを読み込む)
+        /// Load SkinMesh (load bones)
         /// </summary>
         /// <param name="rend"></param>
         /// <param name="bake"></param>
@@ -219,14 +219,14 @@ namespace HhotateA.AvatarModifyTools.Core
                     {
                         if (rend.bones[i] != null)
                         {
-                            // bindposeのベースになっているオリジナルのtransformを特定
-                            // blendShapeに対して逆変換するといい感じになる（った）
+                            // Identify the original transform on which bindpose is based
+                            // reverse transform for the blendShape is a good idea (was)
                             mat = rend.bones[i].worldToLocalMatrix.inverse * rend.sharedMesh.bindposes[i]; //transform.localToWorldMatrix
                             break;
                         }
                     }
                 }
-                // トランスフォームのリセット
+                // Reset transforms
                 var t = rend.transform;
                 t.localPosition = Vector3.zero;
                 t.rotation = Quaternion.identity;
@@ -243,7 +243,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 }
 
                 Mesh b = Mesh.Instantiate(rend.sharedMesh);
-                // rend.BakeMesh(b,true); //unity2020にしてほしい
+                // rend.BakeMesh(b,true); //I want it to be unity2020
                 rend.BakeMesh(b);
                 TransformMesh(b,vcBefore);
                 TransformMatrixVector( t.worldToLocalMatrix, vcBefore,vcAfter-vcBefore);
@@ -256,10 +256,10 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// メッシュを読み込む
+        /// Load a mesh
         /// </summary>
         /// <param name="origin"></param>
-        /// <param name="bonetable">skinmeshの場合，</param>
+        /// <param name="bonetable">For skinmesh, </param>.
         public void AddMesh(Mesh origin, Material[] mats = null, int[] boneTable = null,Transform subMeshBone = null,float[] blendWeights = null)
         {
             var offset = vertexs.Count;
@@ -308,7 +308,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ポリゴンを読み込む
+        /// Load polygon
         /// </summary>
         /// <param name="p0"></param>
         /// <param name="p1"></param>
@@ -426,7 +426,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        // ボーンリストにボーン追加，変換表を作成
+        // Add bones to the bone list, create conversion table
         /// </summary>
         /// <param name="rendBones"></param>
         /// <returns></returns>
@@ -447,11 +447,11 @@ namespace HhotateA.AvatarModifyTools.Core
                 }
                 else
                 {
-                    // ボーンが存在しない場合
+                    // if the bone does not exist
                     boneTable.Add(-1);
                     if (allowNull)
                     {
-                        // 不本意ながらnullBone入りメッシュでバグるので(当然)
+                        // unwillingly, since the mesh with nullBone is buggy (of course).
                         bindPoses.Add(new Matrix4x4());
                         bones.Add(bone);
                     }
@@ -476,7 +476,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// TriangleをIndexで削除する
+        /// Delete Triangle in Index
         /// </summary>
         /// <param name="index"></param>
         public void RemoveTriangle(int index)
@@ -499,7 +499,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// Triangleの連番IDからsubmeshのIDを取得する
+        /// Get the ID of the submesh from the sequential ID of the triangle
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -522,7 +522,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// Triangleを追加する
+        /// Add Triangle
         /// </summary>
         /// <param name="submesh"></param>
         /// <param name="vs"></param>
@@ -570,7 +570,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点をすべて含むTriangleをリストで返す
+        /// Returns a list of Triangles containing all vertices
         /// </summary>
         /// <param name="verts"></param>
         /// <param name="subMesh"></param>
@@ -676,7 +676,7 @@ namespace HhotateA.AvatarModifyTools.Core
         private List<int>[] neighborhoodList = new List<int>[0];
 
         /// <summary>
-        /// 頂点に隣接している頂点の事前計算リスト
+        /// precomputed list of vertices adjacent to the vertex
         /// </summary>
         private List<int>[] GetNeighborhoodList(bool? overlapping_null = null)
         {
@@ -746,7 +746,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 重複頂点の事前計算リスト
+        /// Precomputed list of duplicate vertices
         /// </summary>
         private List<int> GetOverlap(int i)
         {
@@ -762,7 +762,7 @@ namespace HhotateA.AvatarModifyTools.Core
         private bool isComputeLandVertexesOverlapping = true;
 
         /// <summary>
-        /// 頂点リストの事前計算用(未使用)
+        /// for pre-calculation of vertex list (not used)
         /// </summary>
         /// <param name="overlapping"></param>
         /// <returns></returns>
@@ -778,7 +778,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点に離接している頂点を再帰的に求める
+        /// Recursively find a vertex that is disjoint to a vertex
         /// </summary>
         /// <param name="vert"></param>
         /// <param name="onFind"></param>
@@ -824,7 +824,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点除くするTriangleをコピーする
+        /// Copy the Triangle to exclude vertices
         /// </summary>
         /// <param name="verts"></param>
         /// <param name="subMesh"></param>
@@ -861,7 +861,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点の属するTriangleを削除する
+        /// Delete the Triangle to which the vertex belongs
         /// </summary>
         /// <param name="verts"></param>
         /// <param name="removeAsVertexMove"></param>
@@ -944,7 +944,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点の属するTriangleにTransformを適応する
+        /// Adapts the Transform to the Triangle to which the vertex belongs
         /// </summary>
         /// <param name="verts"></param>
         /// <param name="position"></param>
@@ -963,7 +963,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点リストの重心を計算する
+        /// Compute the center of gravity of a vertex list
         /// </summary>
         /// <param name="verts"></param>
         /// <returns></returns>
@@ -980,7 +980,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 wp.z/verts.Count);
         }
         /// <summary>
-        /// 頂点リストの中心を計算する
+        /// Compute the center of the vertex list
         /// </summary>
         /// <param name="verts"></param>
         /// <returns></returns>
@@ -1009,7 +1009,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点を移動させる
+        /// Move a vertex
         /// </summary>
         /// <param name="verts"></param>
         /// <param name="position"></param>
@@ -1021,7 +1021,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
         }
         /// <summary>
-        /// 頂点を回転させる
+        /// Rotate a vertex
         /// </summary>
         /// <param name="verts"></param>
         /// <param name="rotate"></param>
@@ -1037,7 +1037,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
         }
         /// <summary>
-        /// 頂点を回転させる
+        /// Rotate a vertex
         /// </summary>
         /// <param name="verts"></param>
         /// <param name="rotate"></param>
@@ -1052,7 +1052,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
         }
         /// <summary>
-        /// 頂点にスケールを適応する
+        /// Adapts scale to vertices
         /// </summary>
         /// <param name="verts"></param>
         /// <param name="scale"></param>
@@ -1090,7 +1090,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 空間をBoxに分け，再帰的にBox内にポリゴンが存在するか判定する
+        /// Divide space into Boxes and recursively determine if polygons exist within the Boxes
         /// </summary>
         /// <param name="center"></param>
         /// <param name="extentV"></param>
@@ -1121,7 +1121,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// Box内にポリゴンが存在するか判定する
+        /// Determine if polygons exist in the box
         /// </summary>
         /// <param name="center"></param>
         /// <param name="extent"></param>
@@ -1156,7 +1156,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ワールドベクトルをローカルベクトルに変換する
+        /// Convert a world vector to a local vector
         /// </summary>
         /// <param name="vec"></param>
         /// <returns></returns>
@@ -1167,7 +1167,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ワールド座標をローカル座標に変換する
+        /// Convert world coordinates to local coordinates
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
@@ -1178,7 +1178,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ローカルベクトルをワールドベクトルに変換する
+        /// Convert a local vector to a world vector
         /// </summary>
         /// <param name="vec"></param>
         /// <returns></returns>
@@ -1189,7 +1189,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ローカル座標をワールド座標に変換する
+        /// Convert local coordinates to world coordinates
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
@@ -1200,10 +1200,10 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 基準点に近い頂点をvec方向に移動させる
+        /// Move the vertex closest to the reference point in the vec direction
         /// </summary>
-        /// <param name="from">基準点</param>
-        /// <param name="vec">方向</param>
+        /// <param name="from">Reference point</param>
+        /// <param name="vec">Direction</param>
         /// <param name="power"></param>
         /// <param name="width"></param>
         /// <param name="strength"></param>
@@ -1223,7 +1223,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 基準点に近い頂点をtoに移動させる
+        /// Move the vertex closest to the reference point to
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
@@ -1246,7 +1246,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点の位置リストにより変形する
+        /// Transform by vertex position list
         /// </summary>
         /// <param name="verts"></param>
         public void TransformMesh(Vector3[] verts)
@@ -1265,12 +1265,12 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// メッシュの頂点に変形させる
+        /// Deform to mesh vertices
         /// </summary>
         /// <param name="mesh"></param>
         public void TransformMesh(Mesh mesh,int offset = 0)
         {
-            // ここで取得しとく方が，いちいちmeshアクセスするより圧倒的に早い
+            // Getting it here is much faster than accessing mesh every time.
             var vs = mesh.vertices;
             var ns = mesh.normals;
             var ts = mesh.tangents;
@@ -1291,9 +1291,9 @@ namespace HhotateA.AvatarModifyTools.Core
                 {
                     for (int i = 0; i < vs.Length; i++)
                     {
-                        // 秘伝のタレ的コード
-                        // ベイクにTransformが適応されるので逆変換
-                        // 方向を治してからscaleを補正している（たぶん）
+                        // secret sauce-like code
+                        // Transform is adapted to bake, so reverse transform
+                        // direction is corrected and then scale is compensated (probably)
                         vertexs[i + offset] = root.InverseTransformVector(root.TransformDirection(vs[i]));
                     }
                 }*/
@@ -1366,7 +1366,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// メッシュの基準となるボーンを差し替える
+        /// Replace the mesh reference bones
         /// </summary>
         /// <param name="target"></param>
         /// <param name="origin"></param>
@@ -1423,7 +1423,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ボーンを作成する
+        /// Create a bone
         /// </summary>
         /// <param name="boneTable"></param>
         /// <param name="origin"></param>
@@ -1437,14 +1437,14 @@ namespace HhotateA.AvatarModifyTools.Core
             GameObject g = null;
             if (boneTable.ContainsKey(origin))
             {
-                // 既にボーンがリストにある場合
+                // if the bone is already in the list
                 g = boneTable[origin].gameObject;
             }
             else
             {
                 if (newRoot != null)
                 {
-                    // ボーンのname match
+                    // Bones name match
                     var t = newRoot.FindInChildren(origin.name);
                     if (t != null)
                     {
@@ -1454,13 +1454,13 @@ namespace HhotateA.AvatarModifyTools.Core
 
                 if (g == null)
                 {
-                    // ボーンの作成
+                    // Bone Creation
                     g = new GameObject();
                     g.name = origin.gameObject.name;
                     g.transform.localPosition = origin.localPosition;
                     g.transform.localRotation = origin.localRotation;
                     g.transform.localScale = origin.localScale;
-                    // 親探し
+                    // searching for parents
                     boneTable.Add(origin,g.transform);
                     g.transform.SetParent(GenerateBone(ref boneTable,origin.parent,newRoot),false);
                 }
@@ -1475,7 +1475,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// メッシュの頂点位置をランダム化
+        /// Randomize mesh vertex positions
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>
@@ -1603,7 +1603,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
 
-        // モデルの形に合わせてnormalを修正する(うまく動かない)
+        // modify normal to fit the model shape (doesn't work well)
         public void ApplyNormalsDiff()
         {
             if (vertexnormals != null)
@@ -1639,7 +1639,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 現在の頂点位置をキャッシュに保存する
+        /// Store current vertex position in cache
         /// </summary>
         public void AddCaches()
         {
@@ -1677,8 +1677,8 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 初期キャッシュの頂点位置を編集する
-        /// BlendShape化の基準点となる
+        /// Edit the initial cache vertex positions
+        /// The reference point for BlendShaping
         /// </summary>
         /// <param name="mesh"></param>
         /// <param name="offset"></param>
@@ -1719,7 +1719,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// キャッシュを1つ戻す
+        /// Return one cache
         /// </summary>
         public void UndoCaches()
         {
@@ -1732,7 +1732,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// Undoボタンが押せるかどうか
+        /// Whether the Undo button can be pressed
         /// </summary>
         /// <returns></returns>
         public bool CanUndo()
@@ -1741,7 +1741,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// キャッシュを一つ進める
+        /// Advance one cache
         /// </summary>
         public void RedoCaches()
         {
@@ -1754,7 +1754,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// Redoボタンが押せるかどうか
+        /// Whether the Redo button can be pressed
         /// </summary>
         /// <returns></returns>
         public bool CanRedo()
@@ -1768,7 +1768,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点の初期配置
+        /// Initial placement of vertices
         /// </summary>
         /// <returns></returns>
         public List<Vector3> DefaultVertexs()
@@ -1784,7 +1784,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 現在の頂点配置
+        /// Current vertex placement
         /// </summary>
         /// <returns></returns>
         public List<Vector3> EditVertexs()
@@ -1793,7 +1793,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 出力済みメッシュの取得
+        /// Get output mesh
         /// </summary>
         /// <returns></returns>
         public Mesh GetMesh()
@@ -2012,7 +2012,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// NeshRendererとして出力する
+        /// Output as NeshRenderer
         /// </summary>
         /// <param name="name"></param>
         /// <param name="collider"></param>
@@ -2040,7 +2040,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// SkinnedMeshとして出力する
+        /// Output as SkinnedMesh
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -2061,12 +2061,12 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 頂点カラー付き，部分非表示のMeshを出力する
+        /// Output a partially hidden mesh with vertex colors
         /// </summary>
-        /// <param name="select">赤く塗る頂点</param>
-        /// <param name="controll">表示する頂点</param>
-        /// <param name="origin">Meshインスタンス(あれば)</param>
-        /// <param name="wp">重心移動</param>
+        /// <param name="select">Vertex to paint red</param>
+        /// <param name="control">Vertices to display</param>
+        /// <param name="origin">Mesh instance (if any)</param>
+        /// <param name="wp">Movement of center of gravity</param>
         /// <returns></returns>
         public Mesh CreateEditMesh(List<int> select = null,List<int> controll = null,Mesh origin = null,Vector3? wp = null)
         {
@@ -2167,9 +2167,9 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// Meshとして出力する
+        /// Output as Mesh
         /// </summary>
-        /// <param name="caches">キャッシュするかどうか</param>
+        /// <param name="caches">Whether to cache</param>
         /// <returns></returns>
         public Mesh Create(bool caches = true,bool createBlendShape = true)
         {
@@ -2233,8 +2233,8 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 偽のメッシュを出力する
-        /// SkinedMeshの初期化用
+        /// Output a fake mesh
+        /// For initializing SkinedMesh
         /// </summary>
         /// <param name="combinedMesh"></param>
         /// <param name="setAsAsset"></param>
@@ -2257,7 +2257,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 現在の変更をBlendShapeとして保存する
+        /// Save the current changes as a BlendShape
         /// </summary>
         /// <param name="blendshapeName"></param>
         /// <returns></returns>
@@ -2277,7 +2277,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 同一マテリアルのサブメッシュを結合する
+        /// Combine submeshes of the same material
         /// </summary>
         public void CombineMesh()
         {
@@ -2306,7 +2306,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// マテリアルを結合する
+        /// Combine materials
         /// </summary>
         /// <param name="path"></param>
         public List<Material> MaterialAtlas(string path = null)
@@ -2408,7 +2408,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// メッシュを結合する
+        /// Merging mesh
         /// </summary>
         /// <param name="path"></param>
         public void ForceCombine(string path = null)
@@ -2463,7 +2463,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 {
                     for (int j = 0; j < triangles[i].Count; j+=3)
                     {
-                        // 削除予定triangleでは頂点の入れ替えを行わない
+                        // Do not replace vertices in the triangles to be deleted
                         if (index != triangle)
                         {
                             for (int k = 0; k < 3; k++)
@@ -2491,12 +2491,12 @@ namespace HhotateA.AvatarModifyTools.Core
                 var ws = MeshUtil.ComputeBasis(wp,vs.Select(v => vertexs[v]).ToList());
                 if (ws.Any(w => w > 0.9f && isSelectVertex))
                 {
-                    // 頂点に近い場合，即リターン
+                    // Returns immediately if close to a vertex
                 }
                 else
                 if (ws.Any(w => w < 0.1f) && isSelectVertex)
                 {
-                    // 辺に近い場合，辺分割
+                    // edge division when close to the edge.
                     var edge = vs.ToList();
                     for (int i = 0; i < 3; i++)
                     {
@@ -2545,7 +2545,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 }
                 else
                 {
-                    // ポリゴン分割
+                    // Polygon division
                     var vid = GenerateWeightVertex(vs, wp_null);
                     var sid = GetSubmeshID(triangle);
                     RemoveTriangle(triangle);
@@ -2612,7 +2612,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// Meshをアセットとして保存する
+        /// Save the mesh as an asset
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -2632,7 +2632,7 @@ namespace HhotateA.AvatarModifyTools.Core
     }
 
     /// <summary>
-    /// 便利関数用staticクラス
+    /// static class for convenience functions
     /// </summary>
     public static class MeshUtil
     {
@@ -2749,7 +2749,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 }
             }
 
-            // 正規化
+            // Normalization
             var dist = output.Sum();
             if(dist!=0) output = output.Select(o => o / dist).ToList();
             return output;

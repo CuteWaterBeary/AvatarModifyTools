@@ -29,7 +29,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
             return false;
         }
 
-        [MenuItem("Window/HhotateA/エモートモーションキット(EmoteMotionKit)",false,108)]
+        [MenuItem("Window/HhotateA/EmoteMotionKit",false,108)]
         public static void ShowWindow()
         {
             OpenSavedWindow();
@@ -38,7 +38,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
         public static void OpenSavedWindow(EmoteMotionKitSaveData saveddata = null)
         {
             var wnd = GetWindow<EmoteMotionKitSetup>();
-            wnd.titleContent = new GUIContent("エモートモーションキット(EmoteMotionKit)");
+            wnd.titleContent = new GUIContent("EmoteMotionKit");
             if (saveddata == null)
             {
                 saveddata = CreateInstance<EmoteMotionKitSaveData>();
@@ -60,7 +60,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
             emoteReorderableList = new ReorderableList(data.emotes,typeof(EmoteElement),true,false,true,true)
             {
                 elementHeight = 60,
-                drawHeaderCallback = (r) => EditorGUI.LabelField(r,"Emotes","アニメーションを追加してください"),
+                drawHeaderCallback = (r) => EditorGUI.LabelField(r, "Emotes", "Add animation"),
                 drawElementCallback = (r, i, a, f) =>
                 {
                     r.height -= 4;
@@ -81,7 +81,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
                     rh.x -= rh.width * 3 / 2;
                     rh.width = rh.width * 5 / 2;
 
-                    // 2列目
+                    // 2 columns
                     rh.y += rh.height;
                     rh.width /= 3;
                     using (var check = new EditorGUI.ChangeCheckScope())
@@ -104,7 +104,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
                     rh.x -= rh.width*2;
                     rh.width *= 3;
 
-                    // 3列目
+                    // 3 column entries
                     rh.y += rh.height;
                     rh.width /= 9;
                     rh.width *= 2;
@@ -135,8 +135,8 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
 
         private void OnGUI()
         {
-            TitleStyle("エモートモーションキット");
-            DetailStyle("アイドルアニメーションやエモートを設定するツールです．",EnvironmentGUIDs.readme);
+            TitleStyle("Emote Motion Kit");.
+            DetailStyle("This tool is used to set idle animations and emotes.",EnvironmentGUIDs.readme);
 #if VRC_SDK_VRCSDK3
 
             EditorGUILayout.Space();

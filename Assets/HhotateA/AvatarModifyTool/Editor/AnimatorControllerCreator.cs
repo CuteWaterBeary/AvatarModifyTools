@@ -67,7 +67,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// パラメーターを追加する
+        /// Add a parameter
         /// </summary>
         /// <param name="name"></param>
         /// <param name="type"></param>
@@ -161,7 +161,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// AnyStateからDefaultStateにいたる遷移を追加する
+        /// Add a transition from AnyState to DefaultState
         /// </summary>
         /// <param name="m"></param>
         /// <param name="entryCondition"></param>
@@ -235,7 +235,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// DefaultStateを追加する．
+        /// Add DefaultState.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="m"></param>
@@ -246,7 +246,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// Stateを追加する．
+        /// Add State.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="motion"></param>
@@ -267,7 +267,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// DefaultStateを設定する
+        /// Set DefaultState
         /// </summary>
         /// <param name="name"></param>
         public void SetDefaultState(string name)
@@ -283,7 +283,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// fromStateからtoStateへのTransitionを作成する
+        /// Create a Transition from fromState to toState
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
@@ -407,7 +407,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 名前からStateを探す
+        /// Find State by Name
         /// </summary>
         /// <param name="name"></param>
         /// <param name="layer"></param>
@@ -450,7 +450,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// 新たなレイヤーを作る
+        /// Create a new layer
         /// </summary>
         /// <param name="layerName"></param>
         /// <returns></returns>
@@ -483,7 +483,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ディレクトリにアセットを作成する
+        /// Create assets in the directory
         /// </summary>
         public AnimatorController CreateAsset(string path = null, bool subAsset = false)
         {
@@ -652,7 +652,7 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 list.Remove(machine.states[index]);
 
-                // 子State検知
+                // ChildState Detection
                 int c = -1;
                 if (state.transitions != null)
                 {
@@ -675,7 +675,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     s => s.state.transitions.FirstOrDefault(
                         t => t.destinationState?.name == state.name) != null);
 
-                // 重なり検知
+                // Overlap detection
                 while (true)
                 {
                     int o = Array.FindIndex(machine.states, s => Vector2.Distance(new Vector2(s.position.x, s.position.y), newPos)<10f);
@@ -683,7 +683,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     newPos += new Vector2(-300f,0f);
                 }
 
-                // 孤立State
+                // Isolated State
                 if (p == -1 && state.transitions.Length == 0)
                 {
                     newPos = new Vector2(Random.Range(-500f,500f),Random.Range(-900f,-200f));

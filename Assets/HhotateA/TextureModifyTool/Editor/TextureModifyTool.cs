@@ -10,37 +10,37 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
 {
     public class TextureModifyTool : EditorWindow
     {
-        [MenuItem("Window/HhotateA/にゃんにゃんアバターペインター(TextureModifyTool)",false,202)]
+        [MenuItem("Tools/Texture Modify Tool",false,202)]
         static void  ShowWindow()
         {
             TextureModifyTool wnd = (TextureModifyTool)EditorWindow.GetWindow(typeof(TextureModifyTool));
-            wnd.titleContent = new GUIContent("にゃんにゃんアバターペインター");
+            wnd.titleContent = new GUIContent("Nyan Nyan Avatar Painter");
             wnd.minSize = new Vector2(700,700);
         }
 
-        // ボタン設定
+        // Button setting
         private int drawButton = 0;
         private int rotateButton = 1;
         private int moveButton = 2;
 
-        // ショートカット取得
+        // Shortcut acquisition
         private bool keyboardShortcut = false;
         private bool keyboardShift = false;
         private bool keyboardCtr = false;
         private bool keyboardAlt = false;
         private int shortcutToolBuffer = -1;
 
-        // 改造するメッシュのルートオブジェクト
+        // Root object of the mesh to be modified
         private GameObject avatar;
 
-        // 改造前後のマテリアルの保持
+        // Retention of materials before and after modification
         private Material[] currentMaterials = new Material[0];
         private Material[] editMaterials = new Material[0];
 
-        // 判定用オブジェクト
+        // decision object
         private MeshCollider editMeshCollider;
 
-        // Modify用クラス
+        // Class for Modify
         private AvatarMonitor avatarMonitor;
         private TexturePreviewer texturePreviewer;
         private MeshCreater meshCreater;
@@ -69,29 +69,29 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
 
         ReorderableList layerReorderableList;
 
-        // 各種オプション
+        // Various options
         private bool loadUVMap = true;
-        private bool straightMode = false; // 定規モード
+        private bool straightMode = false; // polarizing mode
         private Vector2 straightBuffer = Vector2.zero;
-        private bool squareMode = true; // 正方形固定(TextureWindow)
+        private bool squareMode = true; // Square Fixed(TextureWindow)
         private bool maskAllLayers = true;
         private bool isDragBuffer = false;
 
         private Color brushBuffer;
 
-        // 表示切替用バッファー
+        // Display switching buffer
         private Vector2 rendsScroll = Vector2.zero;
         private Vector2 layersScroll = Vector2.zero;
 
         //private Texture stampIcon;
 
-        // ブラシ色選択
+        // Brush Color Selection
         private int colorIndex = 0;
         Color brushColor => pen.brushColor ?? brushColors[colorIndex];
         Color[] brushColors = new Color[5]{Color.white,Color.black,Color.red, Color.green, Color.blue};
-        // グラデーション
+        // gradation
         private Gradient gradient = new Gradient();
-        // ペン選択
+        // Pen Selection
         private int penIndex = 0;
         private TexturePenTool pen => penTools[penIndex];
         private TexturePenTool[] _penTools;
@@ -122,8 +122,8 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
             var ec = Event.current;
             if (meshCreater == null)
             {
-                WindowBase.TitleStyle("にゃんにゃんテクスチャエディター");
-                WindowBase.DetailStyle("Unityだけでアバターのテクスチャ改変ができるツールです．",EnvironmentGUIDs.readme);
+                WindowBase.TitleStyle("NyanNyan Texture Editor");
+                WindowBase.DetailStyle("This tool allows you to modify avatar textures using only Unity.",EnvironmentGUIDs.readme);
                 avatar = EditorGUILayout.ObjectField("", avatar, typeof(GameObject), true) as GameObject;
                 if (GUILayout.Button("Setup"))
                 {
@@ -151,7 +151,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             if (meshCreater.GetMaterials()[i] == null) continue;
                             if (meshCreater.GetMaterials()[i].mainTexture == null) continue;
                             if (GetTextureCreater(i) == null) continue;
-                            // Todo この辺のボタンの画像か
+                            // Todo Is this a picture of a button around here?
                             //if (GUILayout.Button(new GUIContent(meshCreater.GetMaterials()[i].name,meshCreater.GetMaterials()[i].mainTexture),GUILayout.Height(75),GUILayout.Width(300)))
                             if (GUILayout.Button(meshCreater.GetMaterials()[i].name))
                             {
@@ -468,16 +468,16 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             var path = EditorUtility.SaveFilePanel("Export", "Assets", meshCreater.GetMaterials()[editIndex].name+"Texture", "mat");
                             if (string.IsNullOrWhiteSpace(path)) return;
                             currentMaterials[editIndex] = new Material(editMaterials[editIndex]);
-                            // テクスチャの保存
+                            // Save Textures
                             currentMaterials[editIndex].mainTexture = textureCreator.SaveTexture(path.Replace(".mat", ".png"));
-                            // マテリアルの保存
+                            // Saving Materials
                             AssetDatabase.CreateAsset(currentMaterials[editIndex],FileUtil.GetProjectRelativePath(path));
                         }
                         if (GUILayout.Button("Export Texture"))
                         {
                             var path = EditorUtility.SaveFilePanel("Export", "Assets", meshCreater.GetMaterials()[editIndex].name+"Texture", "png");
                             if (string.IsNullOrWhiteSpace(path)) return;
-                            // テクスチャの保存
+                            // Save Textures
                             textureCreator.SaveTexture(path);
                         }
                     }
@@ -510,7 +510,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
 
                 if (avatarMonitor == null) return;
                 if (texturePreviewer == null) return;
-                // ここらへん汚いので何とかしたい
+                // These areas are dirty and I want to do something about it.
                 int positionDrag = keyboardShortcut && keyboardAlt ? drawButton : moveButton;
                 bool canNotTouch = keyboardShortcut && (keyboardShift || keyboardCtr);
                 bool canNotWheel = keyboardShortcut && (keyboardShift || keyboardAlt);
@@ -565,7 +565,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                     }
                 }
 
-                // 左クリックマウスを話したとき(一筆終わったとき)にUndoCashを貯める
+                // Store Undo cache when you speak left mouse click (when you finish a stroke).
                 if (!keyboardAlt && ec.isMouse && ec.button == drawButton)
                 {
                     if (avatarMonitor.IsInDisplay(ec.mousePosition))
@@ -620,7 +620,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
             }
             editMaterials[editIndex].mainTexture = isEnablePreview ? texturePreviewer?.GetTexture() : textureCreator?.GetTexture();
 
-            // キー関係
+            // key-related
             if (keyboardShortcut)
             {
                 Undo.ClearAll();
@@ -642,7 +642,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         else
                         if(shortcutToolBuffer == -1)
                         {
-                            // ctrを押したらカラーピックモードに
+                            // Press ctr to enter color pick mode.
                             shortcutToolBuffer = penIndex;
                             penIndex = penTools.ToList()
                                 .FindIndex(p => p.extraTool == TexturePenTool.ExtraTool.ColorPick);
@@ -677,7 +677,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         keyboardCtr = false;
                         if (pen.extraTool == TexturePenTool.ExtraTool.StampCopy || pen.extraTool == TexturePenTool.ExtraTool.StampPaste)
                         {
-                            // ctrを押したらコピーモードに
+                            // Press ctr to enter copy mode.
                             pen.extraTool = TexturePenTool.ExtraTool.StampPaste;
                         }
                         else
@@ -944,7 +944,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
 
         void AvatarPaint()
         {
-            // ショートカット使用中は書かない
+            // Do not write while using shortcuts
             if (keyboardShortcut && keyboardAlt) return;
             var ec = Event.current;
             if (ec.type == EventType.MouseDown && ec.button == drawButton)
@@ -978,7 +978,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             var from = meshCreater.GetUVDelta(editIndex, tf, pf);
                             var to = meshCreater.GetUVDelta(editIndex, tt, pt);
                             var delta = meshCreater.GetUVdelta(editIndex, tt, pt);
-                            // あまりにUVが飛んでたら処理をやめる 2.5fの部分はよしなに
+                            // If too much UV is flying, stop processing. 2.5f part is good to go.
                             if (Vector2.Distance(to, from) / Vector3.Distance(pt, pf) < delta * 1.2f)
                             {
                                 textureCreator?.DrawLine(from, to, brushColor, gradient,pen.brushWidth * delta, pen.brushStrength, pen.brushPower);
@@ -1088,7 +1088,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         var from = meshCreater.GetUVDelta(editIndex, tf, pf);
                         var to = meshCreater.GetUVDelta(editIndex, tt, pt);
                         var delta = meshCreater.GetUVdelta(editIndex, tt, pt);
-                        // あまりにUVが飛んでたら処理をやめる
+                        // If too much UV is flying, stop the process.
                         if (Vector2.Distance(to, from) / Vector3.Distance(pt, pf) < delta * 1f)
                         {
                             textureCreator?.Gaussian(from, to, pen.brushWidth, pen.brushStrength, pen.brushPower);
@@ -1122,7 +1122,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         var from = meshCreater.GetUVDelta(editIndex, tf, pf);
                         var to = meshCreater.GetUVDelta(editIndex, tt, pt);
                         var delta = meshCreater.GetUVdelta(editIndex, tt, pt);
-                        // あまりにUVが飛んでたら処理をやめる
+                        // If too much UV is flying, stop the process.
                         if (Vector2.Distance(to, from) / Vector3.Distance(pt, pf) < delta * 1f)
                         {
                             brushBuffer = Color.Lerp(brushBuffer,textureCreator.SpuitColor(from,false),pen.brushPower);
@@ -1292,7 +1292,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                 {
                     var rh = rect;
                     rh.width = rect.width/5;
-                    { // 画像左,上部
+                    { // Image left.,Upper part
                         var r = rh;
                         r.width = rh.width / 3;
                         r.height = rh.height / 3;
@@ -1308,13 +1308,13 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         }
                     }
                     rh.y += rh.height/3;
-                    { // 画面左，中部
+                    { // Screen left, middle
                         var r = rh;
                         r.height = rh.height / 3;
                         data.name = EditorGUI.TextField(r,data.name);
                     }
                     rh.y += rh.height/3;
-                    { // 画面左，下部
+                    { // Screen left, lower
                         var r = rh;
                         r.width = rh.width * 2 / 3;
                         r.height = rh.height / 3;

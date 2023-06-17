@@ -15,11 +15,11 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserMakeupSystem
 {
     public class MagicalDresserSetup : WindowBase
     {
-        [MenuItem("Window/HhotateA/マジックドレッサーメイクアップ(MDMakeup)",false,107)]
+        [MenuItem("Window/HhotateA/Magic Dresser Makeup",false,107)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<MagicalDresserSetup>();
-            wnd.titleContent = new GUIContent("マジックドレッサーメイクアップ(MDMakeupSystem)");
+            wnd.titleContent = new GUIContent("Magic Dresser Makeup (MDMakeupSystem).");
             wnd.Show();
         }
         private Renderer makeupRenderer;
@@ -51,8 +51,8 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserMakeupSystem
         private float threshold = 1f / 60f;
         private void OnGUI()
         {
-            TitleStyle("マジックドレッサーメイクアップ(MDMakeupSystem)");
-            DetailStyle("VRChat上でのメニューからの色変えや，BlendShapeの切り替えを設定するツールです．",EnvironmentGUIDs.readme);
+            TitleStyle("Magic Dresser Makeup (MDMakeupSystem)");
+            DetailStyle("This tool is used to change colors from the menu on VRChat and to switch between BlendShapes.",EnvironmentGUIDs.readme);
 #if VRC_SDK_VRCSDK3
 
             EditorGUILayout.Space();
@@ -254,7 +254,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserMakeupSystem
             AssetDatabase.AddObjectToAsset(filterMat,path);
             AssetDatabase.AddObjectToAsset(clippingMat,path);
 
-            // フィルターオブジェクトの作成
+            // Creating Filter Objects
             var clone = rend.transform.FindInChildren(rend.name + "(clone)_" + saveName + "_Filter")?.gameObject;
             if (clone == null)
             {
@@ -345,9 +345,9 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserMakeupSystem
             animAsset.SetStateSpeed("Controll",threshold);
 
             var menu = new MenuCreater(saveName);
-            menu.AddRadial("色相",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateHIcon),paramH);
-            menu.AddRadial("彩度",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateSIcon),paramS);
-            menu.AddRadial("明度",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateVIcon),paramV);
+            menu.AddRadial("Hue",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateHIcon),paramH);
+            menu.AddRadial("Saturation",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateSIcon),paramS);
+            menu.AddRadial("Value",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateVIcon),paramV);
 
             menuAsset.AddSubMenu(menu.CreateAsset(path, true),rend.name + "Color",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.dresserIcon));
         }
@@ -472,9 +472,9 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserMakeupSystem
             animAsset.SetStateSpeed("Controll",0f);
 
             var m = new MenuCreater("ColorMenu");
-            m.AddRadial("赤",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateRIcon),paramR);
-            m.AddRadial("緑",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateGIcon),paramG);
-            m.AddRadial("青",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateBIcon),paramB);
+            m.AddRadial("Red",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateRIcon),paramR);
+            m.AddRadial("Green",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateGIcon),paramG);
+            m.AddRadial("Blue",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.rotateBIcon),paramB);
             m.CreateAsset(path, true);
             menuAsset.AddSubMenu(m.Create(),rend.name + "Color",AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentGUIDs.dresserIcon));
         }

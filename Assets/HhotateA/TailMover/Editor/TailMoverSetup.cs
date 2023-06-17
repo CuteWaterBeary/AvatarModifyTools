@@ -14,7 +14,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
 {
     public class TailMoverSetup : WindowBase
     {
-        [MenuItem("Window/HhotateA/なでもふセットアップ(TailMoverSetup)",false,103)]
+        [MenuItem("Window/HhotateA/TailMoverSetup",false,103)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<TailMoverSetup>();
@@ -125,8 +125,8 @@ namespace HhotateA.AvatarModifyTools.TailMover
 
         private void OnGUI()
         {
-            TitleStyle("なでもふセットアップ");
-            DetailStyle("アバターの尻尾やケモ耳のアイドルモーションを設定したり，デスクトップモードで腕を動かす設定ができるツールです．",EnvironmentGUIDs.readme);
+            TitleStyle("TailMoverSetup");
+            DetailStyle("This tool allows you to set up idle motions for the avatar's tail and animal ears, and to set up arm movements in desktop mode.",EnvironmentGUIDs.readme);
 #if VRC_SDK_VRCSDK3
 
             EditorGUILayout.Space();
@@ -165,7 +165,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
 
             if (preset == null)
             {
-                EditorGUILayout.LabelField("プリセットを選択してください．");
+                EditorGUILayout.LabelField("Select a preset.");
                 return;
             }
 
@@ -235,7 +235,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
             tailaxi = EditorGUILayout.Vector3Field("TailAxi",tailaxi);
             if(tailRoots.Count==0)
             {
-                EditorGUILayout.LabelField("ルートボーンを設定してください．");
+                EditorGUILayout.LabelField("Set the root bone.");
                 return;
             }
 

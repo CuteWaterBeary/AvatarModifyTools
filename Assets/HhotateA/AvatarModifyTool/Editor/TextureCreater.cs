@@ -56,7 +56,7 @@ namespace HhotateA.AvatarModifyTools.Core
             layerDatas = layers;
         }
 
-        // 最大キャッシュ数
+        // Maximum number of caches
         private int maxCaches
         {
             get => EnvironmentVariable.maxCaches;
@@ -468,7 +468,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     (int) (uv.x * (float) maskTexture.width),
                     (int) (uv.y * (float) maskTexture.height));
 
-                // 種まき
+                // planting seeds
                 var seedPixelsArray = Enumerable.Range(0, maskTexture.width * maskTexture.height)
                     .Select(_ => 0).ToArray();
                 seedPixelsArray[maskTexture.width * pix.y + pix.x] = 2;
@@ -480,7 +480,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.SetInt("_Height", maskTexture.height);
                 compute.SetVector("_Color", brushColor);
 
-                // 領域判定
+                // area judgment
                 int kernel = compute.FindKernel("SeedFill");
                 compute.SetTexture(kernel, "_ResultTex", maskTexture);
                 compute.SetBuffer(kernel, "_SeedPixels", seedPixels);
@@ -496,7 +496,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     if (seedPixelsArray.Where(s => s == 2).Count() == 0) break;
                 }
 
-                // 色塗り
+                // coloring
                 kernel = compute.FindKernel("FillColorPointGradient");
                 compute.SetVector("_Point",uv);
                 compute.SetInt("_Width", GetEditTexture().width);
@@ -527,7 +527,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     (int) (to.x * (float) maskTexture.width),
                     (int) (to.y * (float) maskTexture.height));
 
-                // 種まき
+                // planting seeds
                 var seedPixelsArray = Enumerable.Range(0, maskTexture.width * maskTexture.height)
                     .Select(_ => 0).ToArray();
                 seedPixelsArray[maskTexture.width * pix.y + pix.x] = 2;
@@ -539,7 +539,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.SetInt("_Height", maskTexture.height);
                 compute.SetVector("_Color", brushColor);
 
-                // 領域判定
+                // area judgment
                 int kernel = compute.FindKernel("SeedFill");
                 compute.SetTexture(kernel, "_ResultTex", maskTexture);
                 compute.SetBuffer(kernel, "_SeedPixels", seedPixels);
@@ -555,7 +555,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     if (seedPixelsArray.Where(s => s == 2).Count() == 0) break;
                 }
 
-                // 色塗り
+                // coloring
                 kernel = compute.FindKernel("FillColorLineGradient");
                 compute.SetVector("_FromPoint",from);
                 compute.SetVector("_ToPoint",to);

@@ -38,7 +38,7 @@ namespace HhotateA.AvatarModifyTools.Core
         public Dictionary<AnimatorLayerType, int> layerOffset = new Dictionary<AnimatorLayerType, int>();
 
         /// <summary>
-        /// AnimatorControllerのStateMachineとParameterの結合
+        /// Combining StateMachine and Parameter in AnimatorController
         /// </summary>
         /// <param name="origin"></param>
         public AnimatorController ModifyAnimatorController(AnimatorController origin)
@@ -66,12 +66,12 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 if (origin.layers.Any(l => OnFindParam(l.name) == OnFindParam(currentController.layers[i].name)))
                 {
-                    // マッチしたらレイヤー削除
+                    // Delete layer after match
                     currentController.RemoveLayer(i);
                 }
                 else
                 {
-                    // マッチしなかったら，次のレイヤーを見に行く
+                    // If no match, go to the next layer
                     i++;
                 }
             }
@@ -87,12 +87,12 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 if (currentController.layers[i].name.StartsWith(keyword))
                 {
-                    // マッチしたらレイヤー削除
+                    // Delete layer after match
                     currentController.RemoveLayer(i);
                 }
                 else
                 {
-                    // マッチしなかったら，次のレイヤーを見に行く
+                    // If no match, go to the next layer
                     i++;
                 }
             }
@@ -167,7 +167,7 @@ namespace HhotateA.AvatarModifyTools.Core
         #region AnimatorCombinator
 
         /// <summary>
-        /// AnimatorController全レイヤーの安全な結合
+        /// Safe merging of all AnimatorController layers
         /// </summary>
         /// <param name="originController"></param>
         void CloneLayers(AnimatorController originController)
@@ -176,10 +176,10 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 foreach (var layer in originController.layers)
                 {
-                    // すでに同名レイヤーがあれば削除する
+                    // If there is already a layer with the same name, delete it.
                     int index = Array.FindIndex(currentController.layers, l => l.name == OnFindParam(layer.name));
                     if (index > -1) currentController.RemoveLayer(index);
-                    // レイヤーの複製
+                    // Duplicate Layer
                     var newLayer = CloneLayer(layer);
                     currentController.AddLayer(newLayer);
                 }
@@ -187,7 +187,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// AnimatorControllerのLayerごとの複製
+        /// Duplicate AnimatorController layer by layer
         /// </summary>
         /// <param name="originLayer"></param>
         /// <returns></returns>
@@ -202,7 +202,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 name = OnFindParam(originLayer.name),
                 syncedLayerAffectsTiming = originLayer.syncedLayerAffectsTiming,
                 syncedLayerIndex = originLayer.syncedLayerIndex,
-                // StateMachineは別途複製
+                // StateMachine is replicated separately
                 stateMachine = CloneStateMachine(originLayer.stateMachine),
             };
             CloneTrasitions(cloneLayer.stateMachine, originLayer.stateMachine);
@@ -210,7 +210,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// Statemachineの複製
+        /// Statemachine Replication
         /// </summary>
         /// <param name="originMachine"></param>
         /// <returns></returns>
@@ -223,7 +223,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }).ToList();
             var cloneStates = CloneStates(originMachine);
 
-            // StateMachineの複製
+            // StateMachine Replication
             var cloneStateMachine = new AnimatorStateMachine
             {
                 anyStatePosition = originMachine.anyStatePosition,
@@ -232,7 +232,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 hideFlags = originMachine.hideFlags,
                 name = originMachine.name,
                 parentStateMachinePosition = originMachine.parentStateMachinePosition,
-                // ChildAnimatorStateMachineは別途複製
+                // ChildAnimatorStateMachine is replicated separately
                 states = cloneStates.ToArray(),
                 stateMachines = cloneChildMachine.ToArray(),
                 defaultState = cloneStates.FirstOrDefault(s => s.state.name == originMachine.defaultState.name).state,
@@ -242,13 +242,13 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// ChildAnimationStateの複製
+        /// Duplicate ChildAnimationState
         /// </summary>
         /// <param name="originMachine"></param>
         /// <returns></returns>
         List<ChildAnimatorState> CloneStates(AnimatorStateMachine originMachine)
         {
-            // Stateの複製
+            // Duplicate State
             var cloneStates = new List<ChildAnimatorState>();
             foreach (var animstate in originMachine.states)
             {
@@ -260,7 +260,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
         void CloneTrasitions(AnimatorStateMachine clone, AnimatorStateMachine origin)
         {
-            // リスト作成
+            // Create List
             var cloneStates = new List<AnimatorState>();
             var originStates = new List<AnimatorState>();
             var cloneMachines = GetStatemachines(clone);
@@ -275,7 +275,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 originStates.AddRange(m.states.Select(s => s.state).ToList());
             }
 
-            // Transitionの複製
+            // Duplicate Transition
             foreach (var originState in originStates)
             {
                 var cloneState = cloneStates.FirstOrDefault(s => s.name == originState.name);
@@ -525,7 +525,7 @@ namespace HhotateA.AvatarModifyTools.Core
                         }
                         else
                         {
-                            c.layer = o.layer + layerOffset[o.playable.GetAnimatorLayerType()]; // レイヤーが増えた分加算する
+                            c.layer = o.layer + layerOffset[o.playable.GetAnimatorLayerType()]; // Add up the number of layers.
                         }
                         c.blendDuration = o.blendDuration;
                         c.goalWeight = o.goalWeight;
@@ -640,7 +640,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         /// <summary>
-        /// AnimatorControllerのパラメータの安全な結合
+        /// Safe binding of AnimatorController parameters
         /// </summary>
         /// <param name="cloneController"></param>
         /// <param name="originController"></param>
@@ -650,11 +650,11 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 foreach (var parameter in originController.parameters)
                 {
-                    // すでに同名パラメーターがあれば削除する
+                    // If there is already a parameter with the same name, delete it.
                     int index = Array.FindIndex(cloneController.parameters,
                         p => p.name == OnFindParam(parameter.name));
                     if (index > -1) cloneController.RemoveParameter(cloneController.parameters[index]);
-                    // パラメーターのコピー
+                    // Copy Parameters
                     cloneController.AddParameter(new AnimatorControllerParameter()
                     {
                         defaultBool = parameter.defaultBool,
@@ -780,7 +780,7 @@ namespace HhotateA.AvatarModifyTools.Core
         #region RepathAnim
 
         /// <summary>
-        /// アニメーションのパスを書き換える
+        /// Rewrite animation paths
         /// </summary>
         /// <param name="clip"></param>
         /// <returns></returns>

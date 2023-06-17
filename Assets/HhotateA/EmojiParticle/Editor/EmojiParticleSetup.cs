@@ -17,7 +17,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
 {
     public class EmojiParticleSetup : WindowBase
     {
-        [MenuItem("Window/HhotateA/絵文字パーティクルセットアップ(EmojiParticleSetup)",false,102)]
+        [MenuItem("Window/HhotateA/EmojiParticleSetup",false,102)]
 
         public static void ShowWindow()
         {
@@ -55,7 +55,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             emojiReorderableList = new ReorderableList(data.emojis,typeof(IconElement),true,false,true,true)
             {
                 elementHeight = 60,
-                drawHeaderCallback = (r) => EditorGUI.LabelField(r,"Emojis","絵文字を追加してください"),
+                drawHeaderCallback = (r) => EditorGUI.LabelField(r,"Emojis","Please add a pictogram"),
                 drawElementCallback = (r, i, a, f) =>
                 {
                     r.height -= 4;
@@ -138,8 +138,8 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
 
         private void OnGUI()
         {
-            TitleStyle("絵文字パーティクルセットアップ");
-            DetailStyle("アバターに好きな画像の絵文字を実装する，簡単なセットアップツールです．",EnvironmentGUIDs.readme);
+            TitleStyle("Emoji particle setup");
+            DetailStyle("This is a simple setup tool that allows you to add your favorite image pictograms to your avatar.",EnvironmentGUIDs.readme);
 
 #if VRC_SDK_VRCSDK3
             EditorGUILayout.Space();
@@ -278,11 +278,11 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             int tilling = 1;
             while (data.emojis.Count > tilling * tilling) tilling++;
 
-            // 結合テクスチャの作成
+            // Creating a Bound Texture
             var textures = data.emojis.Select(icon=>icon.ToTexture2D()).ToArray();
             var combinatedTexture = TextureCombinater.CombinateSaveTexture(textures,Path.Combine(fileDir,data.saveName+"_tex"+".png"),tilling,4);
             combinatedTexture.name = data.saveName+"_tex";
-            // マテリアルの作成
+            // Creating Materials
             var combinatedMaterial = SaveParticleMaterial(combinatedTexture);
             combinatedMaterial.name = data.saveName+"_mat";
             AssetDatabase.AddObjectToAsset(combinatedMaterial,settingsPath);
@@ -291,14 +291,14 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             var pc = new ParametersCreater("EmojiParticleParam");
             pc.AddParam(param,0);
 
-            // メニューの作成
+            // Menu Creation
             var iconMenus = new MenuCreater(data.saveName+"_icons",true);
             for (int i = 0; i < data.emojis.Count; i++)
             {
-                // 0はデフォルトなので+1
+                // 0 is the default, so +1
                 iconMenus.AddButton(data.emojis[i].name,data.emojis[i].ToTexture2D(),param,i+1);
             }
-            // Modify用メニュー作成
+            // Create menu for Modify
             var menu = new MenuCreater("mainMenu");
             menu.AddSubMenu(iconMenus.CreateAsset(settingsPath,true),"EmojiParticles",TextureCombinater.ResizeSaveTexture(
                 Path.Combine(fileDir,data.saveName+"_icon"+".png"),
@@ -313,7 +313,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                     DestroyImmediate(oldSettings.gameObject);
                 }
             }
-            // オリジナルアセットのパーティクルコンポーネント差し替え
+            // Particle component replacement of original assets
             var prefab = Instantiate(AssetUtility.LoadAssetAtGuid<GameObject>(EnvironmentGUIDs.particlePrefab));
             prefab.name = EnvironmentGUIDs.prefix + data.saveName;
             var ps = prefab.GetComponentsInChildren<ParticleSystem>()[0];
@@ -327,7 +327,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             var human = avatar.GetComponent<Animator>();
             if (human != null)
             {
-                // 追従先差し替え
+                // (file) replacements of followers
                 switch (target)
                 {
                     case Target.Hip:
@@ -355,7 +355,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                 prefab.transform.localRotation = Quaternion.identity;
             }
 
-            // AnimationClipの作成
+            // Creating an AnimationClipationClip
             var controller = new AnimatorControllerCreator("Emoji_Controller","EmojiParticle"+data.saveName);
             controller.AddParameter(param,AnimatorControllerParameterType.Int);
             var reset = new AnimationClipCreator("Emoji_Anim_Reset",avatar.gameObject);
@@ -429,7 +429,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                 }
                 var a = anim.CreateAsset(settingsPath, true);
                 controller.AddState("Emoji_"+i,a);
-                // 0はデフォルトなので+1
+                // 0 is the default, so +1
                 controller.AddTransition("Any", "Emoji_" + i, param, i + 1, true,false);
                 controller.AddTransition("Emoji_" + i,"Reset",true );
             }

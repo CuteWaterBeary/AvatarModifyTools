@@ -274,7 +274,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         childs[i].name = menu.name;
                         childs[i].DeleteNullMenuElement(datas);
                     }
-                    // メニューは子を持たないので初期化
+                    // Menu has no children and is initialized
                     childs[i].childs = new List<MenuTemplate>();
                 }
             }
@@ -316,7 +316,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
 
         public static List<MenuTemplate> ReloadTemplates(List<MenuTemplate> menus,List<MenuElement> datas)
         {
-            // メニュー参照切れ項目の削除
+            // Deletion of out-of-menu reference items
             foreach (var menu in menus)
             {
                 menu.DeleteNullMenuElement(datas);
@@ -351,7 +351,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                     var root = data.isToggle ?
                         menus.FirstOrDefault(e => e.name == "Items" && e.autoCreate) :
                         menus.FirstOrDefault(e => e.name == data.layer.ToString() && e.autoCreate);
-                    // 親オブジェクトの検知
+                    // Parent Object Detection
                     MenuTemplate.FindElement(menus,e =>
                     {
                         var menu = datas.FirstOrDefault(m => m.guid == e.menuGUID);
@@ -397,7 +397,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 }
             }
 
-            // root直下の処理
+            // Processing directly under root
             for (int i = 0; i < menus.Count; i ++ )
             {
                 if (String.IsNullOrWhiteSpace(menus[i].menuGUID) && menus[i].childs.Count == 0 && menus[i].autoCreate)
@@ -564,7 +564,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
     public class ItemElement
     {
         public string path;
-        // なぜかここが[System.NonSerialized]だとばぐる（たぶんInstanceしてるから）
+        // For some reason, it is assumed that this is [System.NonSerialized] (probably because it is Instance).
         public GameObject obj;
         public bool active = true;
         public FeedType type = FeedType.None;
@@ -695,7 +695,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
         }
         public string path;
-        // なぜかここが[System.NonSerialized]だとばぐる（たぶんInstanceしてるから）
+        // For some reason, it is assumed that this is [System.NonSerialized] (probably because it is Instance).
         public Renderer rend;
         public Mesh mesh;
         public bool ExtendOption { get; set; }
@@ -1101,7 +1101,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         var parent = args.parentItem == null ? null : args.parentItem?.id == 0 ?
                                 null :
                                 MenuTemplate.FIndTemplateElement(data.menuTemplate, args.parentItem.id);
-                        // メニューの子にメニューを入れない
+                        // Do not put menu items in the menu child.
                         if (parent != null)
                             if (!String.IsNullOrWhiteSpace(parent.menuGUID))
                                 continue;
