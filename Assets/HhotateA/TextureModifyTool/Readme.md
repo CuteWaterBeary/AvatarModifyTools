@@ -5,26 +5,20 @@ This is a tool for simple texture editing in Unity's Editor for modifying the co
 
 ## Import method, using the hand smooth
 1. Make a backup of your avatar upload project in advance.
-Import TextureModifyTool.unitypackage into UnityProject. 3.
-Open Window/HhotateA/NyanNyan Avatar Painter (TextureModifyTool) in the top menu of Unity. 4.
-Drag and drop the avatar whose texture you want to edit and click "Setup". 5.
-Click on the name of the material you wish to edit. 6.
-Select the editing tool. 7.
-Coloring avatars or textures. 8.
-Click on the "Export" button to export the textures. (9.
-(9. "Save"/"Load" to save/load your work with layer information)
+2. Import TextureModifyTool.unitypackage into UnityProject.
+3. Open Window/HhotateA/NyanNyan Avatar Painter (TextureModifyTool) in the top menu of Unity.
+4. Drag and drop the avatar whose texture you want to edit and click "Setup".
+5. Click on the name of the material you wish to edit.
+6. Select the editing tool.
+7. Coloring avatars or textures.
+8. Click on the "Export" button to export the textures.
+9. "Save"/"Load" to save/load your work with layer information
 ![alt](./Manual/001.png)
 
 ## Caution
 - If the window is buggy, close it once. Your edits will be lost, but they will usually be restored. (Remember to make a backup of your edits beforehand.)
 - Since this tool was created in ToMe, it may not be maintained very often.
 - Operation may be heavy in its own way
-
-## Terms of Use
-- Secondary distribution is permitted, including bundling with avatars, modifications, or entire tools.
-- If you distribute the software in a secondary distribution, we would appreciate a notice and credit. (Not required).
-- The creator assumes no responsibility for any problems that may occur using this tool.
-- The creator is not responsible for any problems that may occur when using this tool.
 
 ## Function Description
 
@@ -149,15 +143,3 @@ Texture Canvas : Scale by mouse wheel, move by mouse wheel long-press
 ![alt](./Manual/013.png)
 ![alt](./Manual/014.png)
 ![alt](./Manual/015.png)
-
-## Producer
-@HhotateA_xR
-To report a problem https://github.com/HhotateA/AvatarModifyTools
-
-## Update History
-2021/07/08 v1.2 Start of release
-2021/07/31 v1.25
-2021/08/13 v1.26
-2021/08/27 v1.27
-2021/09/03 v1.29
-2021/09/10 v1.30

@@ -4,36 +4,36 @@ This is a tool that allows you to set clothes, hair color, and BlendShape overri
 
 ## How to install
 1. Make a backup of your avatar upload project in advance.
-2. VRCSDK3-AVATARを最新版に更新する．
-3. ItemPickupSetup.unitypackageをUnityProjectにインポートする．
-4. Unityの上部メニュー，Window/HhotateA/アバターアイテムセットアップ(ItemPickupSetup)を開く．
-5. "Avatar"の欄にシーン上のアバターオブジェクトをドラッグ&ドロップで参照する.
-6. "Renderer"の欄にアバター内の手に持ちたいオブジェクトをドラッグ&ドロップで参照する.
-7. ColorChangeの設定を行う．
+2. Update VRCSDK3-AVATAR to the latest version.
+3. Import ItemPickupSetup.unitypackage into UnityProject.
+4. Open Window/HotateA/Avatar ItemPickupSetup from the Unity top menu.
+5. Drag and drop an avatar object on the scene into the "Avatar" field.
+6. In the "Renderer" field, drag and drop the object you want to hold in your avatar's hand.
+7. Set the ColorChange settings.
     - None : No color modification
     - Texture : Color modification to replace texture (stable)
     - RGB : Multiply grayscale by RGB
     - HSV : Color setting using HSV filter
-8. ShapeChangeの設定を行う
-    - None : BlendShapeを設定しない．
-    - Radial : 選択したBlendShapeを非段階的に設定する．
-    - Toggle : 選択したBlendShapeそれぞれをトグルメニューで設定する
-9. ”Setup”ボタンを押す．
-10. 通常の手順でアバターをアップロードする．
+8. Configure ShapeChange settings.
+    - None : BlendShape is not set.
+    - Radial : Set the selected BlendShape non-radial.
+    - Toggle : Toggle menu for each selected BlendShape
+9. Press the "Setup" button.
+10. Upload your avatar in the usual way.
 
 ## How to use
-1. AvatarのExpressionMenuから"MagicalDresserMakeupSystem"メニューを開きアイテムを選択する．
-2. 色，またはBlendShapeの値を設定できるฅ(＾・ω・＾ฅ)
+1. Open the "MagicalDresserMakeupSystem" menu from the ExpressionMenu of Avatar and select the item.
+2. You can set the color or BlendShape valueฅ(＾ω・＾ฅ)
 
 ## Uninstallation procedure
 ### v1.27 or later
- 1. 本ツールの"Modify Options"オプションから"Force Revert"ボタンを押す．
- 2. 「Status : Complete Revert」というメッセージが出れば成功
-### v1.26以前
-1. Fx_Animatorから"MDMakeup_"から始まる名前のレイヤーを削除する．
-2. VRCExpressionsMenuから"MDMakeup_"から始まる名前の項目を削除する．
-3. VRCExpressionParameters"MDMakeup_"から始まる名前の項目を削除する．
-4. HSV設定した場合，Rendererの子オブジェクトの"(clone)_Filter"という名前のオブジェクトを削除する
+ 1. Press the "Force Revert" button from the "Modify Options" option of the tool.
+ 2. Success if the message "Status : Complete Revert" appears.
+### Before v1.26
+1. Delete layers with names starting with "MDMakeup_" from Fx_Animator.
+2. Delete the items with names starting with "MDMakeup_" from VRCExpressionsMenu.
+3. VRCExpressionParameters Deletes items with names beginning with "MDMakeup_".
+4. If set to HSV, deletes the child object of the Renderer named "(clone)_Filter
 
 ## Modify Options
 - Override Write Default : Override the value of WriteDefault. (VRChat deprecated item)
@@ -46,23 +46,3 @@ This is a tool that allows you to set clothes, hair color, and BlendShape overri
 - This is a destructive change to fxAnimatorController, ExpressionMenu, and ExpressionParameters of the avatar. Please remember to make a backup copy of your avatar.
 - If the maximum number of items in ExpressionParameters and ExpressionMenu has been reached, it may not be possible to install correctly. In such cases, please reduce the number of items temporarily.
 - If an error occurs due to a conflict with a previous version, please try FullPackage.
-
-## Terms of Use
-- Secondary distribution is permitted, including bundling with avatars, modifications, or entire tools.
-- If you distribute the tools, we would appreciate it if you notify us and give us credit. (Not required).
-- The creator assumes no responsibility for any problems that may occur using this tool.
-- The creator is not responsible for any problems that may occur when using this tool.
-
-## System Requirements
-- Unity2019.4.24f1
-- VRCSDK3-AVATAR-2021.08.11.15.16_Public
-
-## Produced by.
-@HhotateA_xR
-To report a problem, go to https://github.com/HhotateA/AvatarModifyTools
-
-## Update history
-2021/08/13 v1.26
-2021/08/27 v1.27
-2021/09/03 v1.29
-2021/09/10 v1.30

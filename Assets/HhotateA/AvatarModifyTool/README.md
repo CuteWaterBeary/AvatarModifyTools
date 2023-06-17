@@ -24,7 +24,9 @@ Here are some tools to help you modify your VRChat avatar.
     - prefab : Prefab to be generated; if the root of the prefab has ParentConstraint, the connection will be switched to Constraint and the prefab will be generated directly under Avatar.
     - target : The corresponding avatar's bone.
 
-    When the prefab is inserted into the avatar's bone using this function, all animation paths referenced in AnimatorController above will be rewritten correctly. <br> <br
+    When the prefab is inserted into the avatar's bone using this function, all animation paths referenced in AnimatorController above will be rewritten correctly.
+
+
   For example, if you have an animation that turns on/off the "AvatarPen" object directly under the AvatarRoot, and you move the "AvatarPen" to the fingertip using this function, the Animation path is automatically rewritten and continues to work correctly.
 
  ### sample code
@@ -65,30 +67,3 @@ public class TestSetupTool : EditorWindow
     }
 }
 ```
-
-## License
-All source code of this tool is released under a free license.
-- Redistribution: Permitted
-- Modification: Yes
-- Commercial use: Yes
-- Author's notation: Not required
-- License inheritance: Not required
-- Secondary distribution is permitted, including bundling with avatars for sale, derivative tools, and parts of tools, as well as whole tools.
-- If you distribute the tool, we would appreciate it if you notify us and give us credit. (Not required).
-- The creator assumes no responsibility for any problems that may occur using this tool.
-- The creator is not responsible for any problems that may occur when using this tool.
-
-## System Requirements
-- Unity2019.4.24f1
-- VRCSDK3-AVATAR-2021.08.11.15.16_Public
-
-## Update History
-
-2021/04/04 v0.9<br>
-2021/04/06 v1.1<br>
-2021/07/08 v1.2<br>
-2021/07/31 v1.25<br>
-2021/08/13 v1.26<br>
-2021/08/27 v1.27<br>
-2021/09/03 v1.29<br>
-2021/09/10 v1.30<br>

@@ -14,7 +14,7 @@ You can also play your favorite action emotes whenever you want.
     - EmoteLayer : Layer to which EmoteMotion is added.
         - Base : Register to Locomotion layer.
         - Action : Register in the Action layer. (Same setting as VRChat's Emote)
-        - Additive : Add to Idle layer. （Additive : Add the animation to the Idle layer.)
+        - Additive : Add to Idle layer. （Additive : Add the animation to the Idle layer.
     - Use FX : Copy the animation to FX layer. （Use FX : Copy the animation to the FX layer (for compositing facial expressions, etc.)
     - Is Saved : Save the state of the emote.
 7. Register an animation
@@ -50,22 +50,3 @@ You can also play your favorite action emotes whenever you want.
 ## Notes
 - This tool destructively changes fxAnimatorController, ExpressionMenu, and ExpressionParameters of the avatar. Be sure to make a backup copy of the file.
 - If there is an error due to conflicts with previous versions, please try FullPackage.
-
-## Terms of Use
-- Secondary distribution is permitted, including bundling with avatars, modifications, or entire tools.
-- If you distribute the tools, we would appreciate it if you notify us and give us credit. (Not required).
-- The creator assumes no responsibility for any problems that may occur using this tool.
-- The creator is not responsible for any problems that may occur when using this tool.
-
-## System Requirements
-- Unity2019.4.24f1
-- VRCSDK3-AVATAR-2021.08.11.15.16_Public
-
-## Produced by.
-@HhotateA_xR
-To report a problem, go to https://github.com/HhotateA/AvatarModifyTools
-
-## Update history
-2021/08/27 v1.27beta
-2021/09/03 v1.29
-2021/09/10 v1.30

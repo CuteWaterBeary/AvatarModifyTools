@@ -5,11 +5,11 @@ This is a tool for setting up a gimmick that allows VRChat avatars to hold items
 ## Import Method
 1. Make a backup of your avatar upload project in advance.
 2. Update VRCSDK3-AVATAR to the latest version.
-3. ItemPickupSetup.unitypackageをUnityProjectにインポートする．
-4. Unityの上部メニュー，Window/HhotateA/アバターアイテムセットアップ(ItemPickupSetup)を開く．
-5. "Avatar"の欄にシーン上のアバターオブジェクトをドラッグ&ドロップで参照する.
-6. "Object"の欄にアバター内の手に持ちたいオブジェクトをドラッグ&ドロップで参照する.
-7. "HandBone"に手のオブジェクトをドラッグ&ドロップで参照，右側の欄で手に持つトリガーとなるハンドサインを設定する．
+3. Import ItemPickupSetup.unitypackage into UnityProject.
+4. Open Window/HotateA/Avatar ItemPickupSetup from the Unity top menu.
+5. Drag and drop an avatar object on the scene into the "Avatar" field.
+6. Drag and drop the object you want to hold in your avatar into the "Object" field.
+7. Drag and drop a hand object to "HandBone" and set the hand signature that will trigger the hand in the right hand column.
 8. Set the hand sign that will trigger the hand holding in the right hand column of "WorldBone".
     - Turn off UseConstraint for use with Quest.
     - Turn off SafeOriginalItem when targeting a bone.
@@ -23,15 +23,15 @@ This is a tool for setting up a gimmick that allows VRChat avatars to hold items
 
 ## uninstallation procedure
 ### v1.27 onwards
- 1. 本ツールの"Modify Options"オプションから"Force Revert"ボタンを押す．
- 2. 「Status : Complete Revert」というメッセージが出れば成功
+ 1. Press the "Force Revert" button from the "Modify Options" option of the tool.
+ 2. Success if the message "Status : Complete Revert" appears.
 ### v1.26 before
- 1. Fx_Animatorから"GrabableItem_"から始まる名前のレイヤーを削除する．
- 2. VRCExpressionsMenuから"GrabableItem_"から始まる名前の項目を削除する．
- 3. VRCExpressionParameters"GrabableItem_"から始まる名前の項目を削除する．
- 4. アバター直下の"WorldPoint"オブジェクトを削除する．
- 5. アバターの手ボーンの"HandAnchor_"オブジェクトを削除する．
- 5. アバター下アイテムと同じ階層にあるの"RootAnchor_"オブジェクトを削除する．
+ 1. Delete layers with names starting with "GrabableItem_" from Fx_Animator.
+ 2. Remove items with names beginning with "GrabableItem_" from VRCExpressionsMenu.
+ 3. VRCExpressionParameters Deletes items with names beginning with "GrabableItem_".
+ 4. Delete the "WorldPoint" object directly under the avatar.
+ 5. Delete the "HandAnchor_" object of the avatar's hand bone.
+ 5. Delete the "RootAnchor_" object, which is on the same level as the item under the avatar.
 
 ## Modify Options
 - Override Write Default : Overrides the value of WriteDefault. (VRChat deprecated item)
@@ -44,23 +44,3 @@ This is a tool for setting up a gimmick that allows VRChat avatars to hold items
 - Make destructive changes to the fxAnimatorController, ExpressionMenu, and ExpressionParameters of your avatar. Please remember to make a backup copy of your avatar.
 - If the maximum number of items in ExpressionParameters and ExpressionMenu has been reached, it may not be possible to install correctly. If there is an error due to a problem with ExpressionParameters or ExpressionMenu, please reduce the number of items temporarily.
 - If there is an error due to a conflict with a previous version, try FullPackage.
-
-## Terms of Use
-- Secondary distribution is permitted, including bundling with avatars, modifications, or entire tools.
-- If you distribute the work secondarily, it would be nice to be notified and credited.(Not required)
-- The producer is not responsible for any problems that may occur using this tool..
-- The producer is not responsible if the functions of this tool become unusable due to changes in the specifications of VRChat, Unity, etc.
-
-## System Requirements
-- Unity2019.4.24f1
-- VRCSDK3-AVATAR-2021.08.11.15.16_Public
-
-## Producer
-@HhotateA_xR
-To report a problem, go to https://github.com/HhotateA/AvatarModifyTools
-
-## Update History
-2021/08/13 v1.26
-2021/08/27 v1.27
-2021/09/03 v1.29
-2021/09/10 v1.30

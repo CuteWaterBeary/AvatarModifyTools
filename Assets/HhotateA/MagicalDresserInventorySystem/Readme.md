@@ -7,13 +7,13 @@ It is also possible to generate effects when switching clothes with a simple con
 
 ![alt](./Manual/001.png)
 ## Import Method
-1. あらかじめアバターアップロード用プロジェクトのバックアップを取っておく．
-2. VRCSDK3-AVATARを最新版に更新する．
-3. MagicalDresserInventorySystem.unitypackageをUnityProjectにインポートする．
-4. Unityの上部メニュー，Window/HhotateA/マジックドレッサーインベントリ(MagicalDresserInventorySystem)を開く．
-5. "Avatar"の欄にシーン上のアバターオブジェクトをドラッグ&ドロップで参照する.
-6. "MenuElements"にメニューを追加する．
-7. ウィンドウの左側，メニュー項目の設定を行う．
+1. Make a backup of your avatar upload project in advance.
+2. Update VRCSDK3-AVATAR to the latest version.
+3. Import the MechanicalDresserInventorySystem.unitypackage into UnityProject.
+4. Open Window/HotateA/MagicDresserInventorySystem in the top menu of Unity.
+5. Drag and drop an avatar object on the scene into the "Avatar" field.
+6. Add a menu to "MenuElements".
+7. The left side of the window, menu items are configured.
     - Name
     - Icon
     - Toggle / Layer (exclusive mode) : If set to Layer, one menu in the same layer will be active.
@@ -39,8 +39,8 @@ It is also possible to generate effects when switching clothes with a simple con
             - Polygon : Animation of polygon decomposition
             - Bounce : Animation of an object growing in size
     - OFF State : Animation setting when menu is OFF
-9. ”Setup”ボタンを押す．
-10. 通常の手順でアバターをアップロードする．
+9. Press the "Setup" button.
+10. Upload your avatar in the usual way.
 
 11. In the Project window, double-click the file saved during Setup to resume the setup 🐈.
 
@@ -49,13 +49,13 @@ It is also possible to generate effects when switching clothes with a simple con
 2. By selecting the toggle menu, you can switch between itemsฅ(＾ω・＾ฅ)
 
 ## Uninstallation procedure
-### v1.27以降
- 1. 本ツールの"Modify Options"オプションから"Force Revert"ボタンを押す．
- 2. 「Status : Complete Revert」というメッセージが出れば成功
-### v1.26以前
-1. Fx_Animatorから"MDInventory_"から始まる名前のレイヤーを削除する．
-2. VRCExpressionsMenuから"MDInventory_"から始まる名前の項目を削除する．
-3. VRCExpressionParameters"MDInventory_"から始まる名前の項目を削除する．
+### v1.27 or later
+ 1. Press the "Force Revert" button from the "Modify Options" option of the tool.
+ 2. Success if the message "Status : Complete Revert" appears.
+### Before v1.26
+1. Delete layers with names starting with "MDInventory_" from Fx_Animator.
+2. Delete items with names beginning with "MDInventory_" from VRCExpressionsMenu.
+3. VRCExpressionParameters Deletes entries with names beginning with "MDInventory_".
 
 ## Modify Options
 - Override Write Default : Override the value of WriteDefault. (VRChat deprecated item)
@@ -72,23 +72,3 @@ It is also possible to generate effects when switching clothes with a simple con
 - If the maximum number of items in ExpressionParameters and ExpressionMenu has been reached, you may not be able to successfully introduce them. In such cases, please reduce the number of items temporarily.
 - If an error occurs due to a conflict with a previous version, please try FullPackage.
 - If you are controlling OnOff of the object by animation outside of this tool, it may not work properly. (DetectConflictLayer is displayed during "Setup").
-
-## Terms of Use
-- Secondary distribution is permitted, including bundling with avatars, modifications, or entire tools.
-- If you distribute the tools, we would appreciate it if you notify us and give us credit. (Not required).
-- The creator assumes no responsibility for any problems that may occur using this tool.
-- The creator is not responsible for any problems that may occur when using this tool.
-
-## System Requirements
-- Unity2019.4.24f1
-- VRCSDK3-AVATAR-2021.08.11.15.16_Public
-
-## Produced by.
-@HhotateA_xR
-To report a problem, go to https://github.com/HhotateA/AvatarModifyTools
-
-## Update history
-2021/08/13 v1.26
-2021/08/27 v1.27
-2021/09/03 v1.29
-2021/09/10 v1.30
