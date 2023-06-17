@@ -1,0 +1,42 @@
+# Windows line endings = crlf
+# Mac/Unix line endings = lf
+
+# * text=auto
+
+# Unity files
+*.anim                    text eol=lf
+*.asmdef                 text eol=lf
+*.asset                    text eol=lf
+*.controller              text eol=lf
+*.mat                       text eol=lf
+*.mask                     text eol=lf
+*.meta                      text eol=lf
+*.overrideController   text eol=lf
+*.prefab                     text eol=lf
+*.preset                     text eol=lf
+*.spriteatlas               text eol=lf
+*.unity                        text eol=lf
+*.mixer                       text eol=lf
+*.renderTexture           text eol=lf
+*.json                         text eol=lf
+*.xml                          text eol=lf
+*.txt                           text eol=lf
+*.md                           text eol=lf
+
+# Code files
+*.sln                           text eol=crlf
+*.csproj                       text eol=crlf
+*.cs                            text eol=crlf
+*.shader                      text eol=crlf
+*.hlsl                           text eol=crlf
+
+
+# Shader / Poiyomi Files
+*.xml                                text eol=lf
+*.poi                                 text eol=lf
+*.poiTemplateCollection     text eol=crlf
+*.poiTemplatecollection     text eol=crlf
+*.poiTemplate                   text eol=crlf
+*.cginc                              text eol=crlf
+*.uss                                 text eol=crlf
+*.uxml                              text eol=lf
