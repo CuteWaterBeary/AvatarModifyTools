@@ -57,7 +57,15 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             public int index;
         }
 
-        private bool openMenuList = true;
+        enum OpenMenuMode
+        {
+            Both,
+            MenuTemplate,
+            BaseMenu,
+        }
+
+        private OpenMenuMode openMenuMode = OpenMenuMode.Both;
+        private bool compactMenu = false;
 
         Vector2 scrollLeft = Vector2.zero;
         Vector2 scrollLeftTree = Vector2.zero;
@@ -130,7 +138,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 {
                     EditorGUI.LabelField(r,"Menu Elements");
                 },
-                elementHeight = 60+6,
+                elementHeightCallback = (i) => compactMenu ? 20 : 60 + 6,
                 drawElementCallback = (r, i, a, f) => DrawMenuElement(r,i),
                 onAddCallback = l => AddMenu(),
                 onSelectCallback = l =>
@@ -158,19 +166,23 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
             var d = menuElements[i];
             if(d == null) return;
-            {
+            if (!compactMenu) {
                 var rh = r;
                 rh.width = rh.height;
                 d.icon = (Texture2D) EditorGUI.ObjectField (rh,d.icon, typeof(Texture2D), false);
                 r.width -= rh.width;
                 r.x += rh.width+10;
             }
-            r.height -= 6;
-            r.height /= 3;
-            r.width *= 0.95f;
+            if (!compactMenu)
+            {
+                r.height -= 6;
+                r.height /= 3;
+                r.width *= 0.95f;
+            }
 
             d.name = EditorGUI.TextField(r,"", d.name);
 
+            if (compactMenu) return;
             r.y += 2;
             r.y += r.height;
 
@@ -358,6 +370,16 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         {
                             if (data.useMenuTemplate)
                             {
+
+                                using (new EditorGUILayout.HorizontalScope())
+                                {
+                                    EditorGUIUtility.labelWidth = 100;
+                                    compactMenu = EditorGUILayout.Toggle("Compact Menu", compactMenu, GUILayout.Width(130));
+                                    EditorGUIUtility.labelWidth = 50;
+                                    openMenuMode = (OpenMenuMode)EditorGUILayout.EnumPopup("Display", openMenuMode, GUILayout.Width(150));
+                                    EditorGUIUtility.labelWidth = 0;
+                                }
+
                                 using (new EditorGUILayout.VerticalScope(GUI.skin.box,GUILayout.Width(330)))
                                 {
                                     var menuelementRect = EditorGUILayout.GetControlRect(false, 60);
@@ -376,17 +398,23 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                     }
                                 }
 
-                                scrollLeftTree = EditorGUILayout.BeginScrollView(scrollLeftTree, false, false, GUIStyle.none, GUI.skin.verticalScrollbar, GUI.skin.scrollView);
-                                var treeRect = EditorGUILayout.GetControlRect(false, openMenuList ? (position.height-300)/2 : position.height-300);
-                                treeRect.width = 375;
-                                menuTreeView.OnGUI(treeRect);
-                                EditorGUILayout.EndScrollView();
+                                if (openMenuMode != OpenMenuMode.BaseMenu)
+                                {
+                                    scrollLeftTree = EditorGUILayout.BeginScrollView(scrollLeftTree, false, false, GUIStyle.none, GUI.skin.verticalScrollbar, GUI.skin.scrollView);
+                                    var treeRect = EditorGUILayout.GetControlRect(false, openMenuMode == OpenMenuMode.Both ? (position.height - 200) / 2 : position.height - 300);
+                                    treeRect.width = 375;
+                                    menuTreeView.OnGUI(treeRect);
+                                    EditorGUILayout.EndScrollView();
+                                }
 
                                 using (new EditorGUILayout.HorizontalScope())
                                 {
                                     if(GUILayout.Button("Reset",GUILayout.Width(75)))
                                     {
-                                        ResetTemplate();
+                                        if (EditorUtility.DisplayDialog("Reset", "Are you sure you want to reset the menu template?" , "Execute", "Abort"))
+                                        {
+                                            ResetTemplate();
+                                        }
                                     }
                                     EditorGUILayout.LabelField("",GUILayout.Width(100));
                                     if(GUILayout.Button("New Folder",GUILayout.Width(75)))
@@ -450,16 +478,11 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                     }
                                 }
 
-                                openMenuList = EditorGUILayout.ToggleLeft("Extend Menu List",openMenuList);
-
-                                if (openMenuList)
+                                if (openMenuMode != OpenMenuMode.MenuTemplate)
                                 {
                                     scrollLeft = EditorGUILayout.BeginScrollView(scrollLeft, false, false, GUIStyle.none, GUI.skin.verticalScrollbar, GUI.skin.scrollView,GUILayout.Width(375),GUILayout.ExpandHeight(false));
                                     menuReorderableList.DoLayoutList();
                                     EditorGUILayout.EndScrollView();
-                                }
-                                else
-                                {
                                 }
                                 EditorGUILayout.Space();
                                 EditorGUILayout.LabelField(" ",GUILayout.ExpandHeight(true));
@@ -468,7 +491,10 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                             {
                                 using (new EditorGUILayout.HorizontalScope())
                                 {
-                                    EditorGUILayout.LabelField("  ",GUILayout.Width(275));
+                                    EditorGUIUtility.labelWidth = 100;
+                                    compactMenu = EditorGUILayout.Toggle("Compact Menu", compactMenu, GUILayout.Width(130));
+                                    EditorGUIUtility.labelWidth = 0;
+                                    EditorGUILayout.LabelField("  ",GUILayout.Width(145));
                                     using (new EditorGUI.DisabledScope(!(0 <= menuReorderableList.index && menuReorderableList.index < menuElements.Count)))
                                     {
                                         if(GUILayout.Button("-",GUILayout.Width(30)))
@@ -548,50 +574,48 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
 
                                 using (new EditorGUILayout.VerticalScope(GUI.skin.box))
                                 {
-                                    if (!displaySyncTransition)
+                                    ItemLabelDisplay();
+
+                                    GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(1));
+
+                                    ItemElementDisplay(menuElements[index]);
+
+                                    scrollRight = EditorGUILayout.BeginScrollView(scrollRight, false, false, GUIStyle.none, GUI.skin.verticalScrollbar, GUI.skin.scrollView);
+                                    if (displayItemMode)
                                     {
-                                        ItemLabelDisplay();
-
-                                        GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(1));
-
-                                        ItemElementDisplay(menuElements[index]);
-
-                                        scrollRight = EditorGUILayout.BeginScrollView(scrollRight, false, false, GUIStyle.none, GUI.skin.verticalScrollbar, GUI.skin.scrollView);
-                                        if (displayItemMode)
+                                        using (var check = new EditorGUI.ChangeCheckScope())
                                         {
-                                            using (var check = new EditorGUI.ChangeCheckScope())
+                                            foreach (var item in menuElements[index].UnSafeActiveItems())
                                             {
-                                                foreach (var item in menuElements[index].UnSafeActiveItems())
-                                                {
-                                                    ItemElementDisplay(item, false, true, false, false, false, menuElements[index],
-                                                        (o) =>
-                                                        {
-                                                            data.RepairReference(item.path, o, avatar.gameObject);
-                                                        }, () =>
-                                                        {
-                                                            menuElements[index].activeItems.Remove(item);
-                                                        });
-                                                }
+                                                ItemElementDisplay(item, false, true, false, false, false, menuElements[index],
+                                                    (o) =>
+                                                    {
+                                                        data.RepairReference(item.path, o, avatar.gameObject);
+                                                    }, () =>
+                                                    {
+                                                        menuElements[index].activeItems.Remove(item);
+                                                    });
+                                            }
 
-                                                foreach (var item in menuElements[index].SafeActiveItems())
-                                                {
-                                                    ItemElementDisplay(item, true, true, true, true, true, menuElements[index],
-                                                        (o) =>
-                                                        {
+                                            foreach (var item in menuElements[index].SafeActiveItems())
+                                            {
+                                                ItemElementDisplay(item, true, true, true, true, true, menuElements[index],
+                                                    (o) =>
+                                                    {
                                                         // item.obj = o;
                                                     }, () =>
                                                     {
                                                         menuElements[index].activeItems.Remove(item);
                                                     });
-                                                }
+                                            }
 
-                                                if (!menuElements[index].isToggle)
+                                            if (!menuElements[index].isToggle)
+                                            {
+                                                foreach (var item in ComputeLayerAnotherItems(menuElements[index]))
                                                 {
-                                                    foreach (var item in ComputeLayerAnotherItems(menuElements[index]))
-                                                    {
-                                                        ItemElementDisplay(item, true, false, true, true, true, menuElements[index],
-                                                            (o) =>
-                                                            {
+                                                    ItemElementDisplay(item, true, false, true, true, true, menuElements[index],
+                                                        (o) =>
+                                                        {
                                                             // item.obj = o;
                                                         }, () =>
                                                         {
@@ -600,51 +624,51 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                                         {
                                                             menuElements[index].activeItems.Add(item);
                                                         });
-                                                    }
-                                                }
-
-                                                if (check.changed)
-                                                {
-                                                    SetObjectActiveForScene(menuElements[index]);
-                                                    // SyncItemActive(menuElements[index].activeItems, menuElements[index].inactiveItems, true);
                                                 }
                                             }
-                                        }
-                                        else
-                                        {
-                                            using (var check = new EditorGUI.ChangeCheckScope())
-                                            {
-                                                foreach (var item in menuElements[index].UnSafeInactiveItems())
-                                                {
-                                                    ItemElementDisplay(item, false, true, false, false, false, menuElements[index],
-                                                        (o) =>
-                                                        {
-                                                            data.RepairReference(item.path, o, avatar.gameObject);
-                                                        }, () =>
-                                                        {
-                                                            menuElements[index].inactiveItems.Remove(item);
-                                                        });
-                                                }
 
-                                                foreach (var item in menuElements[index].SafeInactiveItems())
-                                                {
-                                                    ItemElementDisplay(item, true, true, true, true, true, menuElements[index],
-                                                        (o) =>
-                                                        {
+                                            if (check.changed)
+                                            {
+                                                SetObjectActiveForScene(menuElements[index]);
+                                                // SyncItemActive(menuElements[index].activeItems, menuElements[index].inactiveItems, true);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        using (var check = new EditorGUI.ChangeCheckScope())
+                                        {
+                                            foreach (var item in menuElements[index].UnSafeInactiveItems())
+                                            {
+                                                ItemElementDisplay(item, false, true, false, false, false, menuElements[index],
+                                                    (o) =>
+                                                    {
+                                                        data.RepairReference(item.path, o, avatar.gameObject);
+                                                    }, () =>
+                                                    {
+                                                        menuElements[index].inactiveItems.Remove(item);
+                                                    });
+                                            }
+
+                                            foreach (var item in menuElements[index].SafeInactiveItems())
+                                            {
+                                                ItemElementDisplay(item, true, true, true, true, true, menuElements[index],
+                                                    (o) =>
+                                                    {
                                                         // item.obj = o;
                                                     }, () =>
                                                     {
                                                         menuElements[index].inactiveItems.Remove(item);
                                                     });
-                                                }
+                                            }
 
-                                                foreach (var item in ComputeLayerInactiveItems(menuElements[index]))
+                                            foreach (var item in ComputeLayerInactiveItems(menuElements[index]))
+                                            {
+                                                using (var add = new EditorGUI.ChangeCheckScope())
                                                 {
-                                                    using (var add = new EditorGUI.ChangeCheckScope())
-                                                    {
-                                                        ItemElementDisplay(item, false, false, true, true, false, menuElements[index],
-                                                            (o) =>
-                                                            {
+                                                    ItemElementDisplay(item, false, false, true, true, false, menuElements[index],
+                                                        (o) =>
+                                                        {
                                                             // item.obj = o;
                                                         }, () =>
                                                         {
@@ -653,32 +677,31 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                                         {
                                                             menuElements[index].inactiveItems.Add(item);
                                                         });
-                                                    }
-                                                }
-
-                                                if (check.changed)
-                                                {
-                                                    SetObjectActiveForScene(menuElements[index]);
-                                                    // SyncItemActive(menuElements[index].inactiveItems, menuElements[index].activeItems, true);
                                                 }
                                             }
-                                        }
-                                        EditorGUILayout.EndScrollView();
 
-                                        var newItem = (GameObject)EditorGUILayout.ObjectField("", null,
-                                            typeof(GameObject), true, GUILayout.Width(370));
-                                        if (newItem)
-                                        {
-                                            if (menuElements[index].activeItems.All(e => e.obj != newItem))
+                                            if (check.changed)
                                             {
-                                                menuElements[index].activeItems.Add(new ItemElement(newItem, avatar.gameObject,
-                                                    IsMenuElementDefault(menuElements[index])
-                                                        ? newItem.gameObject.activeSelf
-                                                        : !newItem.gameObject.activeSelf));
+                                                SetObjectActiveForScene(menuElements[index]);
+                                                // SyncItemActive(menuElements[index].inactiveItems, menuElements[index].activeItems, true);
                                             }
-
-                                            SetObjectActiveForScene(menuElements[index]);
                                         }
+                                    }
+                                    EditorGUILayout.EndScrollView();
+
+                                    var newItem = (GameObject) EditorGUILayout.ObjectField("", null,
+                                        typeof(GameObject), true, GUILayout.Width(370));
+                                    if (newItem)
+                                    {
+                                        if (menuElements[index].activeItems.All(e => e.obj != newItem))
+                                        {
+                                            menuElements[index].activeItems.Add(new ItemElement(newItem, avatar.gameObject,
+                                                IsMenuElementDefault(menuElements[index])
+                                                    ? newItem.gameObject.activeSelf
+                                                    : !newItem.gameObject.activeSelf));
+                                        }
+
+                                        SetObjectActiveForScene(menuElements[index]);
                                     }
 
                                     //sync element
@@ -695,7 +718,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                     {
                                         if (displaySyncTransition)
                                         {
-                                            using (new EditorGUILayout.VerticalScope())
+                                            using (new EditorGUILayout.VerticalScope(GUILayout.Height(50)))
                                             {
                                                 scrollSubmenu = EditorGUILayout.BeginScrollView(scrollSubmenu, false,
                                                     false, GUIStyle.none, GUI.skin.verticalScrollbar,
