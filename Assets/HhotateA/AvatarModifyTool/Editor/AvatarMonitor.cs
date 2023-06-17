@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEditor;
 
@@ -32,7 +23,7 @@ namespace HhotateA.AvatarModifyTools.Core
         private float dragSpeedBase = 0.001f;
         private float scrollSpeedBase = 0.01f;
         private float rotateSpeedBase = 0.1f;
-        
+
         private float dragSpeed => dragSpeedBase * dragSpeedRate;
         private float scrollSpeed => scrollSpeedBase * scrollSpeedRate;
         private float rotateSpeed => rotateSpeedBase * rotateSpeedRate;
@@ -67,7 +58,7 @@ namespace HhotateA.AvatarModifyTools.Core
             camera.nearClipPlane = bound*0.01f;
             camera.farClipPlane = bound*10f;
         }
-        
+
         Bounds GetMaxBounds(GameObject g) {
             var renderers = g.GetComponentsInChildren<Renderer>();
             if (renderers.Length == 0) return new Bounds(g.transform.position, Vector3.zero);
@@ -87,7 +78,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             return camera.transform.forward;
         }
-        
+
         public Vector3 WorldSpaceCameraUp()
         {
             return camera.transform.up;
@@ -235,11 +226,11 @@ namespace HhotateA.AvatarModifyTools.Core
                 }
             }
         }
-        
+
         public void GetTriangle(MeshCollider meshCollider, Action<int,Vector3> onhit = null)
         {
             var e = Event.current;
-            
+
             if (rect.Contains(e.mousePosition))
             {
                 var p = new Vector3(e.mousePosition.x - rect.x, targetTexture.height - e.mousePosition.y + rect.y,
@@ -259,17 +250,17 @@ namespace HhotateA.AvatarModifyTools.Core
                 }
             }
         }
-        
+
         public void GetDragTriangle(MeshCollider meshCollider, Action<int,Vector3,int,Vector3> onhit = null)
         {
             var e = Event.current;
-            
+
             if (rect.Contains(e.mousePosition))
             {
                 var p = new Vector3(e.mousePosition.x - rect.x, rect.height - e.mousePosition.y + rect.y,1f);
                 var ray = camera.ScreenPointToRay(p);
                 var hits = Physics.RaycastAll(ray, bound*layRange, 1 << previewLayer);
-                
+
                 // drag前
                 var pd = new Vector3(e.mousePosition.x - rect.x - e.delta.x, rect.height - e.mousePosition.y + rect.y + e.delta.y,1f);
                 var rayd = camera.ScreenPointToRay(pd);
@@ -296,19 +287,19 @@ namespace HhotateA.AvatarModifyTools.Core
                         return;
                     }
                 }
-            
+
             }
         }
-        
+
         public void GetVertex(MeshCollider meshCollider, Action<int,Vector3> onHit)
         {
             var e = Event.current;
-            
+
             if (rect.Contains(e.mousePosition))
             {
                 // Drag
                 var p = new Vector3(e.mousePosition.x - rect.x, targetTexture.height - e.mousePosition.y + rect.y,1f);
-                
+
                 var hits = Physics.RaycastAll(camera.ScreenPointToRay(p), bound*layRange, 1 << previewLayer);
 
                 foreach (var hit in hits)
@@ -378,7 +369,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             return output;
         }
-        
+
         int GetNearIndex(Vector3 origin, Vector3[] points)
         {
             float near = 1000f;

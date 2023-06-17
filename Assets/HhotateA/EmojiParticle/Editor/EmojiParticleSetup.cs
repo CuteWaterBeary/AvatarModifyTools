@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using HhotateA.AvatarModifyTools.Core;
+﻿using HhotateA.AvatarModifyTools.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,7 +23,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
         {
             OpenSavedWindow();
         }
-        
+
         public static void OpenSavedWindow(EmojiSaveData saveddata = null)
         {
             var wnd = GetWindow<EmojiParticleSetup>();
@@ -57,7 +48,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             RightHand,
             LeftHand
         }
-        
+
 
         void LoadReorderableList()
         {
@@ -76,7 +67,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                     emojiRect.x = r.width - emojiRect.width;
                     recth.height /= 3;
                     recth.width = r.width - emojiRect.width;
-                    
+
                     var rectw = recth;
                     rectw.width -= 50;
                     d.name = EditorGUI.TextField(rectw,"", d.name);
@@ -94,7 +85,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                     rectw.width =  rectw.width * 2 / 3;
                     d.count = EditorGUI.IntField(rectw, d.count);
                     rectw.x += rectw.width;
-                    
+
                     rectw.width = recth.width / 2;
                     rectw.width /= 6;
                     rectw.x += rectw.width;
@@ -103,7 +94,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                     rectw.x += rectw.width;
                     rectw.width =  rectw.width * 2 / 3;
                     d.scale = EditorGUI.FloatField(rectw, d.scale);
-                    
+
                     rectw = recth;
                     rectw.y += 2 * rectw.height;
                     rectw.width = recth.width / 2;
@@ -115,7 +106,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                     rectw.width =  rectw.width * 2 / 3;
                     d.lifetime = EditorGUI.FloatField(rectw, d.lifetime);
                     rectw.x += rectw.width;
-                    
+
                     rectw.width = recth.width / 2;
                     rectw.width /= 6;
                     rectw.x += rectw.width;
@@ -157,18 +148,18 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             EditorGUILayout.Space();
 
             data.saveName = EditorGUILayout.TextField("Save Name",data.saveName);
-            
+
             EditorGUILayout.Space();
             EditorGUILayout.Space();
-            
+
             target = (Target) EditorGUILayout.EnumPopup("Target", target);
-            
+
             EditorGUILayout.Space();
-            
+
             scroll = EditorGUILayout.BeginScrollView(scroll, false, false, GUIStyle.none, GUI.skin.verticalScrollbar, GUI.skin.scrollView);
             emojiReorderableList.DoLayoutList();
             EditorGUILayout.EndScrollView();
-            
+
             EditorGUILayout.Space();
             if (ShowOptions())
             {
@@ -188,7 +179,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                 {
                     var asset = AssetUtility.LoadAssetAtGuid<AvatarModifyData>(EnvironmentGUIDs.emojiModifyData);
                     asset = Instantiate(asset);
-                    
+
                     var path = EditorUtility.SaveFilePanel("Save", data.GetAssetDir(), data.GetAssetName(), "emojiparticle.asset");
                     if (string.IsNullOrEmpty(path))
                     {
@@ -276,7 +267,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             string fileDir = Path.GetDirectoryName (settingsPath);
 
             string param = data.saveName;
-            
+
             foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(settingsPath)) {
                 if (AssetDatabase.IsSubAsset(asset)) {
                     DestroyImmediate(asset, true);
@@ -286,7 +277,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
 
             int tilling = 1;
             while (data.emojis.Count > tilling * tilling) tilling++;
-    
+
             // 結合テクスチャの作成
             var textures = data.emojis.Select(icon=>icon.ToTexture2D()).ToArray();
             var combinatedTexture = TextureCombinater.CombinateSaveTexture(textures,Path.Combine(fileDir,data.saveName+"_tex"+".png"),tilling,4);
@@ -295,11 +286,11 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             var combinatedMaterial = SaveParticleMaterial(combinatedTexture);
             combinatedMaterial.name = data.saveName+"_mat";
             AssetDatabase.AddObjectToAsset(combinatedMaterial,settingsPath);
-            
+
             // param
             var pc = new ParametersCreater("EmojiParticleParam");
             pc.AddParam(param,0);
-            
+
             // メニューの作成
             var iconMenus = new MenuCreater(data.saveName+"_icons",true);
             for (int i = 0; i < data.emojis.Count; i++)
@@ -339,22 +330,22 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                 // 追従先差し替え
                 switch (target)
                 {
-                    case Target.Hip: 
+                    case Target.Hip:
                         //assets.items[0].target = HumanBodyBones.Hips;
                         prefab.transform.SetParent(human.GetBoneTransform(HumanBodyBones.Hips));
                         ps.transform.localPosition = new Vector3(0.0f,0.25f,0.25f);
                         break;
-                    case Target.Head: 
+                    case Target.Head:
                         //assets.items[0].target = HumanBodyBones.Head;
                         prefab.transform.SetParent(human.GetBoneTransform(HumanBodyBones.Head));
                         ps.transform.localPosition = new Vector3(0.0f,0.25f,0.25f);
                         break;
-                    case Target.RightHand: 
+                    case Target.RightHand:
                         //assets.items[0].target = HumanBodyBones.RightHand;
                         prefab.transform.SetParent(human.GetBoneTransform(HumanBodyBones.RightHand));
                         ps.transform.localPosition = Vector3.zero;
                         break;
-                    case Target.LeftHand: 
+                    case Target.LeftHand:
                         //assets.items[0].target = HumanBodyBones.LeftHand;
                         prefab.transform.SetParent(human.GetBoneTransform(HumanBodyBones.LeftHand));
                         ps.transform.localPosition = Vector3.zero;
@@ -390,7 +381,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
                 anim.AddKeyframe(0f, ps,"InitialModule.startSpeed.scalar",data.emojis[i].speed);
                 anim.AddKeyframe_Gameobject(ps.gameObject, 1f/60f, true);
                 anim.AddKeyframe_Gameobject(ps.gameObject, data.emojis[i].lifetime+1f/60f, true);
-                
+
                 if (data.emojis[i].effectPrefab != null)
                 {
                     int index = data.emojis.Select(e => e.effectPrefab).Distinct().ToList()
@@ -445,7 +436,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             var r = reset.CreateAsset(settingsPath, true);
             controller.SetMotion("Idle",r);
             controller.SetMotion("Reset",r);
-            
+
             controller.LayerMask(AvatarMaskBodyPart.Body,false,false);
             controller.LayerTransformMask(avatar.gameObject,false);
 
@@ -485,7 +476,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
             }
             return material;
         }
-        
+
         [OnOpenAssetAttribute(1)]
         public static bool step1(int instanceID, int line)
         {

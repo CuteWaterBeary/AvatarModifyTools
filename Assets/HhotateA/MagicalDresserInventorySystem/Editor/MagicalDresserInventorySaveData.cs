@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
@@ -67,7 +58,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 {
                     item.GetRelativeGameobject(root.transform);
                 }
-                
+
                 foreach (var item in menuElement.inactiveItems)
                 {
                     item.GetRelativeGameobject(root.transform);
@@ -90,7 +81,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 menuElement.inactiveItems = menuElement.inactiveItems.Where(e => !String.IsNullOrWhiteSpace(e.path)).ToList();
             }
         }
-        
+
         public void RepairReference(string path,GameObject obj,GameObject root)
         {
             foreach (var menuElement in menuElements)
@@ -153,7 +144,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 }
             }
 
-            return null; 
+            return null;
         }
         public static MenuTemplate FIndTemplateElement(List<MenuTemplate> root,int id, Action<MenuTemplate, MenuTemplate> onFind = null)
         {
@@ -173,7 +164,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
 
             return null;
         }
-        
+
         public MenuTemplate FindMenuElement(string id, Action<MenuTemplate, MenuTemplate> onFind = null)
         {
             childs = childs.Distinct().ToList();
@@ -191,9 +182,9 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 }
             }
 
-            return null; 
+            return null;
         }
-        
+
         public static MenuTemplate FindMenuElement(List<MenuTemplate> root,string id, Action<MenuTemplate, MenuTemplate> onFind = null)
         {
             foreach (var child in root)
@@ -225,7 +216,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 }
             }
         }
-        
+
         public static void FindElement(List<MenuTemplate> root,
             Predicate<MenuTemplate> predicate,
             Action<MenuTemplate, MenuTemplate> onFind = null)
@@ -288,9 +279,9 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 }
             }
         }
-        
+
         public void DeleteAutoCreate()
-        { 
+        {
             childs = childs.Distinct().ToList();
             for (int i = 0; i < childs.Count; i ++ )
             {
@@ -330,7 +321,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             {
                 menu.DeleteNullMenuElement(datas);
             }
-            
+
             foreach (var data in datas)
             {
                 var current = FindMenuElement(menus, data.guid);
@@ -354,10 +345,10 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         }
                     });
                 }
-                
+
                 if (current.autoCreate)
                 {
-                    var root = data.isToggle ? 
+                    var root = data.isToggle ?
                         menus.FirstOrDefault(e => e.name == "Items" && e.autoCreate) :
                         menus.FirstOrDefault(e => e.name == data.layer.ToString() && e.autoCreate);
                     // 親オブジェクトの検知
@@ -389,7 +380,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                                 name = "Items",
                                 icon = data.icon,
                                 autoCreate = true,
-                            }; 
+                            };
                         }
                         else
                         {
@@ -405,7 +396,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                     root.childs.Add(current);
                 }
             }
-            
+
             // root直下の処理
             for (int i = 0; i < menus.Count; i ++ )
             {
@@ -444,7 +435,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         {
             return datas.FirstOrDefault(d => d.guid == defaultElementGUID);
         }
-        
+
         public void SetDefaultElement(MenuElement element)
         {
             if (element != null)
@@ -457,7 +448,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
         }
     }
-    
+
     [Serializable]
     public class MenuElement
     {
@@ -472,7 +463,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         {
             return activeItems.Where(e => e.obj == null).ToList();
         }
-        
+
         public List<ItemElement> inactiveItems = new List<ItemElement>();
         public List<ItemElement> SafeInactiveItems()
         {
@@ -482,7 +473,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         {
             return inactiveItems.Where(e => e.obj == null).ToList();
         }
-        
+
         public bool isToggle = true;
         public LayerGroup layer = LayerGroup.Layer_A;
         public bool isSaved = true;
@@ -492,7 +483,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         public string param = "";
         public int value = 0;
         public string guid;
-        
+
         public List<SyncElement> activeSyncElements = new List<SyncElement>();
         public List<SyncElement> inactiveSyncElements = new List<SyncElement>();
 
@@ -568,7 +559,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             syncOff = false;
         }
     }
-    
+
     [Serializable]
     public class ItemElement
     {
@@ -599,10 +590,10 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             active = defaultActive;
 
             rendOptions = obj.GetComponentsInChildren<Renderer>().Select(r => new RendererOption(r, o)).ToList();
-            
+
             if(root) GetRelativePath(root);
         }
-        
+
         public ItemElement Clone(bool invert = false)
         {
             return new ItemElement(obj)
@@ -617,7 +608,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 rendOptions = rendOptions.Select(r=>r.Clone(obj,invert)).ToList(),
             };
         }
-        
+
         public void GetRelativePath(GameObject root)
         {
             if (!obj) return;
@@ -637,7 +628,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 }
             }
         }
-        
+
         public void GetRelativeGameobject(Transform root)
         {
             if (String.IsNullOrWhiteSpace(path))
@@ -664,7 +655,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 var newRendOptions = obj.GetComponentsInChildren<Renderer>().Select(r => new RendererOption(r, obj)).ToList();
                 for (int i = 0; i < newRendOptions.Count; i++)
                 {
-                    var currentRendOption = currentRendOptions.FirstOrDefault(r => 
+                    var currentRendOption = currentRendOptions.FirstOrDefault(r =>
                         r.path == newRendOptions[i].path &&
                         r.mesh == newRendOptions[i].mesh);
                     if (currentRendOption!=null)
@@ -753,7 +744,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
             return clone;
         }
-        
+
         public void GetRelativePath(GameObject root)
         {
             if (!rend) return;
@@ -773,20 +764,20 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 }
             }
         }
-        
+
         public void GetRelativeGameobject(Transform root)
         {
             if (!String.IsNullOrWhiteSpace(path))
             {
                 root = root.Find(path);
             }
-            
+
             if (root == null)
             {
                 rend = null;
                 return;
             }
-            
+
             rend = root.gameObject.GetComponent<Renderer>();
         }
     }
@@ -826,7 +817,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         {
             weight = w;
         }
-        
+
         public BlendShapeOption Clone()
         {
             var clone = new BlendShapeOption(weight);
@@ -939,9 +930,9 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
 
             return FeedType.None;
         }
-            
+
     }
-    
+
     public enum FeedType
     {
         None,
@@ -992,18 +983,18 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         {
             showAlternatingRowBackgrounds = true;
         }
-        
+
         protected override void RowGUI (RowGUIArgs args)
         {
-            var isFolder = args.item == null ? 
-                true : 
+            var isFolder = args.item == null ?
+                true :
                 args.item?.id == 0 ?
-                    true : 
+                    true :
                     String.IsNullOrWhiteSpace(MenuTemplate.FIndTemplateElement(data.menuTemplate, args.item.id)?.menuGUID ?? "");
-            
+
             Rect rect = args.rowRect;
             rect.x += GetContentIndent(args.item);
-            
+
             GUIStyle textStyle = new GUIStyle(GUI.skin.label);
             // textStyle.alignment = TextAnchor.MiddleCenter;
             // textStyle.fontSize = fontSize;
@@ -1024,13 +1015,13 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                     textColor = Color.red
                 };*/
             }
-            
+
             EditorGUI.LabelField(rect,args.item.displayName,textStyle);
             //toggleRect.width                = 16f;
             //GUI.DrawTexture(toggleRect, texture);
             //base.RowGUI(args);
         }
-        
+
         protected override void SelectionChanged (IList<int> selectedIds)
         {
             if (selectedIds.Count > 0)
@@ -1040,7 +1031,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                 OnSelect?.Invoke(menu);
             }
         }
-        
+
         public List<MenuTemplate> GetSelectTemplates()
         {
             var templates = new List<MenuTemplate>();
@@ -1114,7 +1105,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         if (parent != null)
                             if (!String.IsNullOrWhiteSpace(parent.menuGUID))
                                 continue;
-                        
+
                         var element = MenuTemplate.FIndTemplateElement(data.menuTemplate, draggedID, (e, p) =>
                         {
                             e.RecursionAutoCreateFalse();
@@ -1128,7 +1119,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                             }
                             //args.parentItem.children.Remove(args.parentItem.children.FirstOrDefault(c => c.id == draggedID));
                         });
-                        
+
                         if (element != null)
                         {
                             int id = args.insertAtIndex;
@@ -1162,13 +1153,13 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             }
             return visualMode;
         }
-        
+
         protected override bool CanRename(TreeViewItem item)
         {
             return true;
             return item.displayName.Length <= 10;
         }
-        
+
         protected override void RenameEnded(RenameEndedArgs args)
         {
             if (args.acceptedRename)
@@ -1240,7 +1231,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
                         }
                     }
                 }
-                
+
             }
         }
 

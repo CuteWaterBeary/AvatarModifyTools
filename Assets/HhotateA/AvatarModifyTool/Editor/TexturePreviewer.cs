@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using System;
 
@@ -29,12 +20,12 @@ namespace HhotateA.AvatarModifyTools.Core
 
         private float dragSpeedBase = 0.0015f;
         private float scrollSpeedBase = 0.01f;
-        
+
         private float dragSpeed => dragSpeedBase * dragSpeedRate;
         private float scrollSpeed => scrollSpeedBase * scrollSpeedRate;
 
         private RenderTexture overlayTexture;
-        
+
         public TexturePreviewer(TextureCreator tc)
         {
             if (tc == null)
@@ -51,7 +42,7 @@ namespace HhotateA.AvatarModifyTools.Core
             previewTexture.initializationMaterial = previewMaterial;
             previewTexture.material = previewMaterial;
             previewTexture.Create();
-            
+
             targetTexture = new CustomRenderTexture(textureCreater.GetTexture().width,textureCreater.GetTexture().height);
             targetMaterial = new Material(AssetUtility.LoadAssetAtGuid<Shader>(EnvironmentVariable.texturePreviewShader));
             targetMaterial.SetTexture("_MainTex",textureCreater.GetTexture());
@@ -61,15 +52,15 @@ namespace HhotateA.AvatarModifyTools.Core
             targetTexture.initializationMaterial = targetMaterial;
             targetTexture.material = targetMaterial;
             targetTexture.Create();
-            
+
             rect = new Rect();
         }
-        
+
         ComputeShader GetComputeShader()
         {
             return AssetUtility.LoadAssetAtGuid<ComputeShader>(EnvironmentVariable.computeShader);
         }
-        
+
         public Texture GetTexture()
         {
             Vector4 scale = new Vector4(0f ,0f ,1f ,1f );
@@ -89,7 +80,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             textureCreater.LayersUpdate();
             rect = GUILayoutUtility.GetRect(width, height, GUI.skin.box);
-            EditorGUI.DrawPreviewTexture(rect, ScalePreview(width,height,moveLimit)); 
+            EditorGUI.DrawPreviewTexture(rect, ScalePreview(width,height,moveLimit));
             var e = Event.current;
 
             if (rect.Contains(e.mousePosition))
@@ -112,8 +103,8 @@ namespace HhotateA.AvatarModifyTools.Core
                     {
                         var p = new Vector3(e.mousePosition.x - rect.x, rect.height - e.mousePosition.y + rect.y,1f);
                         var uv = new Vector2(p.x/rect.width,p.y/rect.height);
-            
-                        Vector2 previewUV = (uv 
+
+                        Vector2 previewUV = (uv
                                              - new Vector2(0.5f, 0.5f))
                                             * previewScale
                                             + previewPosition;
@@ -125,7 +116,7 @@ namespace HhotateA.AvatarModifyTools.Core
                         {
                             previewScale = Mathf.Clamp(previewScale + e.delta.y * scrollSpeed,0.05f,2.5f);
                         }
-                    
+
                         previewPosition = previewUV - (uv - new Vector2(0.5f, 0.5f))*previewScale;
                     }
                 }
@@ -141,7 +132,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             var e = Event.current;
         }
-        
+
         public Vector2 Touch(Action<Vector2,Vector2> onDrag = null)
         {
             var e = Event.current;
@@ -149,7 +140,7 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 var p = new Vector3(e.mousePosition.x - rect.x, rect.height - e.mousePosition.y + rect.y,1f);
                 var uv = new Vector2(p.x/rect.width,p.y/rect.height);
-                Vector2 previewUV = (uv 
+                Vector2 previewUV = (uv
                                      - new Vector2(0.5f, 0.5f))
                                     * previewScale
                                     + previewPosition;
@@ -159,19 +150,19 @@ namespace HhotateA.AvatarModifyTools.Core
                     // drag前
                     var pd = new Vector3(e.mousePosition.x - rect.x - e.delta.x, rect.height - e.mousePosition.y + rect.y + e.delta.y,1f);
                     var uvd = new Vector2(pd.x/rect.width,pd.y/rect.height);
-            
-                    Vector2 previewUVd = (uvd 
+
+                    Vector2 previewUVd = (uvd
                                           - new Vector2(0.5f, 0.5f))
                                          * previewScale
                                          + previewPosition;
-                
+
                     onDrag?.Invoke(previewUVd,previewUV);
                 }
                 return previewUV;
             }
             return new Vector2(-1f,-1f);
         }
-        
+
         CustomRenderTexture ScalePreview(int width,int height,bool moveLimit = true)
         {
             var x = 1f;
@@ -184,7 +175,7 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 y = (float) height / (float) width;
             }
-            
+
             Vector4 scale = new Vector4(
                 previewPosition.x - previewScale * 0.5f * x,
                 previewPosition.y - previewScale * 0.5f * y,
@@ -198,7 +189,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 if (scale.y < 0f) previewPosition.y -= scale.y;
                 if (scale.w > 1f) previewPosition.y -= scale.w-1f;
             }
-            
+
             previewMaterial.SetVector("_Scale",scale);
             previewMaterial.SetTexture("_Overlay",overlayTexture);
             previewTexture.Initialize();
@@ -222,7 +213,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.SetVector("_Color",Vector4.zero);
                 compute.SetTexture(kernel,"_ResultTex",overlayTexture);
                 compute.Dispatch(kernel, overlayTexture.width,overlayTexture.height,1);
-                
+
                 kernel = compute.FindKernel("DrawPoint");
                 compute.SetTexture(kernel,"_ResultTex",overlayTexture);
                 compute.SetVector("_Color", brushColor);
@@ -235,7 +226,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.Dispatch(kernel, overlayTexture.width,overlayTexture.height,1);
             }
         }
-        
+
         public void PreviewStamp(Texture stamp, Vector2 uv, Vector2 scale, Color col, float rot = 0f)
         {
             PreviewClear();
@@ -247,7 +238,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.SetVector("_Color",Vector4.zero);
                 compute.SetTexture(kernel,"_ResultTex",overlayTexture);
                 compute.Dispatch(kernel, overlayTexture.width,overlayTexture.height,1);
-                
+
                 kernel = compute.FindKernel("DrawStamp");
                 compute.SetInt("_Width",overlayTexture.width);
                 compute.SetInt("_Height",overlayTexture.height);
@@ -262,7 +253,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.Dispatch(kernel, overlayTexture.width, overlayTexture.height, 1);
             }
         }
-        
+
         public void PreviewLine(Vector2 from,Vector2 to,Color brushColor,float brushWidth,float brushStrength)
         {
             PreviewClear();
@@ -276,7 +267,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.SetVector("_Color",Vector4.zero);
                 compute.SetTexture(kernel,"_ResultTex",overlayTexture);
                 compute.Dispatch(kernel, overlayTexture.width,overlayTexture.height,1);
-                
+
                 kernel = compute.FindKernel("DrawLine");
                 compute.SetInt("_Width",overlayTexture.width);
                 compute.SetInt("_Height",overlayTexture.height);
@@ -290,7 +281,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.Dispatch(kernel, overlayTexture.width, overlayTexture.height, 1);
             }
         }
-        
+
         public void PreviewBox(Vector2 from,Vector2 to,Color brushColor,float brushWidth,float brushStrength)
         {
             PreviewClear();
@@ -304,7 +295,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.SetVector("_Color",Vector4.zero);
                 compute.SetTexture(kernel,"_ResultTex",overlayTexture);
                 compute.Dispatch(kernel, overlayTexture.width,overlayTexture.height,1);
-                
+
                 kernel = compute.FindKernel("DrawBox");
                 compute.SetInt("_Width",overlayTexture.width);
                 compute.SetInt("_Height",overlayTexture.height);

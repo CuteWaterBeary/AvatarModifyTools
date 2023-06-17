@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using HhotateA.AvatarModifyTools.Core;
+﻿using HhotateA.AvatarModifyTools.Core;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,7 +17,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
             wnd.titleContent = new GUIContent("にゃんにゃんアバターペインター");
             wnd.minSize = new Vector2(700,700);
         }
-        
+
         // ボタン設定
         private int drawButton = 0;
         private int rotateButton = 1;
@@ -38,17 +29,17 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
         private bool keyboardCtr = false;
         private bool keyboardAlt = false;
         private int shortcutToolBuffer = -1;
-        
+
         // 改造するメッシュのルートオブジェクト
         private GameObject avatar;
-        
+
         // 改造前後のマテリアルの保持
         private Material[] currentMaterials = new Material[0];
         private Material[] editMaterials = new Material[0];
-        
+
         // 判定用オブジェクト
         private MeshCollider editMeshCollider;
-        
+
         // Modify用クラス
         private AvatarMonitor avatarMonitor;
         private TexturePreviewer texturePreviewer;
@@ -77,7 +68,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
         }
 
         ReorderableList layerReorderableList;
-        
+
         // 各種オプション
         private bool loadUVMap = true;
         private bool straightMode = false; // 定規モード
@@ -87,7 +78,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
         private bool isDragBuffer = false;
 
         private Color brushBuffer;
-        
+
         // 表示切替用バッファー
         private Vector2 rendsScroll = Vector2.zero;
         private Vector2 layersScroll = Vector2.zero;
@@ -112,12 +103,12 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                 {
                     _penTools = new TexturePenTool[7]
                     {
-                        new TexturePenTool(EnvironmentGUIDs.penTooIcon,"Pen",TexturePenTool.ExtraTool.Default,2.5f,0.03f, 1f,null), 
-                        new TexturePenTool(EnvironmentGUIDs.splayToolIcon,"Splay",TexturePenTool.ExtraTool.Default,0.05f,0.04f, 0f,null), 
-                        new TexturePenTool(EnvironmentGUIDs.eraserToolIcon,"Eraser",TexturePenTool.ExtraTool.Default,2f,0.02f, 1f,Color.clear), 
-                        new TexturePenTool(EnvironmentGUIDs.stampToolIcon,"Stamp",TexturePenTool.ExtraTool.StampPaste,1f,0.1f, 0f,null), 
-                        new TexturePenTool(EnvironmentGUIDs.fillTooIcon,"Fill",TexturePenTool.ExtraTool.Fill,1f,0.03f, 0f,null), 
-                        new TexturePenTool(EnvironmentGUIDs.gaussianToolIcon,"Gaussian",TexturePenTool.ExtraTool.Gaussian,2f,0.01f, 0f,Color.clear), 
+                        new TexturePenTool(EnvironmentGUIDs.penTooIcon,"Pen",TexturePenTool.ExtraTool.Default,2.5f,0.03f, 1f,null),
+                        new TexturePenTool(EnvironmentGUIDs.splayToolIcon,"Splay",TexturePenTool.ExtraTool.Default,0.05f,0.04f, 0f,null),
+                        new TexturePenTool(EnvironmentGUIDs.eraserToolIcon,"Eraser",TexturePenTool.ExtraTool.Default,2f,0.02f, 1f,Color.clear),
+                        new TexturePenTool(EnvironmentGUIDs.stampToolIcon,"Stamp",TexturePenTool.ExtraTool.StampPaste,1f,0.1f, 0f,null),
+                        new TexturePenTool(EnvironmentGUIDs.fillTooIcon,"Fill",TexturePenTool.ExtraTool.Fill,1f,0.03f, 0f,null),
+                        new TexturePenTool(EnvironmentGUIDs.gaussianToolIcon,"Gaussian",TexturePenTool.ExtraTool.Gaussian,2f,0.01f, 0f,Color.clear),
                         new TexturePenTool(EnvironmentGUIDs.colorPickToolIcon,"ColorPick",TexturePenTool.ExtraTool.ColorPick,0,0, 0,null),
                     };
                 }
@@ -125,7 +116,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                 return _penTools;
             }
         }
-        
+
         private void OnGUI()
         {
             var ec = Event.current;
@@ -138,16 +129,16 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                 {
                     Setup();
                 }
-                        
+
                 EditorGUILayout.Space();
                 EditorGUILayout.Space();
 
                 loadUVMap = EditorGUILayout.Toggle("Load UVMap", loadUVMap);
-                
+
                 WindowBase.Signature();
                 return;
             }
-            
+
             using (new EditorGUILayout.HorizontalScope())
             {
                 using (new EditorGUILayout.VerticalScope(GUILayout.Width(380)))
@@ -178,7 +169,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                     EditorGUILayout.Space();
                     isEnablePreview = EditorGUILayout.Toggle("Enable Preview", isEnablePreview);
                     EditorGUILayout.Space();
-                    keyboardShortcut = EditorGUILayout.Toggle( new GUIContent("Keyboard Shortcut", 
+                    keyboardShortcut = EditorGUILayout.Toggle( new GUIContent("Keyboard Shortcut",
                         "Shortcuts : \n" +
                         "   Alt + Right Drag : Move \n" +
                         "   Alt + Left Drag : Rotate \n" +
@@ -192,7 +183,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         "      Shift Hold : SelectLand \n" +
                         "      Ctr Hold : Copy \n"), keyboardShortcut);
                     EditorGUILayout.Space();
-                    
+
                     if (textureCreator == null) return;
                     if (texturePreviewer == null) return;
 
@@ -236,7 +227,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         layerReorderableList.DoLayoutList();
                         EditorGUILayout.EndScrollView();
                     }
-                    
+
                     EditorGUILayout.LabelField("");
 
                     using (new EditorGUILayout.HorizontalScope())
@@ -257,10 +248,10 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             }
                         }
                     }
-                    
+
                     EditorGUILayout.Space();
                     EditorGUILayout.Space();
-                    
+
                     using (new EditorGUILayout.HorizontalScope())
                     {
                         for (int i = 0; i < brushColors.Length; i++)
@@ -323,7 +314,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             }
                             straightMode = EditorGUILayout.Toggle("Straight Line", straightMode);
                             EditorGUILayout.Space();
-                            
+
                             pen.brushStrength = EditorGUILayout.Slider("Brush Strength", pen.brushStrength, 0.5f, 2.5f);
                             EditorGUILayout.Space();
                             pen.brushWidth = EditorGUILayout.Slider("Brush Width", pen.brushWidth, 0.0f, 0.15f);
@@ -362,7 +353,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             {
                                 straightMode = EditorGUILayout.Toggle("Straight Line", straightMode);
                             }
-                            
+
                             using (new EditorGUILayout.HorizontalScope())
                             {
                                 var stamp = (Texture2D) EditorGUILayout.ObjectField(pen.icon, typeof(Texture2D), false,
@@ -398,7 +389,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             }
                             straightMode = EditorGUILayout.Toggle("StraightGradation", straightMode);
                             EditorGUILayout.Space();
-                            
+
                             pen.brushStrength = EditorGUILayout.Slider("Area Expansion", pen.brushStrength, 0f, 10f);
                             EditorGUILayout.Space();
                             pen.brushWidth = EditorGUILayout.Slider("Threshold", pen.brushWidth, 0.0f, 0.1f);
@@ -409,7 +400,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         {
                             EditorGUILayout.LabelField("");
                             EditorGUILayout.LabelField("");
-                            
+
                             EditorGUILayout.LabelField("");
                             EditorGUILayout.Space();
                             EditorGUILayout.LabelField("");
@@ -422,7 +413,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             EditorGUILayout.LabelField("");
                             straightMode = EditorGUILayout.Toggle("Straight Line", straightMode);
                             EditorGUILayout.Space();
-                            
+
                             pen.brushStrength = EditorGUILayout.Slider("Brush Strength", pen.brushStrength, 0.5f, 2.5f);
                             EditorGUILayout.Space();
                             pen.brushWidth = EditorGUILayout.Slider("Brush Width", pen.brushWidth, 0.0f, 0.05f);
@@ -441,14 +432,14 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             }
                             straightMode = EditorGUILayout.Toggle("straightMode", straightMode);
                             EditorGUILayout.Space();
-                            
+
                             maskAllLayers = EditorGUILayout.Toggle("maskAllLayers", maskAllLayers);
                             pen.brushStrength = EditorGUILayout.Slider("pen.brushStrength", pen.brushStrength, 0.5f, 2.5f);
                             pen.brushWidth = EditorGUILayout.Slider("pen.brushWidth", pen.brushWidth, 0.0f, 0.05f);
                             pen.brushPower = EditorGUILayout.Slider("pen.brushPower", pen.brushPower, 0f, 1f);
                         }
                     }
-                    
+
                     EditorGUILayout.Space();
                     EditorGUILayout.Space();
 
@@ -466,7 +457,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             }
                         }
                     }
-                    
+
                     EditorGUILayout.Space();
                     EditorGUILayout.Space();
 
@@ -505,7 +496,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             if (string.IsNullOrWhiteSpace(path)) return;
                             LoadLayerData(path);
                         }
-                        
+
                         if (GUILayout.Button("Add"))
                         {
                             var path = EditorUtility.OpenFilePanel("Load", "Assets",  EnvironmentGUIDs.suffix+".asset");
@@ -573,7 +564,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         }
                     }
                 }
-                
+
                 // 左クリックマウスを話したとき(一筆終わったとき)にUndoCashを貯める
                 if (!keyboardAlt && ec.isMouse && ec.button == drawButton)
                 {
@@ -640,7 +631,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         keyboardShift = true;
                         straightMode = true;
                     }
-                
+
                     if (ec.keyCode == KeyCode.LeftControl || ec.keyCode == KeyCode.RightControl)
                     {
                         keyboardCtr = true;
@@ -657,12 +648,12 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                                 .FindIndex(p => p.extraTool == TexturePenTool.ExtraTool.ColorPick);
                         }
                     }
-                    
+
                     if (ec.keyCode == KeyCode.LeftAlt || ec.keyCode == KeyCode.RightAlt)
                     {
                         keyboardAlt = true;
                     }
-                    
+
                     if (ec.keyCode == KeyCode.Z)
                     {
                         textureCreator.UndoEditTexture();
@@ -696,7 +687,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             shortcutToolBuffer = -1;
                         }
                     }
-                    
+
                     if (ec.keyCode == KeyCode.LeftAlt || ec.keyCode == KeyCode.RightAlt)
                     {
                         keyboardAlt = false;
@@ -715,7 +706,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                 }
             }
         }
-        
+
         void Setup()
         {
             var rends = avatar.GetComponentsInChildren<Renderer>().Where(r=>r.GetMesh()!=null).ToList();
@@ -830,7 +821,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
             {
                 var uv = meshCreater.GetUVDelta(editIndex, tri, pos);
                 var delta = meshCreater.GetUVdelta(editIndex, tri, pos);
-                
+
                 if (pen.extraTool == TexturePenTool.ExtraTool.Default)
                 {
                     if(straightMode)
@@ -890,7 +881,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                     texturePreviewer.PreviewPoint(uv, brushColors[colorIndex], 0.005f*delta, 2.5f);
                 }
             });
-            
+
             {
                 var uv = texturePreviewer.Touch();
 
@@ -963,7 +954,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                     straightBuffer = meshCreater.GetUVDelta(editIndex, tri, pos);
                 });
             }
-            
+
             if (pen.extraTool == TexturePenTool.ExtraTool.Default)
             {
                 if (straightMode)
@@ -1016,7 +1007,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                             }, vs =>
                             {
                                 textureCreator.FillTriangles(
-                                    editMeshCollider.sharedMesh, 
+                                    editMeshCollider.sharedMesh,
                                     meshCreater.GetTriangleList(vs).Select(t=>t-offset).ToList(),
                                     brushColor,
                                     gradient,
@@ -1150,7 +1141,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
             {
                 straightBuffer  = texturePreviewer.Touch();
             }
-            
+
             var uv  = texturePreviewer.Touch();
             if (pen.extraTool == TexturePenTool.ExtraTool.Default)
             {
@@ -1380,7 +1371,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         rprop.y += rprop.height;
                         EditorGUI.LabelField(rlabel,"V");
                         var v = GUI.HorizontalSlider(rprop,data.settings.z, -1f, 1f);
-                        
+
                         data.settings = new Vector4(h,s,v,data.settings.w);
                     }
                     else
@@ -1402,7 +1393,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         rprop.y += rprop.height;
                         EditorGUI.LabelField(rlabel,"Threshold");
                         var w = GUI.HorizontalSlider(rprop,data.settings.w, 0f, 2f);
-                        
+
                         data.settings = new Vector4(data.settings.x,data.settings.y,z,w);
                     }
                     else
@@ -1421,7 +1412,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
                         rprop.y += rprop.height;
                         EditorGUI.LabelField(rlabel,"Threshold");
                         var w = GUI.HorizontalSlider(rprop,data.settings.w, 0f, 2f);
-                        
+
                         data.settings = new Vector4(data.settings.x,data.settings.y,z,w);
                     }
                     else
@@ -1453,7 +1444,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
             var tsd = AssetDatabase.LoadAssetAtPath<LayersSaveData>(path);
             textureCreator.AddLayers(tsd.GetLayersData());
         }
-        
+
         public class TexturePenTool
         {
             public Texture icon;
@@ -1509,7 +1500,7 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
 
                 return false;
             }
-            
+
             public enum ExtraTool
             {
                 Default,

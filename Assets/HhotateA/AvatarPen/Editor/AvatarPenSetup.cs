@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System;
+﻿using System;
 using HhotateA.AvatarModifyTools.Core;
 using UnityEditor;
 using UnityEngine;
@@ -44,7 +35,7 @@ namespace HhotateA.AvatarModifyTools.AvatarPen
 
             if (ShowOptions())
             {
-                
+
             }
             EditorGUILayout.Space();
             EditorGUILayout.Space();

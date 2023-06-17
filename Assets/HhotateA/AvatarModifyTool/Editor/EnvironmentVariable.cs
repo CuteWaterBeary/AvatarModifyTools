@@ -1,14 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-
-namespace HhotateA.AvatarModifyTools.Core
+﻿namespace HhotateA.AvatarModifyTools.Core
 {
     /// <summary>
     /// 環境変数用staticクラス
@@ -19,11 +9,11 @@ namespace HhotateA.AvatarModifyTools.Core
         public static string githubLink = "https://github.com/HhotateA/AvatarModifyTools";
         public static string icon = "1549a00a4e9d1734ca9f8862981c623f";
         public static string iconMat = "d8f2ec63ea255c24f8fe567fac92c852";
-        
+
         public static string computeShader = "8e33ed767aaabf04eae3c3866bece392";
-        
+
         public static int maxCaches = 16;
-        
+
         public static string idleAnimation = "b0f4aa27579b9c442a87f46f90d20192";
         public static string baseAnimator = "4e4e1a372a526074884b7311d6fc686b";
         public static string idleAnimator = "573a1373059632b4d820876efe2d277f";

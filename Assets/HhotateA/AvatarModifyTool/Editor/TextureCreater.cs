@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -35,12 +26,12 @@ namespace HhotateA.AvatarModifyTools.Core
                 AddLayer(baselayer);
             }
         }
-        
+
         ComputeShader GetComputeShader()
         {
             return AssetUtility.LoadAssetAtGuid<ComputeShader>(EnvironmentVariable.computeShader);
         }
-        
+
         public Texture GetTexture(int index = -1)
         {
             if (0 <= index && index < LayerCount())
@@ -50,7 +41,7 @@ namespace HhotateA.AvatarModifyTools.Core
             // SyncLayers(false);
             return targetTexture;
         }
-        
+
         public void SetLayers(List<LayerData> layers)
         {
             foreach (var layer in layerDatas)
@@ -72,7 +63,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
         private List<RenderTexture> caches = new List<RenderTexture>();
         private int cashIndex = -1;
-        
+
         public RenderTexture GetEditTexture()
         {
             return editLayer.texture;
@@ -94,7 +85,7 @@ namespace HhotateA.AvatarModifyTools.Core
             RenderTexture.active = currentRT;
             return maskTexture;
         }
-        
+
         public void AddCash()
         {
             var cash = RenderTexture.Instantiate(GetEditTexture());
@@ -116,7 +107,7 @@ namespace HhotateA.AvatarModifyTools.Core
             caches.Add(cash);
             cashIndex = caches.Count - 1;
         }
-        
+
 
         public bool CanUndo()
         {
@@ -198,7 +189,7 @@ namespace HhotateA.AvatarModifyTools.Core
             layerDatas.Insert(0,new LayerData((RenderTexture)tex));
             SyncLayers();
         }
-        
+
         public void AddLayer(Color col,Gradient gradient = null)
         {
             if(LayerCount() > maxLayer) return;
@@ -207,9 +198,9 @@ namespace HhotateA.AvatarModifyTools.Core
             rt.enableRandomWrite = true;
             rt.Create();
             var tex = rt;
-            
+
             ClearColor(tex,col,gradient);
-            
+
             tex.name = "NewLayer" + LayerCount().ToString();
             layerDatas.Insert(0,new LayerData((RenderTexture)tex)
             {
@@ -225,9 +216,9 @@ namespace HhotateA.AvatarModifyTools.Core
             rt.enableRandomWrite = true;
             rt.Create();
             var tex = rt;
-            
+
             ClearColor(tex,col,gradient);
-            
+
             tex.name = "Mask" + LayerCount().ToString();
             layerDatas.Insert(0,new LayerData((RenderTexture)tex)
             {
@@ -272,7 +263,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     targetMaterial.SetTexture("_Layer"+i,null);
                 }
             }
-            
+
             return targetTexture;
         }
 
@@ -301,7 +292,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 layerDatas[to] = l;
             }
         }
-        
+
         public void DeleateLayer(int index)
         {
             layerDatas[index].texture.Release();
@@ -352,7 +343,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.Dispatch(kernel, GetEditTexture().width,GetEditTexture().height,1);
             }
         }
-        
+
         public void FillTriangle(Mesh mesh,int index,Color color,int areaExpansion = 1)
         {
             var compute = GetComputeShader();
@@ -377,7 +368,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             var compute = GetComputeShader();
             int kernel = compute.FindKernel("TriangleFillGradient");
-            
+
             var xmax = mesh.vertices.Max(v => v.x);
             var xmin = mesh.vertices.Min(v => v.x);
             var ymax = mesh.vertices.Max(v => v.y);
@@ -397,11 +388,11 @@ namespace HhotateA.AvatarModifyTools.Core
             uvs.SetData(mesh.uv);
             verts.SetData(mesh.vertices);
             tris.SetData(mesh.triangles);
-            
+
             compute.SetBuffer(kernel,"_UVs",uvs);
             compute.SetBuffer(kernel,"_Vertices",uvs);
             compute.SetBuffer(kernel,"_Triangles",tris);
-            
+
             compute.SetTexture(kernel, "_ResultTex", GetEditTexture());
             compute.SetVector("_Color", color);
             compute.SetInt("_Width", GetEditTexture().width);
@@ -425,7 +416,7 @@ namespace HhotateA.AvatarModifyTools.Core
             tris.Release();
             gradientBuffer.Release();
         }
-        
+
         public void ReadUVMap(Mesh mesh)
         {
             RenderTexture uvMap = new RenderTexture(targetTexture.width,targetTexture.height,0,RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Default);
@@ -445,7 +436,7 @@ namespace HhotateA.AvatarModifyTools.Core
             compute.SetBuffer(kernel,"_Triangles",tris);
             compute.SetTexture(kernel,"_ResultTex",uvMap);
             compute.Dispatch(kernel, mesh.triangles.Length/3,1,1);
-            
+
             uvs.Release();
             tris.Release();
 
@@ -464,7 +455,7 @@ namespace HhotateA.AvatarModifyTools.Core
             compute.Dispatch(kernel, rt.width,rt.height,1);
             gradientBuffer.Release();
         }
-        
+
         public void FillColor(Vector2 uv, Color brushColor,Gradient gradient,float threshold = 0.007f,int areaExpansion = 1,bool maskAllLayers = true)
         {
             if (0f < uv.x && uv.x < 1f &&
@@ -483,12 +474,12 @@ namespace HhotateA.AvatarModifyTools.Core
                 seedPixelsArray[maskTexture.width * pix.y + pix.x] = 2;
                 var seedPixels = new ComputeBuffer(seedPixelsArray.Length, sizeof(int));
                 seedPixels.SetData(seedPixelsArray);
-                
+
                 compute.SetFloat("_ColorMargin", threshold);
                 compute.SetInt("_Width", maskTexture.width);
                 compute.SetInt("_Height", maskTexture.height);
                 compute.SetVector("_Color", brushColor);
-                
+
                 // 領域判定
                 int kernel = compute.FindKernel("SeedFill");
                 compute.SetTexture(kernel, "_ResultTex", maskTexture);
@@ -499,12 +490,12 @@ namespace HhotateA.AvatarModifyTools.Core
                     {
                         compute.Dispatch(kernel, maskTexture.width, maskTexture.height, 1);
                     }
-                    
+
                     seedPixels.GetData(seedPixelsArray);
                     int jobCount = seedPixelsArray.Where(s => s == 2).Count();
                     if (seedPixelsArray.Where(s => s == 2).Count() == 0) break;
                 }
-                
+
                 // 色塗り
                 kernel = compute.FindKernel("FillColorPointGradient");
                 compute.SetVector("_Point",uv);
@@ -523,7 +514,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 if(maskAllLayers) RenderTexture.ReleaseTemporary(maskTexture);
             }
         }
-        
+
         public void FillColor(Vector2 from, Vector2 to, Color brushColor,Gradient gradient,float threshold = 0.007f,int areaExpansion = 1,bool maskAllLayers = true)
         {
             if (0f < to.x && to.x < 1f &&
@@ -542,12 +533,12 @@ namespace HhotateA.AvatarModifyTools.Core
                 seedPixelsArray[maskTexture.width * pix.y + pix.x] = 2;
                 var seedPixels = new ComputeBuffer(seedPixelsArray.Length, sizeof(int));
                 seedPixels.SetData(seedPixelsArray);
-                
+
                 compute.SetFloat("_ColorMargin", threshold);
                 compute.SetInt("_Width", maskTexture.width);
                 compute.SetInt("_Height", maskTexture.height);
                 compute.SetVector("_Color", brushColor);
-                
+
                 // 領域判定
                 int kernel = compute.FindKernel("SeedFill");
                 compute.SetTexture(kernel, "_ResultTex", maskTexture);
@@ -558,12 +549,12 @@ namespace HhotateA.AvatarModifyTools.Core
                     {
                         compute.Dispatch(kernel, maskTexture.width, maskTexture.height, 1);
                     }
-                    
+
                     seedPixels.GetData(seedPixelsArray);
                     int jobCount = seedPixelsArray.Where(s => s == 2).Count();
                     if (seedPixelsArray.Where(s => s == 2).Count() == 0) break;
                 }
-                
+
                 // 色塗り
                 kernel = compute.FindKernel("FillColorLineGradient");
                 compute.SetVector("_FromPoint",from);
@@ -610,7 +601,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 compute.SetVector("_StampUV", uv);
                 compute.SetVector("_StampScale", scale);
                 compute.SetFloat("_StampRotation", rot);
-                
+
                 compute.Dispatch(kernel, GetEditTexture().width, GetEditTexture().height, 1);
             }
         }
@@ -676,7 +667,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
         }
     }
-    
+
     [System.SerializableAttribute]
     public class LayerData
     {
@@ -697,7 +688,7 @@ namespace HhotateA.AvatarModifyTools.Core
             texture = rt;
             name = rt.name;
         }
-        
+
         public LayerData(byte[] png)
         {
             origin = png;
@@ -725,7 +716,7 @@ namespace HhotateA.AvatarModifyTools.Core
         HSV,
         Color,
         AlphaMask,
-        
+
         Override,
     };
 }

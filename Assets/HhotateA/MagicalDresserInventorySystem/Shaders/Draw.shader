@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-Shader "HhotateA/DimensionalStorage/Draw"
+﻿Shader "HhotateA/DimensionalStorage/Draw"
 {
     Properties
     {
@@ -90,25 +81,25 @@ Shader "HhotateA/DimensionalStorage/Draw"
             	{
             		float phase = (_AnimationTime*5.) - 1.;
             		phase = step(alpha,phase);
-            		col = lerp(whitecol,linecol,phase);            		
+            		col = lerp(whitecol,linecol,phase);
             	}
             	else if(_AnimationTime<0.6)
             	{
             		float phase = (_AnimationTime*5.) - 2.;
             		phase = step(alpha,phase);
-            		col = lerp(linecol,drawcol,phase);            		
+            		col = lerp(linecol,drawcol,phase);
             	}
             	else if(_AnimationTime<0.8)
             	{
             		float phase = (_AnimationTime*5.) - 3.;
             		phase = step(alpha,phase);
-            		col = lerp(drawcol,tooncol,phase);            		
+            		col = lerp(drawcol,tooncol,phase);
             	}
             	else
             	{
             		float phase = (_AnimationTime*5.) - 4.;
             		phase = step(alpha,phase);
-            		col = lerp(tooncol,col,phase);            		
+            		col = lerp(tooncol,col,phase);
             	}
                 return  facing > 0 ? col * _Color : col * _ColorCull;
             }
@@ -146,7 +137,7 @@ Shader "HhotateA/DimensionalStorage/Draw"
 				float getGray(float4 c)
 	            {
             		return (c.r+c.g+c.b)*c.a*0.3333333333;
-		            
+
 	            }
 			ENDCG
         }

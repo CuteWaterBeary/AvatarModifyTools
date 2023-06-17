@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-Shader "HhotateA/TexturePreview"
+﻿Shader "HhotateA/TexturePreview"
 {
     Properties
     {
@@ -38,7 +29,7 @@ Shader "HhotateA/TexturePreview"
             float4 _OverlayUV;
             float _OverlayScale, _OverlayRotate;
 
-            
+
             sampler2D _MainTex;
             float4 _Scale;
 

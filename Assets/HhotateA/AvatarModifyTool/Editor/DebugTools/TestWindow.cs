@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-
+﻿
 using System;
 using System.Linq;
 using UnityEditor;
@@ -32,14 +23,14 @@ namespace HhotateA.AvatarModifyTools.Core
             }
             return false;
         }
-        
+
         public static void ShowWindow(AvatarModifyData data)
         {
             var wnd = GetWindow<TestWindow>();
             wnd.titleContent = new GUIContent("AvatarModifyTool");
             wnd.data = data;
         }
-        
+
         [MenuItem("Window/HhotateA/DebugTools/AvatarModifyTool",false,1)]
         public static void ShowWindow()
         {
@@ -47,7 +38,7 @@ namespace HhotateA.AvatarModifyTools.Core
             wnd.titleContent = new GUIContent("AvatarModifyTool");
             wnd.data = CreateInstance<AvatarModifyData>();
         }
-        
+
         private AvatarModifyData data;
         private bool extendItems = true;
         private bool saveOrigin = true;
@@ -116,7 +107,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             if (ShowOptions())
             {
-                saveOrigin = EditorGUILayout.Toggle("Save Origin", saveOrigin); 
+                saveOrigin = EditorGUILayout.Toggle("Save Origin", saveOrigin);
                 prefix = EditorGUILayout.TextField("Prefix : ",prefix);
             }
 
@@ -163,7 +154,7 @@ namespace HhotateA.AvatarModifyTools.Core
                         OnCancel();
                         return;
                     }
-                    
+
                     try
                     {
                         data = Instantiate(data);
@@ -184,7 +175,7 @@ namespace HhotateA.AvatarModifyTools.Core
                         OnCancel();
                         return;
                     }
-                    
+
                     try
                     {
                         var d = AssetDatabase.LoadAssetAtPath<AvatarModifyData>(FileUtil.GetProjectRelativePath(path));

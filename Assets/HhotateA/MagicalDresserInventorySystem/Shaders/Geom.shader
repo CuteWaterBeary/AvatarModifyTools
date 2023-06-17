@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-Shader "HhotateA/DimensionalStorage/Geom"
+﻿Shader "HhotateA/DimensionalStorage/Geom"
 {
     Properties
     {
@@ -66,7 +57,7 @@ Shader "HhotateA/DimensionalStorage/Geom"
             {
                 return v;
             }
-            
+
 			[maxvertexcount(3)]
 			void geom(triangle appdata v[3], inout TriangleStream<v2f> tristream)
 			{
@@ -137,7 +128,7 @@ Shader "HhotateA/DimensionalStorage/Geom"
 				float getGray(float4 c)
 	            {
             		return (c.r+c.g+c.b)*c.a*0.3333333333;
-		            
+
 	            }
 				float4 qmat(float4 q1, float4 q2) {
 							return float4(cross(q1.xyz, q2.xyz) + q2.w*q1.xyz + q1.w*q2.xyz, q1.w*q2.w - dot(q1.xyz, q2.xyz));
@@ -162,7 +153,7 @@ Shader "HhotateA/DimensionalStorage/Geom"
 				{
 					#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
 					float4x4 cofactors = float4x4(
-						minor(_22_23_24, _32_33_34, _42_43_44), 
+						minor(_22_23_24, _32_33_34, _42_43_44),
 						-minor(_21_23_24, _31_33_34, _41_43_44),
 						minor(_21_22_24, _31_32_34, _41_42_44),
 						-minor(_21_22_23, _31_32_33, _41_42_43),

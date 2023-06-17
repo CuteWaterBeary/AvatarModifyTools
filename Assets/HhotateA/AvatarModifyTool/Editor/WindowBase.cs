@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -26,7 +17,7 @@ namespace HhotateA.AvatarModifyTools.Core
         public Animator avatar;
 #endif
         public Animator avatarAnim;
-        
+
         public bool expandOptions = false;
         public bool writeDefault = false;
         public bool overrideSettings = true;
@@ -82,7 +73,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             status.Error(e.Message);
         }
-        
+
         public void OnSave()
         {
             status.Success("Saved");
@@ -129,11 +120,11 @@ namespace HhotateA.AvatarModifyTools.Core
                     EditorGUILayout.LabelField(" ",GUILayout.Width(20));
                     using (new EditorGUILayout.VerticalScope())
                     {
-                        writeDefault = EditorGUILayout.Toggle("Override Write Default", writeDefault); 
+                        writeDefault = EditorGUILayout.Toggle("Override Write Default", writeDefault);
                         // overrideNullAnimation = EditorGUILayout.Toggle("Override Null Animation", overrideNullAnimation);
-                        renameParameters = EditorGUILayout.Toggle("Rename Parameters", renameParameters); 
-                        //modifyOriginalAsset = EditorGUILayout.Toggle("Allow Modify Assets", modifyOriginalAsset); 
-                        //overrideSettings = EditorGUILayout.Toggle("Revert Before Setup", overrideSettings); 
+                        renameParameters = EditorGUILayout.Toggle("Rename Parameters", renameParameters);
+                        //modifyOriginalAsset = EditorGUILayout.Toggle("Allow Modify Assets", modifyOriginalAsset);
+                        //overrideSettings = EditorGUILayout.Toggle("Revert Before Setup", overrideSettings);
                         autoNextPage = EditorGUILayout.Toggle("Auto Next Page", autoNextPage);
                     }
                 }
@@ -168,7 +159,7 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 textColor = new Color(0.9960784f,0.7254902f,0.7686275f)
             };
-            
+
             GUIStyle outlineStyle = new GUIStyle(GUI.skin.label);
             outlineStyle.alignment = TextAnchor.MiddleCenter;
             outlineStyle.fontSize = fontSize;
@@ -177,7 +168,7 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 textColor = Color.black
             };
-            
+
             if (!String.IsNullOrWhiteSpace(title))
             {
                 var rect = GUILayoutUtility.GetRect(new GUIContent(title), titleStyle);
@@ -197,7 +188,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
             return titleStyle;
         }
-        
+
         public static GUIStyle DetailStyle(string title = "",string readme = "")
         {
             GUIStyle detailStyle = new GUIStyle(GUI.skin.label);
@@ -228,33 +219,33 @@ namespace HhotateA.AvatarModifyTools.Core
             EditorGUILayout.Space();
             return detailStyle;
         }
-        
+
         public static void Signature()
         {
             GUIStyle instructions = new GUIStyle(GUI.skin.label);
             instructions.fontSize = 10;
             instructions.wordWrap = true;
-            
+
             GUIStyle signature = new GUIStyle(GUI.skin.label);
             signature.alignment = TextAnchor.LowerRight;
             signature.fontSize = 10;
             signature.wordWrap = false;
-            
+
             EditorGUILayout.Space();
             EditorGUILayout.Space();
-            
+
             EditorGUILayout.LabelField("ボタンを押すと，アバターのFX用AnimatorController，ExpressionParamrter，ExpressionMenuに改変を加えます．",instructions);
             EditorGUILayout.LabelField("操作は元に戻せないので，必ずバックアップをとっていることを確認してください．",instructions);
-            
+
             EditorGUILayout.Space();
-            
+
             var p = GUILayoutUtility.GetRect(0, 0, GUI.skin.box);
             p.height = 70;
             p.width = 70;
-            EditorGUI.DrawPreviewTexture(p, 
+            EditorGUI.DrawPreviewTexture(p,
                 AssetUtility.LoadAssetAtGuid<Texture>(EnvironmentVariable.icon),
-                AssetUtility.LoadAssetAtGuid<Material>(EnvironmentVariable.iconMat)); 
-            
+                AssetUtility.LoadAssetAtGuid<Material>(EnvironmentVariable.iconMat));
+
             EditorGUILayout.LabelField( "powered by AvatarModifyTool @HhotateA_xR" ,signature);
             EditorGUILayout.LabelField( "Version " + EnvironmentVariable.version ,signature);
             EditorGUILayout.LabelField( EnvironmentVariable.githubLink ,signature);
@@ -276,7 +267,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 }
             }
         }
-        
+
         List<string> FindWriteDefault()
         {
 #if VRC_SDK_VRCSDK3

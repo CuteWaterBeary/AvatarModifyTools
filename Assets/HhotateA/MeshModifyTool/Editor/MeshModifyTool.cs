@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using HhotateA.AvatarModifyTools.Core;
+﻿using HhotateA.AvatarModifyTools.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,7 +30,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         private bool keyboardCtr = false;
         private bool keyboardAlt = false;
         private int shortcutToolBuffer = -1;
-        
+
         // 改造するメッシュのルートオブジェクト
         private GameObject avatar;
         // avatar配下のMeshオブジェクト
@@ -71,12 +62,12 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
 
             }
         }
-        
+
         // Remesh機能用
         private int triangleCount = 0;
 
         private SkinnedMeshRenderer weightOrigin;
-        
+
         // カメラ表示用補助クラス
         AvatarMonitor avatarMonitor;
         private const int previewLayer = 2;
@@ -87,22 +78,22 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         private Material[] defaultMaterials;
         private Material[] normalMaterials;
         private float normalAlpha = 0f;
-        
+
         // スカルプトモード，ペン設定
         private MeshPenTool.ExtraTool penMode = MeshPenTool.ExtraTool.Default;
         private float brushPower = 0.001f;
         private float brushWidth = 0.03f;
         private float brushStrength = 1f;
         private bool xMirror, yMirror, zMirror;
-        bool selectMode => (penMode == MeshPenTool.ExtraTool.SelectLand || 
+        bool selectMode => (penMode == MeshPenTool.ExtraTool.SelectLand ||
                             penMode == MeshPenTool.ExtraTool.UnSelectLand ||
                             penMode == MeshPenTool.ExtraTool.SelectVertex ||
                             penMode == MeshPenTool.ExtraTool.UnSelectVertex);
-        
+
         // 頂点編集モード用，操作点
         private GameObject controllPoint_from;
         private GameObject controllPoint_to;
-        
+
         // ワイヤーフレーム表示用オブジェクト
         private GameObject controllMesh_edit;
         private MeshCollider controllMesh_editCollider;
@@ -117,7 +108,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         private Vector3 transformPosition;
         private Vector3 transformRotation;
         private Vector3 transformScale;
-        
+
         // UV変形用
         private UVViewer uvViewer;
         private Vector4 uvTexelSize;
@@ -132,10 +123,10 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         private bool isRealtimeTransform = true;
         private bool isSelectOverlappingVertexes = true;
         private bool isVertexRemove = false;
-        
+
         private bool isSaveAll = false;
         private bool isGenerateNewMesh = false;
-        
+
         private bool extendExperimental = false;
         private bool extendSaveOption = false;
         private bool extendRawdata = false;
@@ -147,7 +138,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             DeleateDisableBones,
             DeleateNonHumanoidBones,
         }
-        
+
         // mesh simpler
         private float meshSimplerQuality = 0.5f;
 
@@ -162,7 +153,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             Merge,
             Constraint,
         }
-        
+
         private bool isCombineMesh = false;
         private CombineMeshMode combineMeshMode;
         enum CombineMeshMode
@@ -179,10 +170,10 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             ByShader,
             ForceCombine,
         }
-        
+
         // 不安定項目を非有効化する設定
         private bool disableNotRecommend = true;
-        
+
         // 編集ツールプリセット
         private MeshPenTool[] _penTools;
         private MeshPenTool[] penTools
@@ -193,10 +184,10 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                 {
                     _penTools = new MeshPenTool[4]
                     {
-                        new MeshPenTool(EnvironmentGUIDs.smoothTooIcon,"Smooth",MeshPenTool.ExtraTool.Default,2f,0.003f,0.03f), 
-                        new MeshPenTool(EnvironmentGUIDs.linerToolIcon,"Liner",MeshPenTool.ExtraTool.Default,1f,-0.01f,0.03f), 
-                        new MeshPenTool(EnvironmentGUIDs.constantToolIcon,"Constant",MeshPenTool.ExtraTool.Default,10f,null,0f), 
-                        new MeshPenTool(EnvironmentGUIDs.detailToolIcon,"Detail",MeshPenTool.ExtraTool.DetailMode,null,null,0f), 
+                        new MeshPenTool(EnvironmentGUIDs.smoothTooIcon,"Smooth",MeshPenTool.ExtraTool.Default,2f,0.003f,0.03f),
+                        new MeshPenTool(EnvironmentGUIDs.linerToolIcon,"Liner",MeshPenTool.ExtraTool.Default,1f,-0.01f,0.03f),
+                        new MeshPenTool(EnvironmentGUIDs.constantToolIcon,"Constant",MeshPenTool.ExtraTool.Default,10f,null,0f),
+                        new MeshPenTool(EnvironmentGUIDs.detailToolIcon,"Detail",MeshPenTool.ExtraTool.DetailMode,null,null,0f),
                     };
                 }
 
@@ -223,7 +214,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                 return _extraTools;
             }
         }
-        
+
         // 拡張編集ツールプリセット
         private MeshPenTool[] _betaTools;
         MeshPenTool[] betaTools
@@ -245,7 +236,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         }
 
         private int casheCount = -1;
-        
+
         // 最終選択頂点のデータ
         Vector2 rowScroll = Vector2.zero;
         // private bool displayRawData => activeExperimentalBeta;
@@ -301,7 +292,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                         }
                     }
                     EditorGUILayout.EndScrollView();
-                    
+
                     // 選択中オブジェクトが非アクティブになったら，選択解除
                     if (editIndex != -1)
                     {
@@ -400,7 +391,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                                         {
                                             wireFrameMaterial.SetColor("_Color",wireFrameColor);
                                         }
-                                        
+
                                         if (normalAlpha > 0.1f)
                                         {
                                             CreateNormalMesh();
@@ -415,7 +406,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                                         }
                                     }
                                 }
-                                
+
                                 if (editMeshCreater != null)
                                 {
                                     using (var check = new EditorGUI.ChangeCheckScope())
@@ -431,9 +422,9 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                                         }
                                     }
                                 }
-                                
+
                                 isVertexRemove = EditorGUILayout.Toggle("Delete Vertex", isVertexRemove);
-                                
+
                                 extendRawdata = EditorGUILayout.Toggle("View Raw Data", extendRawdata);
 
                                 // EditorGUILayout.LabelField("NotRecommended", GUILayout.Width(120));
@@ -484,7 +475,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                                         }
                                     }
                                 }
-                                
+
                                 using (new EditorGUILayout.HorizontalScope())
                                 {
                                     meshSimplerQuality = EditorGUILayout.FloatField("", meshSimplerQuality, GUILayout.Width(155));
@@ -651,7 +642,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                             }
                         }
                     }
-                    
+
                     EditorGUILayout.Space();
 
                     extendSaveOption = EditorGUILayout.Foldout(extendSaveOption, "Save Option");
@@ -798,7 +789,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                         }
                     }
                 }
-                
+
                 if (extendRawdata)
                 {
                     using (new EditorGUILayout.VerticalScope())
@@ -850,7 +841,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                         }
 
                         EditorGUILayout.Space();
-                        
+
                         using (new EditorGUILayout.VerticalScope(GUI.skin.box))
                         {
                             using (new EditorGUILayout.HorizontalScope())
@@ -884,7 +875,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                     }
                 }
             }
-            
+
             var ec = Event.current;
             // キー関係
             if (keyboardShortcut)
@@ -935,7 +926,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                         ReloadMesh(false,editMeshCreater,controll_vertexes);
                     }
                 }
-                
+
                 if (ec.type == EventType.KeyUp)
                 {
                     if (ec.keyCode == KeyCode.LeftShift || ec.keyCode == KeyCode.RightShift)
@@ -969,7 +960,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                         keyboardAlt = false;
                     }
                 }
-                
+
                 if (ec.type == EventType.ScrollWheel)
                 {
                     if (keyboardShift)
@@ -983,7 +974,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                 }
             }
         }
-        
+
         /// <summary>
         /// 毎フレーム更新する
         /// </summary>
@@ -1011,10 +1002,10 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             rends = anim.transform.GetComponentsInChildren<Renderer>().Where(r=>r.GetMesh()!=null).ToArray();
             defaultMeshs = rends.Select(m => m.GetMesh()).ToArray();
             meshsCreaters = rends.Select(m => new MeshCreater(m,avatar.transform)).ToArray();
-            
+
             if(avatarMonitor!=null) avatarMonitor.Release();
             avatarMonitor = new AvatarMonitor(anim.transform);
-            
+
             editIndex = -1;
         }
 
@@ -1064,7 +1055,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             path = FileUtil.GetProjectRelativePath(path);
             var dir = Path.GetDirectoryName(path);
             var file = Path.GetFileNameWithoutExtension(path);
-                            
+
             DestroyEditMesh();
             DestroyControllPoint();
             ReloadMesh(false);
@@ -1149,10 +1140,10 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             {
                 defaultMeshs[editIndex] = SaveMeshCreater(mc,dir,file,rends[editIndex]);
             }
-            
+
             return true;
         }
-        
+
         /// <summary>
         /// MeshCreaterのメッシュをファイルに保存する
         /// </summary>
@@ -1184,7 +1175,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
 
             return m;
         }
-        
+
         SkinnedMeshRenderer SaveMeshCreater(MeshCreater mc,string dir,string file)
         {
             if (isRandomizeVertex)
@@ -1200,17 +1191,17 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             var m = mc.Save(Path.Combine(dir, file + ".mesh"));
 
             var sm = mc.ToSkinMesh(file,avatar.transform);
-        
+
             sm.transform.localPosition = Vector3.zero;
             sm.transform.localRotation = Quaternion.identity;
             sm.transform.localScale = Vector3.one;
-            
+
             var smsm = sm.GetComponent<SkinnedMeshRenderer>();
             smsm.SetMesh(m);
 
             return smsm;
         }
-        
+
         /// <summary>
         /// カメラ表示，インタラクト処理
         /// </summary>
@@ -1390,7 +1381,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                     uvViewer = new UVViewer(m);
                 }
                 activeMaterial = m;
-                
+
                 uvViewer?.ReadUVMap(editMeshCreater.CreateEditMesh(controll_vertexes));
             },3);
 
@@ -1404,7 +1395,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         void GenerateControllPoint(MeshCreater mc,Vector3 pos,bool twoControll = true)
         {
             DestroyControllPoint();
-            
+
             controllPoint_from = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             controllPoint_from.name = "EditVertex_From";
             controllPoint_from.transform.localScale = new Vector3(0.009f,0.009f,0.009f) * avatarMonitor.GetBound;
@@ -1416,7 +1407,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             controllPoint_from.GetComponent<Renderer>().sharedMaterial = mat_from;
 
             if (twoControll)
-            {                        
+            {
                 controllPoint_to = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 controllPoint_to.name = "EditVertex_To";
                 controllPoint_to.transform.localScale = new Vector3(0.01f,0.01f,0.01f) * avatarMonitor.GetBound;
@@ -1434,7 +1425,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                 }
             }
         }
-        
+
         /// <summary>
         /// 頂点編集モード用コントロールポイントの削除
         /// </summary>
@@ -1443,7 +1434,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             if(controllPoint_from) DestroyImmediate(controllPoint_from);
             if(controllPoint_to) DestroyImmediate(controllPoint_to);
         }
-        
+
         /// <summary>
         /// Mirrorを適応した変形
         /// </summary>
@@ -1455,9 +1446,9 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         {
             var to = to_null ?? mc.CalculateLocalVec(-avatarMonitor.WorldSpaceCameraVec());
             bool isVec = to_null == null;
-            
+
             TransformMesh(mc,from,to,isVec);
-            
+
             if (xMirror)
             {
                 var from_m = new Vector3(-from.x,from.y,from.z);
@@ -1500,10 +1491,10 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                 var to_m = new Vector3(-to.x,-to.y,-to.z);
                 TransformMesh(mc,from_m,to_m,isVec);
             }
-            
+
             ReloadMesh(cashes,mc);
         }
-        
+
         /// <summary>
         /// 頂点編集
         /// </summary>
@@ -1558,7 +1549,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             transformScale = Vector3.one;
             uvTexelSize = new Vector4(1f,1f,0f,0f);
         }
-        
+
         /// <summary>
         /// メッシュ編集，メッシュ移動
         /// </summary>
@@ -1567,7 +1558,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             if (isRealtimeTransform)
             {
                 editMeshCreater?.TransformVertexes(
-                    controll_vertexes, 
+                    controll_vertexes,
                     controllMesh_select.transform.localPosition,
                     controllMesh_select.transform.localEulerAngles,
                     controllMesh_select.transform.localScale);
@@ -1578,7 +1569,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             else
             {
                 editMeshCreater?.TransformVertexes(
-                    controll_vertexes, 
+                    controll_vertexes,
                     transformPosition,
                     transformRotation,
                     transformScale);
@@ -1588,7 +1579,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             }
             ReloadMesh(true,editMeshCreater,controll_vertexes);
         }
-        
+
         /// <summary>
         /// メッシュ編集，メッシュコピーと移動
         /// </summary>
@@ -1600,7 +1591,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             controll_vertexes = Enumerable.Range(vertexBefor, vertexAfter - vertexBefor).ToList();
             TransfomControllMesh();
         }
-        
+
         /// <summary>
         /// メッシュ編集，メッシュ削除
         /// </summary>
@@ -1610,7 +1601,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             ResetSelect();
             ReloadMesh( isVertexRemove,editMeshCreater,controll_vertexes);
         }
-        
+
         /// <summary>
         /// 編集用メッシュの一括削除
         /// </summary>
@@ -1622,7 +1613,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             DestroyControllPoint();
             ResetSelect();
         }
-        
+
         /// <summary>
         /// メッシュの更新
         /// </summary>
@@ -1675,7 +1666,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             {
                 mc.AddCaches();
             }
-            
+
             if (isRealtimeTransform && verts.Count > 0 && selectMode)
             {
                 var wp = mc.ComputeCenterPoint(verts);
@@ -1689,7 +1680,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
 
             triangleCount = mc.TrianglesCount();
         }
-        
+
         /// <summary>
         /// ワイヤーフレームのメッシュコライダー取得
         /// </summary>
@@ -1720,13 +1711,13 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                 }
                 rend.sharedMaterials = Enumerable.Range(0,rend.sharedMaterials.Length).Select(_=> wireFrameMaterial).ToArray();
             }
-            
+
             controllMesh_editFilter.sharedMesh = mesh;
             controllMesh_editCollider.sharedMesh = controllMesh_editFilter.sharedMesh;
 
             return controllMesh_edit;
         }
-        
+
         /// <summary>
         /// ワイヤーフレーム用メッシュの作成
         /// </summary>
@@ -1821,17 +1812,17 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             if (controllMesh_select)
             {
                 var mesh = mc.CreateEditMesh(null, verts, controllMesh_selectFilter.sharedMesh,-wp);
-            
+
                 return mesh;
             }
             else
             {
                 var mesh = mc.CreateEditMesh(null, verts,null,-wp);
-            
+
                 return mesh;
             }
         }
-        
+
         /// <summary>
         /// メッシュ編集モード用メッシュの削除
         /// </summary>
@@ -1864,7 +1855,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                 ReloadMesh(false);
             }
         }
-        
+
         void DecimateSelect()
         {
             var tris = editMeshCreater.GetTriangleList(controll_vertexes);
@@ -1895,7 +1886,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             mc.ChangeBones(targetHuman,avatar,true);
             return mc;
         }
-        
+
         /// <summary>
         /// ボーンの参照先を，コンストレイントボーンに変更する
         /// </summary>
@@ -1910,8 +1901,8 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
             p.localPosition = Vector3.zero;
             p.localRotation = Quaternion.identity;
             p.localScale = Vector3.one;
-            
-            mc.ChangeBones(targetHuman,avatar, 
+
+            mc.ChangeBones(targetHuman,avatar,
                 true,b =>
                 {
                     var bp = b.parent;
@@ -1939,7 +1930,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                 });
             return mc;
         }
-        
+
         /// <summary>
         /// コンストレイントボーンを設定する
         /// </summary>
@@ -2034,7 +2025,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                 ReloadMesh(false);
             }
         }
-            
+
         /// <summary>
         /// 編集ツールの設定値保存用
         /// </summary>
@@ -2122,12 +2113,12 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
                             s = brushStrength ?? s;
                             return true;
                         }
-                    } 
+                    }
                 }
 
                 return false;
             }
-            
+
             public enum ExtraTool
             {
                 Default,

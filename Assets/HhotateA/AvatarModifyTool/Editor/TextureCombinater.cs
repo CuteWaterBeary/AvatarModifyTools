@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -36,7 +27,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     tilling++;
                 }
             }
-            
+
             int resolution = Mathf.Min(textures[0].width,maxResolution/tilling);
 
             List<Texture2D> resizedTexs = new List<Texture2D>();
@@ -160,13 +151,13 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             return GetReadableTexture(texture).GetPixels();
         }
-        
+
         public static Texture2D GetReadableTexture(Texture2D texture, int newWidth=0, int newHeight=0)
         {
             if (!texture) return null;
             int width = newWidth == 0 ? texture.width : newWidth;
             int height = newHeight == 0 ? texture.height : newHeight;
-            RenderTexture rt = RenderTexture.GetTemporary( 
+            RenderTexture rt = RenderTexture.GetTemporary(
                 width,height,0,
                 RenderTextureFormat.Default,
                 RenderTextureReadWrite.Default);
@@ -180,7 +171,7 @@ namespace HhotateA.AvatarModifyTools.Core
             RenderTexture.ReleaseTemporary(rt);
             return t;
         }
-        
+
         public static RenderTexture GetReadableRenderTexture(Texture texture)
         {
             if (!texture) return null;
@@ -193,7 +184,7 @@ namespace HhotateA.AvatarModifyTools.Core
             rt.name = texture.name;
             return rt;
         }
-        
+
         public static Texture2D Bytes2Texture(byte[] bytes)
         {
             int pos = 16;
@@ -236,7 +227,7 @@ namespace HhotateA.AvatarModifyTools.Core
             RenderTexture.active = currentRT;
             return colors;
         }
-        
+
         public static Texture2D Texture2Texture2D(Texture texture)
         {
             if (!texture) return null;
@@ -261,20 +252,20 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 width *= 2;
             }
-            
+
             int heightMax = textures.Max(t => t.height);
             int height = 1;
             while (height < heightMax)
             {
                 height *= 2;
             }
-            
+
             var result = new Texture2DArray(width, height, textures.Length, TextureFormat.ARGB32, true)
             {
                 filterMode = FilterMode.Bilinear,
                 wrapMode = TextureWrapMode.Clamp,
             };
-    
+
             for (var i = 0; i < textures.Length; i++)
             {
                 var texture = GetReadableTexture(textures[i]);

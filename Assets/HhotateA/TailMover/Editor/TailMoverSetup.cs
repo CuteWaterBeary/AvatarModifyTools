@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,14 +23,14 @@ namespace HhotateA.AvatarModifyTools.TailMover
         }
 
         private bool isHumanoidAnimation = false;
-        
+
         private List<Transform> tailRoots = new List<Transform>();
         private List<Transform> tailIgnores = new List<Transform>();
         private Vector3 tailaxi = Vector3.zero;
         private bool expandRoots = true;
         private bool expandIgnores = false;
         private bool expandRotSetting = false;
-        
+
         Texture2D tailIdleIcon => AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(EnvironmentGUIDs.tailIdleIcon));
         Texture2D tailControllIcon => AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(EnvironmentGUIDs.tailControllIcon));
         Texture2D ahogeIdleIcon => AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GUIDToAssetPath(EnvironmentGUIDs.ahogeIdleIcon));
@@ -86,7 +77,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
         private Dictionary<Transform,Quaternion> defaultRots;
         private Dictionary<Transform,Quaternion> zeroRots;
         private Dictionary<Transform,float> curveWeightValue;
-        
+
         private AnimationCurve curveWeight = AnimationCurve.Linear(0f, 0f, 1f, 1f);
 
         private bool enableTestRotX = true;
@@ -157,7 +148,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
                 }
                 return;
             }
-            
+
             using (new EditorGUILayout.HorizontalScope())
             {
                 foreach (Presets val in Enum.GetValues(typeof(Presets)))
@@ -212,7 +203,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
                     }
                 }
             }
-            
+
             expandIgnores = EditorGUILayout.Foldout(expandIgnores,"IgnoreBones");
             if (expandIgnores)
             {
@@ -254,7 +245,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
                 Setup();
             }
             if (defaultRots==null) return;
-            
+
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
@@ -275,12 +266,12 @@ namespace HhotateA.AvatarModifyTools.TailMover
                                 EditorGUI.BeginDisabledGroup(true);
                                 if (GUILayout.Button("", GUILayout.Width(50), GUILayout.Width(bw))){}
                                 EditorGUI.EndDisabledGroup();
-                                
+
                                 EditorGUI.BeginDisabledGroup(tailControll == TailControlls.Up);
                                 if (GUILayout.Button("Up", GUILayout.Width(50), GUILayout.Width(bw)))
                                     tailControll = TailControlls.Up;
                                 EditorGUI.EndDisabledGroup();
-                                
+
                                 EditorGUI.BeginDisabledGroup(true);
                                 if (GUILayout.Button("", GUILayout.Width(50), GUILayout.Width(bw))){}
                                 EditorGUI.EndDisabledGroup();
@@ -292,12 +283,12 @@ namespace HhotateA.AvatarModifyTools.TailMover
                                 if (GUILayout.Button("Left", GUILayout.Width(50), GUILayout.Width(bw)))
                                     tailControll = TailControlls.Left;
                                 EditorGUI.EndDisabledGroup();
-                                
+
                                 EditorGUI.BeginDisabledGroup(tailControll == TailControlls.Center);
                                 if (GUILayout.Button("Center", GUILayout.Width(50), GUILayout.Width(bw)))
                                     tailControll = TailControlls.Center;
                                 EditorGUI.EndDisabledGroup();
-                                
+
                                 EditorGUI.BeginDisabledGroup(tailControll == TailControlls.Right);
                                 if (GUILayout.Button("Right", GUILayout.Width(50), GUILayout.Width(bw)))
                                     tailControll = TailControlls.Right;
@@ -309,12 +300,12 @@ namespace HhotateA.AvatarModifyTools.TailMover
                                 EditorGUI.BeginDisabledGroup(true);
                                 if (GUILayout.Button("", GUILayout.Width(50), GUILayout.Width(bw))){}
                                 EditorGUI.EndDisabledGroup();
-                                
+
                                 EditorGUI.BeginDisabledGroup(tailControll == TailControlls.Down);
                                 if (GUILayout.Button("Down", GUILayout.Width(50), GUILayout.Width(bw)))
                                     tailControll = TailControlls.Down;
                                 EditorGUI.EndDisabledGroup();
-                                
+
                                 EditorGUI.BeginDisabledGroup(true);
                                 if (GUILayout.Button("", GUILayout.Width(50), GUILayout.Width(bw))){}
                                 EditorGUI.EndDisabledGroup();
@@ -365,7 +356,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
                         enableTestRotY = true;
                     }
                 }
-                
+
                 EditorGUILayout.Space();
 
                 using (new EditorGUILayout.HorizontalScope())
@@ -380,7 +371,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
                 }
 
                 EditorGUILayout.Space();
-                
+
                 if (ShowOptions())
                 {
                     if (GUILayout.Button("Force Revert"))
@@ -421,7 +412,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
                 }
 
                 EditorGUILayout.Space();
-                
+
                 // if (preset != Presets.LeftArm && preset != Presets.RightArm)
                 {
                     if (GUILayout.Button("Save IdleMotion"))
@@ -591,7 +582,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
                 {
                     lookatobj += tailaxi;
                 }
-                
+
                 var r = Quaternion.FromToRotation(
                     Vector3.Normalize(c.position - p.position),
                     Vector3.Normalize(lookatobj - p.position));
@@ -672,17 +663,17 @@ namespace HhotateA.AvatarModifyTools.TailMover
             var param = dataname + "_Controll";
             var paramX = dataname + "_Controll_X";
             var paramY = dataname + "_Controll_Y";
-            
+
             var controller = new AnimatorControllerCreator(param,param);
-            
+
             var idle = new AnimationClipCreator("Idle",avatar.gameObject);
-            
+
             var tree = new BlendTree();
             tree.name = "blend";
             tree.blendParameter = paramX;
             tree.blendParameterY = paramY;
             tree.blendType = BlendTreeType.SimpleDirectional2D;
-            
+
             controller.AddDefaultState("Idle",idle.Create());
             controller.AddState("Reset",idle.Create());
             controller.AddState("Blend",tree);
@@ -729,11 +720,11 @@ namespace HhotateA.AvatarModifyTools.TailMover
                 controller.SetWriteDefault("Idle",true);
                 controller.LayerTransformMask(avatar.gameObject,false);
             }
-            
+
             controller.AddParameter(tree.blendParameter,AnimatorControllerParameterType.Float);
             controller.AddParameter(tree.blendParameterY,AnimatorControllerParameterType.Float);
             var c = controller.CreateAsset(path);
-            
+
             foreach (TailControlls controll in Enum.GetValues(typeof(TailControlls)))
             {
                 RotTail(tailRots[(int)controll]);
@@ -749,7 +740,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
                 "↑","→","↓","←",null,null,null,null);
             var p = new ParametersCreater(param);
             p.LoadParams(controller,false);
-            
+
             var mod = new AvatarModifyTool(avatar,dir);
             AvatarModifyData assets = CreateInstance<AvatarModifyData>();
             {
@@ -776,7 +767,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
             var dir = Path.GetDirectoryName(path);
 
             string param = dataname + "_Idle";
-            
+
             var move = new AnimationClipCreator("idle",avatar.gameObject,false,true,true);
             RotTail(
                 enableTestRotX ? -1f : testRotX,
@@ -800,9 +791,9 @@ namespace HhotateA.AvatarModifyTools.TailMover
                 enableTestRotY ? -1f : testRotY);
             RecordAnimation(move,4f*idleSpeed + 1f*idleInertia, -1f);
             RecordAnimation(move,4f*idleSpeed + 2f*idleInertia, -1f);
-            
+
             var idle = new AnimationClipCreator("Idle",avatar.gameObject);
-            
+
             var controller = new AnimatorControllerCreator(param,param);
             controller.AddDefaultState("Idle",idle.Create());
             controller.AddState("Reset",idle.Create());
@@ -811,7 +802,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
             controller.AddTransition("Idle","Move",param,0.001f,true,false,0f,0.25f);
             controller.AddTransition("Move","Reset",param,0.001f,false,false,0f,0.25f);
             controller.AddTransition("Reset","Idle");
-            
+
             if (preset == Presets.RightArm)
             {
                 // controller.SetWriteDefault("Idle",true);
@@ -844,7 +835,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
             menu.AddRadial(dataname+"_Idle",idleIcons[(int) preset],param);
             var p = new ParametersCreater(dataname+"_Idle");
             p.LoadParams(controller,true);
-            
+
             var mod = new AvatarModifyTool(avatar,dir);
             AvatarModifyData assets = CreateInstance<AvatarModifyData>();
             {

@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using HhotateA.AvatarModifyTools.Core;
+﻿using HhotateA.AvatarModifyTools.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,13 +28,13 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
             }
             return false;
         }
-        
+
         [MenuItem("Window/HhotateA/エモートモーションキット(EmoteMotionKit)",false,108)]
         public static void ShowWindow()
         {
             OpenSavedWindow();
         }
-        
+
         public static void OpenSavedWindow(EmoteMotionKitSaveData saveddata = null)
         {
             var wnd = GetWindow<EmoteMotionKitSetup>();
@@ -59,9 +50,9 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
         }
 
         ReorderableList emoteReorderableList;
-        
+
         private EmoteMotionKitSaveData data;
-        
+
         Vector2 scroll = Vector2.zero;
 
         void LoadReorderableList()
@@ -89,7 +80,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
                     d.animationSettings = (AnimationSettings) EditorGUI.EnumPopup(rh,d.animationSettings);
                     rh.x -= rh.width * 3 / 2;
                     rh.width = rh.width * 5 / 2;
-                    
+
                     // 2列目
                     rh.y += rh.height;
                     rh.width /= 3;
@@ -112,7 +103,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
                     d.tracking = (TrackingSpace) EditorGUI.EnumPopup(rh,"",d.tracking);
                     rh.x -= rh.width*2;
                     rh.width *= 3;
-                    
+
                     // 3列目
                     rh.y += rh.height;
                     rh.width /= 9;
@@ -173,7 +164,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
                         data.copyToFXLayer = EditorGUILayout.Toggle(data.copyToFXLayer,GUILayout.Width(20),GUILayout.Height(20));
                         EditorGUILayout.LabelField("Use FX", GUILayout.Width(50),GUILayout.Height(20));
                     }
-                    
+
                     using (new EditorGUILayout.HorizontalScope())
                     {
                         data.useMenuTemplate = EditorGUILayout.Toggle(data.useMenuTemplate,GUILayout.Width(20),GUILayout.Height(20));
@@ -427,7 +418,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
                         m.AddSubMenu( ms[item].CreateAsset(path,true), item.ToString(), element.icon);
                     }
                 }
-                
+
                 pm.AddSubMenu(m.CreateAsset(path,true),data.saveName,data.icon);
             }
             else
@@ -475,7 +466,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
         }
 
         private Animator previewAnimator;
-        
+
         public void SetPreviewAnimator(Animator anim)
         {
             if (previewAnimator != null)
@@ -498,7 +489,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
                 EditorApplication.update += UpdateAnimation;
             }
         }
- 
+
         private void UpdateAnimation()
         {
             if (previewAnimator)

@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using HhotateA.AvatarModifyTools.Core;
+﻿using HhotateA.AvatarModifyTools.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,13 +20,13 @@ namespace HhotateA.AvatarModifyTools.DebugTools
             }
             return false;
         }
-        
+
         [MenuItem("Window/HhotateA/DebugTools/TextureArrayMaker",false,4)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<TextureArrayMaker>();
             wnd.titleContent = new GUIContent("TextureArrayMaker");
-            
+
             wnd.data = CreateInstance<TextureArrayData>();
             wnd.withAsset = false;
         }
@@ -57,12 +48,12 @@ namespace HhotateA.AvatarModifyTools.DebugTools
 
         public bool withAsset = false;
         private TextureArrayData data;
-        private List<Texture> textures 
-        { 
+        private List<Texture> textures
+        {
             get => data.textures;
             set => data.textures = value;
         }
-        
+
         private void OnGUI()
         {
             TitleStyle("TextureArrayMaker");
@@ -77,7 +68,7 @@ namespace HhotateA.AvatarModifyTools.DebugTools
             {
                 textures.AddRange(new Texture[tc-textures.Count].ToList());
             }
-            
+
             for(int i = 0; i < textures.Count; i ++)
             {
                 textures[i] = (Texture) EditorGUILayout.ObjectField(textures[i], typeof(Texture), true);
@@ -95,7 +86,7 @@ namespace HhotateA.AvatarModifyTools.DebugTools
                         OnCancel();
                         return;
                     }
-                    
+
                     try
                     {
                         TextureCombinater.CombinateSaveTexture(
@@ -104,7 +95,7 @@ namespace HhotateA.AvatarModifyTools.DebugTools
                         if (withAsset)
                         {
                             data = Instantiate(data);
-                            AssetDatabase.CreateAsset(data, 
+                            AssetDatabase.CreateAsset(data,
                                 Path.Combine(
                                     Path.GetDirectoryName(FileUtil.GetProjectRelativePath(path)),
                                 Path.GetFileNameWithoutExtension(FileUtil.GetProjectRelativePath(path))+".asset"));
@@ -125,7 +116,7 @@ namespace HhotateA.AvatarModifyTools.DebugTools
                         OnCancel();
                         return;
                     }
-                    
+
                     try
                     {
                         var asset = TextureCombinater.CreateTexture2DArray(

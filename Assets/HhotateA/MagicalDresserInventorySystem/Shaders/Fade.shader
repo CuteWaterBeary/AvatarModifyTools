@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-Shader "HhotateA/DimensionalStorage/Fade"
+﻿Shader "HhotateA/DimensionalStorage/Fade"
 {
     Properties
     {
@@ -101,7 +92,7 @@ Shader "HhotateA/DimensionalStorage/Fade"
 				float getGray(float4 c)
 	            {
             		return (c.r+c.g+c.b)*c.a*0.3333333333;
-		            
+
 	            }
 			ENDCG
         }

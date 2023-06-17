@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-Shader "HhotateA/MeshModifyTool/Normal"
+﻿Shader "HhotateA/MeshModifyTool/Normal"
 {
     Properties
     {
@@ -45,7 +36,7 @@ Shader "HhotateA/MeshModifyTool/Normal"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _NormalAlpha;
-            
+
             v2f vert (appdata v)
             {
                 v2f o;

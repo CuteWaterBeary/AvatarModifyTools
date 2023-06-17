@@ -1,14 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -36,7 +26,7 @@ namespace HhotateA.AvatarModifyTools.Core
 #else
         private Animator avatar;
 #endif
-        
+
         private AnimatorModifier animMod;
         public bool DuplicateAssets {private get; set; } = true;
         public bool OverrideSettings {private get; set; } = true;
@@ -53,7 +43,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 animMod.writeDefaultOverride = value;
             }
         }
-        
+
         // コンストラクタ,VRCSDKない環境でもうまく動くよう引数を調節
 #if VRC_SDK_VRCSDK3
         public AvatarModifyTool(VRCAvatarDescriptor a, string dir = "Assets/Export")
@@ -68,7 +58,7 @@ namespace HhotateA.AvatarModifyTools.Core
             Init(dir);
         }
 #endif
-        
+
         public AvatarModifyTool(MonoBehaviour a, string dir = "Assets/Export")
         {
 #if VRC_SDK_VRCSDK3
@@ -85,7 +75,7 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 throw new NullReferenceException("Avatar reference missing");
             }
-            
+
             if (dir == "Assets/Export")
             {
                 if (!AssetDatabase.IsValidFolder(dir))
@@ -97,7 +87,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 .HasFlag(FileAttributes.Directory)
                 ? dir
                 : Path.GetDirectoryName(dir);
-            
+
             animMod = new AnimatorModifier();
             animMod.onFindParam += GetSafeParam;
             animMod.onFindAnimationClip += clip => MakeCopy<AnimationClip>(clip);
@@ -115,7 +105,7 @@ namespace HhotateA.AvatarModifyTools.Core
             prefix = keyword;
             if (ModifyOriginalAsset) assets = RenameAssetsParameters(assets);
             if (OverrideSettings) RevertByAssets(assets);
-            
+
             animMod.animRepathList = new Dictionary<string, string>();
             if (assets.items != null)
             {
@@ -476,7 +466,7 @@ namespace HhotateA.AvatarModifyTools.Core
             return avatar.runtimeAnimatorController != null;
 #endif
         }
-        
+
         void ModifyAvatarAnimatorController(AnimatorLayerType type, AnimatorController controller)
         {
             if (controller == null) return;
@@ -534,9 +524,9 @@ namespace HhotateA.AvatarModifyTools.Core
                 animMod.SetOrigin(GetAvatarAnimatorController(type)).RevertAnimator(controller);
             }
         }
-        
+
 #if VRC_SDK_VRCSDK3
-        
+
         Dictionary<AnimatorLayerType, int> ComputeLayersOffset(AvatarModifyData assets)
         {
             var layerOffset = new Dictionary<AnimatorLayerType, int>();
@@ -546,7 +536,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
             return layerOffset;
         }
-        
+
         int GetLayerOffset(AvatarModifyData assets,AnimatorLayerType type)
         {
             var index = Array.FindIndex(avatar.baseAnimationLayers,l => l.type == type.GetVRChatAnimatorLayerType());
@@ -880,7 +870,7 @@ namespace HhotateA.AvatarModifyTools.Core
             return menu;
         }
 #endif
-        
+
         #endregion
 
         #region ParametersCombinater
@@ -1028,7 +1018,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             return AssetUtility.GetRelativePath(avatar.transform, o);
         }
-        
+
         T SafeCopy<T>(T obj) where T : Object
         {
             if (ExistAssetObject(obj))

@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -37,7 +28,7 @@ namespace HhotateA.AvatarModifyTools.Core
             if (old != null) savedParameters.Remove(old);
             old = parameters.FirstOrDefault(p => p.name == param);
             if (old != null) parameters.Remove(old);
-            
+
             if (saved)
             {
                 savedParameters.Add(new AnimatorControllerParameter()
@@ -57,7 +48,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 });
             }
         }
-        
+
         public void AddParam(string param,
             int defaultValue, bool saved = false)
         {
@@ -65,7 +56,7 @@ namespace HhotateA.AvatarModifyTools.Core
             if (old != null) savedParameters.Remove(old);
             old = parameters.FirstOrDefault(p => p.name == param);
             if (old != null) parameters.Remove(old);
-            
+
             if (saved)
             {
                 savedParameters.Add(new AnimatorControllerParameter()
@@ -85,7 +76,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 });
             }
         }
-        
+
         public void AddParam(string param,
             bool defaultValue, bool saved = false)
         {
@@ -93,7 +84,7 @@ namespace HhotateA.AvatarModifyTools.Core
             if (old != null) savedParameters.Remove(old);
             old = parameters.FirstOrDefault(p => p.name == param);
             if (old != null) parameters.Remove(old);
-            
+
             if (saved)
             {
                 savedParameters.Add(new AnimatorControllerParameter()
@@ -167,13 +158,13 @@ namespace HhotateA.AvatarModifyTools.Core
                             p.type == AnimatorControllerParameterType.Int ? (float) p.defaultInt :  0f,
                         saved = true
                     });
-                
-                
+
+
             }
             asset.parameters = ps.ToArray();
             return asset;
         }
-        
+
         public VRCExpressionParameters CreateAsset(string path = null, bool subAsset = false)
         {
             Create();

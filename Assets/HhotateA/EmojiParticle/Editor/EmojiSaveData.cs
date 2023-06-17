@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using HhotateA.AvatarModifyTools.Core;
+﻿using HhotateA.AvatarModifyTools.Core;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -21,7 +12,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
         public List<IconElement> emojis = new List<IconElement>();
         public AvatarModifyData assets;
     }
-    
+
     [System.Serializable]
     public class IconElement
     {
@@ -45,7 +36,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
         {
             return emoji as Texture2D;
         }
-        
+
         public Texture ToTexture()
         {
             return emoji as Texture;

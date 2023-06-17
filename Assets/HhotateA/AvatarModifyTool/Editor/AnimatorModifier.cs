@@ -1,14 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -31,7 +21,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             this.currentController = c;
         }
-        
+
         public AnimatorModifier SetOrigin(AnimatorController c)
         {
             this.currentController = c;
@@ -44,9 +34,9 @@ namespace HhotateA.AvatarModifyTools.Core
         public event Func<AvatarMask,AvatarMask> onFindAvatarMask;
         public Dictionary<string, string> animRepathList = new Dictionary<string, string>();
         public bool? writeDefaultOverride { get; set; } = null;
-        
+
         public Dictionary<AnimatorLayerType, int> layerOffset = new Dictionary<AnimatorLayerType, int>();
-        
+
         /// <summary>
         /// AnimatorControllerのStateMachineとParameterの結合
         /// </summary>
@@ -55,7 +45,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             if (currentController == null) return null;
             if (currentController == origin) return null;
-            
+
             int originLayerCount = currentController.layers.Length;
             CloneLayers(origin);
             CloneAnimatorParamaters(currentController, origin);
@@ -71,7 +61,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             if (currentController == null) return null;
             if (currentController == origin) return null;
-            
+
             for (int i = 0; i < currentController.layers.Length;)
             {
                 if (origin.layers.Any(l => OnFindParam(l.name) == OnFindParam(currentController.layers[i].name)))
@@ -88,7 +78,7 @@ namespace HhotateA.AvatarModifyTools.Core
             EditorUtility.SetDirty(currentController);
             return currentController;
         }
-        
+
         public AnimatorController RevertAnimator(string keyword)
         {
             if (currentController == null) return null;
@@ -114,7 +104,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             var layers = new List<string>();
             if (currentController == null) return layers;
-            
+
             foreach (var layer in currentController.layers)
             {
                 if (HaWriteDefaultStateMachine(layer.stateMachine))
@@ -125,12 +115,12 @@ namespace HhotateA.AvatarModifyTools.Core
 
             return layers;
         }
-        
+
         public List<string> HasKeyframeLayers(string[] path, string attribute = "")
         {
             var layers = new List<string>();
             if (currentController == null) return layers;
-            
+
             foreach (var layer in currentController.layers)
             {
                 if (HasKeyFrameStateMachine(layer.stateMachine, path, attribute))
@@ -172,7 +162,7 @@ namespace HhotateA.AvatarModifyTools.Core
             EditorUtility.SetDirty(currentController);
             return currentController;
         }
-        
+
 
         #region AnimatorCombinator
 
@@ -922,7 +912,7 @@ namespace HhotateA.AvatarModifyTools.Core
         #endregion
 
         #region AnimatorChecker
-        
+
         bool HaWriteDefaultStateMachine(AnimatorStateMachine machine)
         {
             foreach (var s in machine.states)
@@ -992,7 +982,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             return false;
         }
-        
+
         bool HasKeyframeAnimation(AnimationClip clip, string[] path, string attribute = "")
         {
             using (var o = new SerializedObject(clip))
@@ -1066,42 +1056,42 @@ namespace HhotateA.AvatarModifyTools.Core
             Action,
             Fx
         }
-        
+
 #if VRC_SDK_VRCSDK3
         public static VRCAvatarDescriptor.AnimLayerType GetVRChatAnimatorLayerType(this AnimatorLayerType type)
         {
             switch (type)
             {
                 case AnimatorLayerType.Locomotion : return VRCAvatarDescriptor.AnimLayerType.Base;
-                case AnimatorLayerType.Idle : return VRCAvatarDescriptor.AnimLayerType.Additive; 
-                case AnimatorLayerType.Gesture : return VRCAvatarDescriptor.AnimLayerType.Gesture; 
-                case AnimatorLayerType.Action : return VRCAvatarDescriptor.AnimLayerType.Action; 
-                case AnimatorLayerType.Fx : return VRCAvatarDescriptor.AnimLayerType.FX; 
+                case AnimatorLayerType.Idle : return VRCAvatarDescriptor.AnimLayerType.Additive;
+                case AnimatorLayerType.Gesture : return VRCAvatarDescriptor.AnimLayerType.Gesture;
+                case AnimatorLayerType.Action : return VRCAvatarDescriptor.AnimLayerType.Action;
+                case AnimatorLayerType.Fx : return VRCAvatarDescriptor.AnimLayerType.FX;
             }
             return VRCAvatarDescriptor.AnimLayerType.Base;
         }
-        
+
         public static AnimatorLayerType GetAnimatorLayerType(this VRCAvatarDescriptor.AnimLayerType type)
         {
             switch (type)
             {
                 case VRCAvatarDescriptor.AnimLayerType.Base : return AnimatorLayerType.Locomotion;
-                case VRCAvatarDescriptor.AnimLayerType.Additive : return AnimatorLayerType.Idle; 
-                case VRCAvatarDescriptor.AnimLayerType.Gesture : return AnimatorLayerType.Gesture; 
-                case VRCAvatarDescriptor.AnimLayerType.Action : return AnimatorLayerType.Action; 
-                case VRCAvatarDescriptor.AnimLayerType.FX : return AnimatorLayerType.Fx; 
+                case VRCAvatarDescriptor.AnimLayerType.Additive : return AnimatorLayerType.Idle;
+                case VRCAvatarDescriptor.AnimLayerType.Gesture : return AnimatorLayerType.Gesture;
+                case VRCAvatarDescriptor.AnimLayerType.Action : return AnimatorLayerType.Action;
+                case VRCAvatarDescriptor.AnimLayerType.FX : return AnimatorLayerType.Fx;
             }
             return AnimatorLayerType.Locomotion;
         }
-        
+
         public static AnimatorLayerType GetAnimatorLayerType(this VRC_AnimatorLayerControl.BlendableLayer type)
         {
             switch (type)
             {
-                case VRC_AnimatorLayerControl.BlendableLayer.Additive : return AnimatorLayerType.Idle; 
-                case VRC_AnimatorLayerControl.BlendableLayer.Gesture : return AnimatorLayerType.Gesture; 
-                case VRC_AnimatorLayerControl.BlendableLayer.Action : return AnimatorLayerType.Action; 
-                case VRC_AnimatorLayerControl.BlendableLayer.FX : return AnimatorLayerType.Fx; 
+                case VRC_AnimatorLayerControl.BlendableLayer.Additive : return AnimatorLayerType.Idle;
+                case VRC_AnimatorLayerControl.BlendableLayer.Gesture : return AnimatorLayerType.Gesture;
+                case VRC_AnimatorLayerControl.BlendableLayer.Action : return AnimatorLayerType.Action;
+                case VRC_AnimatorLayerControl.BlendableLayer.FX : return AnimatorLayerType.Fx;
             }
             return AnimatorLayerType.Locomotion;
         }

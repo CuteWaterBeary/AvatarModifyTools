@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-// made by ku(su)+
+﻿// made by ku(su)+
 Shader "HhotateA/DimensionalStorage/Crystallize"
 {
     Properties
@@ -83,24 +74,24 @@ Shader "HhotateA/DimensionalStorage/Crystallize"
                 o.id = v.id;
                 return o;
             }
-            
+
             [maxvertexcount(16)]
 			void geom (triangle  v2g input[3],
 				inout TriangleStream< g2f > SpriteStream)
 			{
 				g2f o;
                 float3 center = (input[0].vertex+input[1].vertex+input[2].vertex)/3;
-                
+
 				for(uint i=0;i<3;i++)
-				{   
+				{
                     float3 yup = (random3(input[0].uv)*float3(2,1,2)-float3(1,0,1))*float3(0.5,1,0.5);
                     float r = random(input[i].uv)*0.5+0.5;
                     float3 up = (1.-_AnimationTime)* ( yup*r*5*_AnimationTime + yup)*_normalDist ;
                     float3 vert = (input[i].vertex-center)*_AnimationTime*float3(1,2.-_AnimationTime,1)+center+up;
-                    
+
 					o.vertex = UnityObjectToClipPos(vert + up);
                     o.uv     = input[i].uv;
-					SpriteStream.Append(o);	
+					SpriteStream.Append(o);
 				}
 				SpriteStream.RestartStrip();
             }

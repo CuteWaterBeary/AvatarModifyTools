@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -129,7 +120,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             return Path.GetDirectoryName(path);
         }
-        
+
         public static string GetAssetName(this ScriptableObject asset)
         {
             var path = AssetDatabase.GetAssetPath(asset);
@@ -187,7 +178,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             return bones;
         }
-        
+
         // パラメータ文字列から2バイト文字の除去を行う
         public static string GetSafeParam(this string param,string prefix = "",bool hash = true)
         {
@@ -224,11 +215,11 @@ namespace HhotateA.AvatarModifyTools.Core
 
             return builder.ToString();
         }
-        
+
         public static List<string> GetMembers(Type type)
         {
             MemberInfo[] members = type.GetMembers(BindingFlags.Public);
-            
+
             List<string> l = new List<string>();
             foreach (MemberInfo m in members)
             {

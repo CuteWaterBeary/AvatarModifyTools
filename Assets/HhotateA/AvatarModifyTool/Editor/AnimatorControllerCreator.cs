@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,7 +25,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             return asset.layers[editLayer].stateMachine;
         }
-        
+
         public AnimatorControllerCreator(string name,bool defaultLayer = true)
         {
             asset = new AnimatorController()
@@ -74,7 +65,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 });
             editLayer++;
         }
-        
+
         /// <summary>
         /// パラメーターを追加する
         /// </summary>
@@ -188,7 +179,7 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 new MotionConditionPair() {motion = motion, condition = exitCondition}
             });
-            
+
             for (int i = 0; i < motions.Count; i++)
             {
                 childStates.Add(GetStateMachine().AddState(name,RandomPosition()));
@@ -197,13 +188,13 @@ namespace HhotateA.AvatarModifyTools.Core
                     childStates[i].writeDefaultValues = false;
                 }
             }
-            
+
             AnimatorState deststate = GetStateMachine().defaultState;
             for (int i = 0; i < motions.Count; i++)
             {
                 if (i == motions.Count - 1) deststate = GetStateMachine().defaultState;
                 else deststate = childStates[i + 1];
-                
+
                 if(motions[i].condition==null)
                 {
                     var exit = childStates[i].AddTransition(deststate);
@@ -229,7 +220,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     };
                 }
             }
-            
+
             var entry = GetStateMachine().AddAnyStateTransition(childStates[0]);
             {
                 entry.canTransitionToSelf = false;
@@ -242,7 +233,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             return childStates[0];
         }
-        
+
         /// <summary>
         /// DefaultStateを追加する．
         /// </summary>
@@ -253,7 +244,7 @@ namespace HhotateA.AvatarModifyTools.Core
             AddState(name,m);
             SetDefaultState(name);
         }
-        
+
         /// <summary>
         /// Stateを追加する．
         /// </summary>
@@ -274,7 +265,7 @@ namespace HhotateA.AvatarModifyTools.Core
             state.writeDefaultValues = writeDefault;
             return state;
         }
-        
+
         /// <summary>
         /// DefaultStateを設定する
         /// </summary>
@@ -290,7 +281,7 @@ namespace HhotateA.AvatarModifyTools.Core
             var d = GetState(name);
             if (d != null) d.motion = motion;
         }
-        
+
         /// <summary>
         /// fromStateからtoStateへのTransitionを作成する
         /// </summary>
@@ -334,7 +325,7 @@ namespace HhotateA.AvatarModifyTools.Core
             transition.duration = duration;
             transition.canTransitionToSelf = false;
         }
-        
+
         public void AddTransition(
             string from, string to,
             bool hasExitTime = true,
@@ -343,7 +334,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             AddTransition(from, to, new AnimatorCondition[]{}, hasExitTime, exitTime, duration);
         }
-        
+
         public void AddTransition(
             string from, string to,
             string param,
@@ -359,7 +350,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 parameter = param,
                 threshold = value
             };
-            
+
             if (asset.parameters.All(p=>p.name!=param))
             {
                 AddParameter(param,AnimatorControllerParameterType.Int);
@@ -367,7 +358,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             AddTransition(from, to, new AnimatorCondition[1] {conditions}, hasExitTime, exitTime, duration);
         }
-        
+
         public void AddTransition(
             string from, string to,
             string param,
@@ -382,7 +373,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 parameter = param,
                 threshold = value ? 1 : 0
             };
-            
+
             if (asset.parameters.All(p=>p.name!=param))
             {
                 AddParameter(param,AnimatorControllerParameterType.Bool);
@@ -390,7 +381,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             AddTransition(from, to, new AnimatorCondition[1] {conditions}, hasExitTime, exitTime, duration);
         }
-        
+
         public void AddTransition(
             string from, string to,
             string param,
@@ -406,7 +397,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 parameter = param,
                 threshold = value
             };
-            
+
             if (asset.parameters.All(p=>p.name!=param))
             {
                 AddParameter(param,AnimatorControllerParameterType.Float);
@@ -432,7 +423,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 return asset.layers[layer].stateMachine.states.FirstOrDefault(s => s.state.name == name).state;
             }
         }
-        
+
         public string[] GetStates(string regular, int layer = -1)
         {
             if (layer == -1)
@@ -457,7 +448,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             return asset.layers.ToList().FindIndex(l => l.name == name);
         }
-        
+
         /// <summary>
         /// 新たなレイヤーを作る
         /// </summary>
@@ -490,7 +481,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
             return asset;
         }
-        
+
         /// <summary>
         /// ディレクトリにアセットを作成する
         /// </summary>
@@ -601,7 +592,7 @@ namespace HhotateA.AvatarModifyTools.Core
         void AlignmentMachine(AnimatorStateMachine machine)
         {
             machine.exitPosition = new Vector3(0f,-100f,0f);
-            
+
             Vector2 cursor = Vector3.zero;
             machine.entryPosition = cursor;
             cursor = AlignmentState(machine.defaultState, cursor, machine);
@@ -660,7 +651,7 @@ namespace HhotateA.AvatarModifyTools.Core
             if (machine.states[index].position.y < -999f)
             {
                 list.Remove(machine.states[index]);
-                
+
                 // 子State検知
                 int c = -1;
                 if (state.transitions != null)
@@ -683,7 +674,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 int p = Array.FindIndex(machine.states,
                     s => s.state.transitions.FirstOrDefault(
                         t => t.destinationState?.name == state.name) != null);
-                
+
                 // 重なり検知
                 while (true)
                 {
@@ -697,7 +688,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 {
                     newPos = new Vector2(Random.Range(-500f,500f),Random.Range(-900f,-200f));
                 }
-                
+
                 var childState = new ChildAnimatorState()
                 {
                     state = state,
@@ -756,7 +747,7 @@ namespace HhotateA.AvatarModifyTools.Core
             layers[editLayer].avatarMask = avatarMask;
             asset.layers = layers;
         }
-        
+
         public void LayerTransformMask(GameObject root,List<GameObject> objs,bool active)
         {
             if(objs==null) objs = new List<GameObject>();
@@ -767,7 +758,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 avatarMask = new AvatarMask();
                 avatarMask.name = root.name + "_Mask";
             }
-            
+
             var ts = Childs(root.transform);
             avatarMask.transformCount = ts.Count;
             for (int i = 0; i < ts.Count; i++)
@@ -776,23 +767,23 @@ namespace HhotateA.AvatarModifyTools.Core
                 avatarMask.SetTransformActive(i,
                     objs.Contains(ts[i].gameObject) ? active : !active);
             }
-            
+
             layers[editLayer].avatarMask = avatarMask;
             asset.layers = layers;
         }
-        
+
         public void LayerTransformMask(GameObject root,bool active)
         {
             LayerTransformMask(root, new List<GameObject>(), !active);
         }
-        
+
         public void ObjectOnlyLayerMask()
         {
             AnimatorControllerLayer[] layers = asset.layers;
             layers[editLayer].avatarMask = AssetUtility.LoadAssetAtGuid<AvatarMask>(EnvironmentVariable.nottingAvatarMask);
             asset.layers = layers;
         }
-        
+
         List<Transform> Childs(Transform p,bool root = false)
         {
             var l = new List<Transform>();
@@ -806,7 +797,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
             return l;
         }
-        
+
         public string GetRelativePath(GameObject root,GameObject obj)
         {
             string path;
@@ -828,8 +819,8 @@ namespace HhotateA.AvatarModifyTools.Core
 
             return path;
         }
-        
-        public void EditStateMachineBehaviour <T>(string stateName,Action<T> edit,bool asNew = false) where T : StateMachineBehaviour 
+
+        public void EditStateMachineBehaviour <T>(string stateName,Action<T> edit,bool asNew = false) where T : StateMachineBehaviour
         {
             var state = GetState(stateName);
             if (state == null) return;
@@ -851,7 +842,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
 
             edit(behaviour);
-            
+
             bs.Add(behaviour);
             state.behaviours = bs.ToArray();
         }
@@ -894,7 +885,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 state.timeParameterActive = false;
             }
         }
-        
+
 #if VRC_SDK_VRCSDK3
         public void SetAnimationTracking(string stateName,VRCTrackingMask mask,bool isAnimationTracking = true)
         {
@@ -915,7 +906,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 if (mask == VRCTrackingMask.Mouth) tracking.trackingMouth = type;
             },false);
         }
-        
+
         public void SetLayerControll(string stateName,VRCLayers layer,float weight,float duration = 0.25f)
         {
             EditStateMachineBehaviour<VRCPlayableLayerControl>(stateName, (controll) =>
@@ -937,13 +928,13 @@ namespace HhotateA.AvatarModifyTools.Core
                 if (layer == VRCLayers.Fx) controll.playable = VRC_AnimatorLayerControl.BlendableLayer.FX;
                 if (layer == VRCLayers.Gesture) controll.playable = VRC_AnimatorLayerControl.BlendableLayer.Gesture;
                 if (layer == VRCLayers.Idle) controll.playable = VRC_AnimatorLayerControl.BlendableLayer.Additive;
-                
+
                 controll.layer = layerNum;
                 controll.goalWeight = weight;
                 controll.blendDuration = duration;
             },true);
         }
-        
+
         public void SetLocomotionControll(string stateName,bool active)
         {
             EditStateMachineBehaviour<VRCAnimatorLocomotionControl>(stateName, (controll) =>
@@ -960,14 +951,14 @@ namespace HhotateA.AvatarModifyTools.Core
                 controll.delayTime = delay;
             },false);
         }
-        
+
         public void ParameterDriver(string stateName,string param,float? value,bool add = false)
         {
             EditStateMachineBehaviour<VRCAvatarParameterDriver>(stateName, (controll) =>
             {
                 controll.parameters.Add(new VRC_AvatarParameterDriver.Parameter()
                 {
-                    type = value==null ? VRC_AvatarParameterDriver.ChangeType.Random : 
+                    type = value==null ? VRC_AvatarParameterDriver.ChangeType.Random :
                         add ? VRC_AvatarParameterDriver.ChangeType.Add : VRC_AvatarParameterDriver.ChangeType.Set,
                     value = value ?? 0f,
                     valueMin = 0f,
@@ -977,7 +968,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 if(value==null) controll.localOnly =  true;
             },false);
         }
-        
+
         public void ParameterDriver(string stateName,string param,float from,float to,float chance = 0f)
         {
             EditStateMachineBehaviour<VRCAvatarParameterDriver>(stateName, (controll) =>

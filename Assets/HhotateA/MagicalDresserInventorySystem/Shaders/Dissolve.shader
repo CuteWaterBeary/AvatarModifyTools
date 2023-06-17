@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-// made by ku(su)+
+﻿// made by ku(su)+
 Shader "HhotateA/DimensionalStorage/Dissolve"
 {
     Properties
@@ -17,7 +8,7 @@ Shader "HhotateA/DimensionalStorage/Dissolve"
 		_ColorCull("ColorCull", Color) = (0.,0.,0.,1.)
         [HDR] _SingleColor("Single Color", Color) = (1,1,1,1)
         [HDR] _EmissionColor ("Emission Color", Color) = (1,1,1,1)
-        
+
         _AnimationTime ("AnimationTime",Range(0,1))=0
         _DisolveTex ("Disolve", 2D) = "white" {}
         _SingleWidth ("SingleWidth",Range(0,1))=0.3
@@ -72,7 +63,7 @@ Shader "HhotateA/DimensionalStorage/Dissolve"
                 float th = 1.0-_AnimationTime;
                 col = disolve+_SingleWidth >= th ? col : _SingleColor;
                 col = disolve+_EmissionWidth >= th ? col : _EmissionColor;
-                
+
                 clip(disolve + _ClipWidth - th);
 
                 return  facing > 0 ? col * _Color : col * _ColorCull;

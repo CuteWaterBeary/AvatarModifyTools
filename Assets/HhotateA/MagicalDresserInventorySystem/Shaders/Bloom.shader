@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-Shader "HhotateA/DimensionalStorage/Bloom"
+﻿Shader "HhotateA/DimensionalStorage/Bloom"
 {
 	Properties{
 		_MainTex ("MainTexture", 2D) = "white" {}
@@ -35,7 +26,7 @@ Shader "HhotateA/DimensionalStorage/Bloom"
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			
+
 			#include "UnityCG.cginc"
 
 			float _AnimationTime;
@@ -52,14 +43,14 @@ Shader "HhotateA/DimensionalStorage/Bloom"
 
 			sampler2D _MainTex; float4 _MainTex_ST;
 			float4 _col;
-			
+
 			v2f vert (appdata v){
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				return o;
 			}
-			
+
 			fixed4 frag (v2f i) : SV_Target{
 				fixed4 col = tex2D(_MainTex, i.uv);
 				clip(_AnimationTime-0.5);
@@ -76,7 +67,7 @@ Shader "HhotateA/DimensionalStorage/Bloom"
 			#pragma vertex vert
 			#pragma geometry geom
 			#pragma fragment frag
-			
+
 			#include "UnityCG.cginc"
 
 			float _AnimationTime;
@@ -103,13 +94,13 @@ Shader "HhotateA/DimensionalStorage/Bloom"
 			float _softknee;
 			float _brightness;
 			float _threshold;
-			
+
            	float gammacorrect(float gamma, float input) {
 				float output = saturate(pow( input, 1.0/gamma));
 				output = lerp(output,1.0,step(9.9,gamma));
            		return output;
             }
-			
+
 			appdata vert (appdata v){
 				appdata o;
 				o.vertex = v.vertex;
@@ -128,7 +119,7 @@ Shader "HhotateA/DimensionalStorage/Bloom"
 						}else{
 							output.vertex = UnityObjectToClipPos(input[index].vertex+input[index].normal*scale*_range/float(roop)); //ループごとにスケールを大きくしていく(ノーマル方向に広げるとポリゴンがうくョ)
 						}
-						
+
 						output.uv = input[index].uv;
 						output.alpha = float(roop-scale)/float(roop);
 						outStream.Append(output);
@@ -136,7 +127,7 @@ Shader "HhotateA/DimensionalStorage/Bloom"
 					outStream.RestartStrip();
 				}
 			}
-			
+
 			fixed4 frag (g2f i) : SV_Target{
 				// sample the texture
 				fixed4 col = tex2D(_BloomTex, i.uv);

@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using HhotateA.AvatarModifyTools.Core;
+﻿using HhotateA.AvatarModifyTools.Core;
 using System;
 using System.IO;
 using UnityEditor;
@@ -36,10 +27,10 @@ namespace HhotateA.AvatarModifyTools.DebugTools
                 {
                     var toolName = folder.Replace(toolsFolder, "").Replace("/","");
                     var exportFolder = Path.Combine(dir, toolName+version);
-                    
+
                     System.IO.Directory.CreateDirectory(exportFolder);
                     File.Copy(fullpackagePath,Path.Combine(exportFolder, "FullPackage" + version + ".unitypackage"));
-                    
+
                     AssetDatabase.ExportPackage(new string[]{coreToolFolder,folder},Path.Combine(exportFolder,toolName+version+".unitypackage"), ExportPackageOptions.Recurse | ExportPackageOptions.Interactive);
 
                     var readmePath = Application.dataPath.Replace("Assets", Path.Combine(folder,"Readme.md"));
@@ -57,7 +48,7 @@ namespace HhotateA.AvatarModifyTools.DebugTools
                 }
             }
         }
-        
+
         static void FolderCopy(string src, string dst)
         {
             DirectoryInfo srcDir = new DirectoryInfo(src);

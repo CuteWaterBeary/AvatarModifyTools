@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-#pragma kernel DrawUV
+﻿#pragma kernel DrawUV
 #pragma kernel ClearColor
 #pragma kernel ClearColorGradient
 #pragma kernel DrawPoint
@@ -120,9 +111,9 @@ float ComputeDistance(float2 p,float2 from,float2 to)
     }
     else if (tt>r2)
     {
-        return sqrt((x2-x0)*(x2-x0) + (y2-y0)*(y2-y0));    
+        return sqrt((x2-x0)*(x2-x0) + (y2-y0)*(y2-y0));
     }
-    
+
     float f1 = a * (y1-y0) - b * (x1-x0);
     return sqrt((f1*f1)/r2);
 }
@@ -133,7 +124,7 @@ void PaintFromTo(uint2 from,uint2 to)
     int2 d = (to - from);
     for(float i=0;i<dist;i++)
     {
-        _ResultTex[from + d/dist * i] = _Color;        
+        _ResultTex[from + d/dist * i] = _Color;
     }
 }
 
@@ -235,7 +226,7 @@ void DrawUV (uint3 id : SV_DispatchThreadID)
 void DrawUVPix (uint3 id : SV_DispatchThreadID)
 {
     float2 uv = float2((float)id.x/(float)_Width,(float)id.y/(float)_Height);
-    
+
     float2 uv0 = _UVs[_Triangles[id.z*3+0]];
     float2 uv1 = _UVs[_Triangles[id.z*3+1]];
     float2 uv2 = _UVs[_Triangles[id.z*3+2]];
@@ -301,9 +292,9 @@ void DrawBox (uint3 id : SV_DispatchThreadID)
 void DrawLineGradient (uint3 id : SV_DispatchThreadID)
 {
     float2 uv = float2(id.x/(float)_Width , id.y/(float)_Height);
-    
+
     float dist = ComputeDistance(uv,_FromPoint,_ToPoint);
-    float4 col = _Color*GetGradient(uv,_FromPoint,_ToPoint);    
+    float4 col = _Color*GetGradient(uv,_FromPoint,_ToPoint);
     PaintDist(id.xy,Concentration(dist),col);
 }
 
@@ -317,7 +308,7 @@ void TriangleFill (int3 id : SV_DispatchThreadID)
     float c0 = sign(uv,uv0,uv1);
     float c1 = sign(uv,uv1,uv2);
     float c2 = sign(uv,uv2,uv0);
-    float4 col = _Color;  
+    float4 col = _Color;
     if(sign(c0)==sign(c1) && sign(c0)==sign(c2))
     {
         _ResultTex[id.xy+int2(-_AreaExpansion,-_AreaExpansion)] = col;
@@ -397,7 +388,7 @@ void FillColorPointGradient (int3 id : SV_DispatchThreadID)
 void FillColorLineGradient (int3 id : SV_DispatchThreadID)
 {
     float2 uv = float2((float)id.x/(float)_Width,(float)id.y/(float)_Height);
-    float4 col = _Color*GetGradient(uv,_FromPoint,_ToPoint);  
+    float4 col = _Color*GetGradient(uv,_FromPoint,_ToPoint);
     if(_SeedPixels[_Width*(id.y+_AreaExpansion)+id.x+_AreaExpansion] > 0)
     {
         _ResultTex[id.xy] = col;
@@ -499,7 +490,7 @@ void SeedFill (uint3 id : SV_DispatchThreadID)
             }
             p = p2;
         }
-        
+
         p = pix;
         while( p.x >= 0)
         {
@@ -531,7 +522,7 @@ void SeedFill (uint3 id : SV_DispatchThreadID)
             }
             p = p2;
         }
-        
+
         p = pix;
         while( p.y >= 0)
         {
@@ -565,13 +556,13 @@ void DrawStamp (uint3 id : SV_DispatchThreadID)
     {
         float4 l = _Stamp[int2(uv.x*_StampWidth,uv.y*_StampHeight)] * _Color;
         float4 col = _ResultTex[id.xy];
-        
+
         col.rgb = lerp(
             lerp(col.rgb,l.rgb,l.a),
             l.rgb,
             l.a);
         col.a = saturate(col.a+(1.0-col.a)*l.a);
-        
+
         _ResultTex[id.xy] = col;
     }
 }
@@ -585,7 +576,7 @@ void Gaussian (uint3 id : SV_DispatchThreadID)
 
     int x = lerp(1,_Width*.01,_BrushPower*concentration);
     int y = lerp(1,_Height*.01,_BrushPower*concentration);
-    
+
     float4 gau = 1.*_ResultTex[id.xy+int2(-x,-y)] + 2.*_ResultTex[id.xy+int2( 0,-y)] + 1.*_ResultTex[id.xy+int2( x,-y)] +
                  2.*_ResultTex[id.xy+int2(-x, 0)] + 4.*_ResultTex[id.xy+int2( 0, 0)] + 2.*_ResultTex[id.xy+int2( x, 0)] +
                  1.*_ResultTex[id.xy+int2(-x, y)] + 2.*_ResultTex[id.xy+int2( 0, y)] + 1.*_ResultTex[id.xy+int2( x, y)];

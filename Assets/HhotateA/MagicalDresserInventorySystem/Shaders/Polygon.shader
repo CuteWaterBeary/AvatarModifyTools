@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-// made by ku(su)+
+﻿// made by ku(su)+
 Shader "HhotateA/DimensionalStorage/Polygon"
 {
     Properties
@@ -82,7 +73,7 @@ Shader "HhotateA/DimensionalStorage/Polygon"
                 o.id = v.id;
                 return o;
             }
-            
+
             [maxvertexcount(16)]
 			void geom (triangle  v2g input[3],
 				inout TriangleStream< g2f > SpriteStream)
@@ -91,14 +82,14 @@ Shader "HhotateA/DimensionalStorage/Polygon"
                 float3 center = (input[0].vertex+input[1].vertex+input[2].vertex)/3;
                 float3 block = float3(floor(center.x*_BlockNum),floor(center.y*_BlockNum),floor(center.z*_BlockNum));
 
-                
+
 				for(uint i=0;i<3;i++)
-				{   
+				{
                     float4 vert = (abs(block.y) < _AnimationTime*0.5* (_BlockNum+1) ) * input[i].vertex;
                     o.color = _EmissionColor* (abs(block.y) > _AnimationTime*0.5* (_BlockNum) ) ;
 					o.vertex = UnityObjectToClipPos(vert);
                     o.uv     = input[i].uv;
-					SpriteStream.Append(o);	
+					SpriteStream.Append(o);
 				}
 				SpriteStream.RestartStrip();
             }

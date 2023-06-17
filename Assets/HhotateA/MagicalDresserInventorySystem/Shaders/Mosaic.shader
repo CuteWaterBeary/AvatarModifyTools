@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-Shader "HhotateA/DimensionalStorage/Mosaic"
+﻿Shader "HhotateA/DimensionalStorage/Mosaic"
 {
     Properties
     {
@@ -15,7 +6,7 @@ Shader "HhotateA/DimensionalStorage/Mosaic"
 		_Color("Color", Color) = (1.,1.,1.,1.)
 		_ColorCull("ColorCull", Color) = (0.2,0.2,0.2,1.)
     	_AnimationTime ("_AnimationTime",range(0.,1.)) = 0.
-    	
+
 		_ST("BaseST",vector) = (1.0,1.0,-0.5,-0.5)
 		_Mosaic ("BaseMosaic",vector) = (5.0,5.0,0.25,0.0)
 		_FPS("fps",float) = 10.0
@@ -66,7 +57,7 @@ Shader "HhotateA/DimensionalStorage/Mosaic"
             {
                 return v;
             }
-            
+
 			[maxvertexcount(3)]
 			void geom(triangle appdata v[3], inout TriangleStream<v2f> tristream)
 			{

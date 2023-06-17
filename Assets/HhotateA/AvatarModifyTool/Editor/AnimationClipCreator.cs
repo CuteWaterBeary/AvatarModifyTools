@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,7 +15,7 @@ namespace HhotateA.AvatarModifyTools.Core
         private bool isLiner;
         private bool isSmooth;
         private bool isLoop;
-        
+
         public AnimationClipCreator(string name,GameObject root = null,bool liner = true, bool smooth = true,bool loop = false)
         {
             asset = new AnimationClip();
@@ -66,7 +57,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 value = active ? 1f : 0f,
                 weight = 1f
             };
-            
+
             AddKeyframe(target,frame);
         }
 
@@ -81,7 +72,7 @@ namespace HhotateA.AvatarModifyTools.Core
             {
                 AddKeyframe_Pos(time,tra,tra.localPosition, weight);
             }
-            
+
             if (scale)
             {
                 AddKeyframe_Scale(time,tra,tra.localScale, weight);
@@ -128,7 +119,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 }
             }
         }
-        
+
         public void AddKeyframe_Material(Renderer rend, Material mat, float time,int index = 0)
         {
             KeyFrameTarget target = new KeyFrameTarget()
@@ -142,7 +133,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 time = time,
                 value = mat
             };
-            
+
             if (objectReferenceKeyframes.ContainsKey(target))
             {
                 // 時間重複したキーフレーム防止策
@@ -164,7 +155,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             AddKeyframe(time, rend, "material."+param, value, weight);
         }
-        
+
         public void AddKeyframe_MaterialParam(float time, Renderer rend, string param, Color value,float weight = 1f)
         {
             AddKeyframe(time, rend, "material."+param+".r", value.r, weight);
@@ -172,7 +163,7 @@ namespace HhotateA.AvatarModifyTools.Core
             AddKeyframe(time, rend, "material."+param+".b", value.b, weight);
             AddKeyframe(time, rend, "material."+param+".a", value.a, weight);
         }
-        
+
         public void AddNormalizeKeyframe(float time, Component o, string property, float value, float clamp = 360f, float weight = 1f)
         {
             KeyFrameTarget target = new KeyFrameTarget()
@@ -187,7 +178,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 value = value,
                 weight = weight
             };
-            
+
             if (keyframesList.ContainsKey(target))
             {
                 var vs = keyframesList[target].OrderBy(v => v.time).ToList();
@@ -243,7 +234,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 value = value,
                 weight = weight
             };
-            
+
             AddKeyframe(target,frame);
         }
 
@@ -271,7 +262,7 @@ namespace HhotateA.AvatarModifyTools.Core
             foreach (var keyframes in keyframesList)
             {
                 var keyframeReorder = keyframes.Value.OrderBy(v => v.time).ToList();
-                var ks = keyframeReorder.Select(k => 
+                var ks = keyframeReorder.Select(k =>
                     new Keyframe(k.time, k.value){weightedMode = isLiner ? WeightedMode.Both : WeightedMode.None}).ToArray();
                 AnimationCurve c = new AnimationCurve(ks);
                 if (isSmooth)
@@ -284,7 +275,7 @@ namespace HhotateA.AvatarModifyTools.Core
                         }
                     }
                 }
-                
+
                 if (isLoop)
                 {
                     c.preWrapMode = WrapMode.PingPong;
@@ -295,7 +286,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     c.preWrapMode = WrapMode.Loop;
                     c.postWrapMode = WrapMode.Loop;
                 }
-                
+
                 asset.SetCurve(keyframes.Key.path,keyframes.Key.type,keyframes.Key.propety,c);
             }
 
@@ -310,7 +301,7 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             return AssetUtility.GetRelativePath(root.transform, o.transform);
         }
-        
+
         public AnimationClip Create()
         {
             ApplyKeyframes();
@@ -324,7 +315,7 @@ namespace HhotateA.AvatarModifyTools.Core
             //asset.EnsureQuaternionContinuity();
             return asset;
         }
-        
+
         /// <summary>
         /// ディレクトリにアセットを作成する
         /// </summary>
@@ -374,7 +365,7 @@ namespace HhotateA.AvatarModifyTools.Core
 
             return bt;
         }
-        
+
         static BlendTree Simple2D(string x,string y,Dictionary<Motion,Vector2> motions,string path="")
         {
             var bt = new BlendTree()

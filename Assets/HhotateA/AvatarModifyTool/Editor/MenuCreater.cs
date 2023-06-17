@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -24,7 +15,7 @@ namespace HhotateA.AvatarModifyTools.Core
         private VRCExpressionsMenu asset => menus[0];
         private List<VRCExpressionsMenu> menus;
         private int index;
-        
+
         public bool autoNextPage = false;
 
         public MenuCreater(string name,bool autoNextPage = true)
@@ -48,7 +39,7 @@ namespace HhotateA.AvatarModifyTools.Core
         }
 
         VRCExpressionsMenu MenuSplite(
-            VRCExpressionsMenu baseMenu, 
+            VRCExpressionsMenu baseMenu,
             VRCExpressionsMenu subMenu,
             int length = 8)
         {
@@ -106,12 +97,12 @@ namespace HhotateA.AvatarModifyTools.Core
         {
             AddControll(ButtonControl(name,icon,param,val));
         }
-        
+
         public void AddToggle(string name,Texture2D icon,string param,float val)
         {
             AddControll(ToggleControl(name,icon,param,val));
         }
-        
+
         public void AddToggle(string name,Texture2D icon,string param)
         {
             AddControll(ToggleControl(name,icon,param,1));
@@ -163,10 +154,10 @@ namespace HhotateA.AvatarModifyTools.Core
                 c.parameter = new VRCExpressionsMenu.Control.Parameter(){name = param};
                 c.value = value;
             }
-            
+
             c.subParameters = new VRCExpressionsMenu.Control.Parameter[1]
             {
-                new VRCExpressionsMenu.Control.Parameter(){name = radialParam}, 
+                new VRCExpressionsMenu.Control.Parameter(){name = radialParam},
             };
             AddControll(c);
         }
@@ -178,7 +169,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     AssetUtility.LoadAssetAtGuid<Texture2D>(EnvironmentVariable.arrowIcon),
                         subMenu);
         }
-        
+
         static VRCExpressionsMenu.Control SubMenuControl(string name,Texture2D icon,VRCExpressionsMenu subMenu)
         {
             return new VRCExpressionsMenu.Control()
@@ -189,7 +180,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 type = VRCExpressionsMenu.Control.ControlType.SubMenu
             };
         }
-        
+
         static VRCExpressionsMenu.Control ToggleControl(string name,Texture2D icon,string param,float val)
         {
             return new VRCExpressionsMenu.Control()
@@ -201,7 +192,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 value = val,
             };
         }
-        
+
         static VRCExpressionsMenu.Control ButtonControl(string name,Texture2D icon,string param,float val)
         {
             return new VRCExpressionsMenu.Control()
@@ -213,7 +204,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 value = val,
             };
         }
-        
+
         static VRCExpressionsMenu.Control AxisControl(
             string name,Texture2D icon,
             string param,
@@ -226,7 +217,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 icon = icon,
                 name = name,
             };
-            
+
             if (string.IsNullOrWhiteSpace(param_d) && string.IsNullOrWhiteSpace(param_l))
             {
                 c.type = VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet;
@@ -242,26 +233,26 @@ namespace HhotateA.AvatarModifyTools.Core
             }
             c.subParameters = new VRCExpressionsMenu.Control.Parameter[4]
             {
-                new VRCExpressionsMenu.Control.Parameter(){name = param_u}, 
-                new VRCExpressionsMenu.Control.Parameter(){name = param_r}, 
-                new VRCExpressionsMenu.Control.Parameter(){name = param_d}, 
-                new VRCExpressionsMenu.Control.Parameter(){name = param_l}, 
+                new VRCExpressionsMenu.Control.Parameter(){name = param_u},
+                new VRCExpressionsMenu.Control.Parameter(){name = param_r},
+                new VRCExpressionsMenu.Control.Parameter(){name = param_d},
+                new VRCExpressionsMenu.Control.Parameter(){name = param_l},
             };
             c.labels = new VRCExpressionsMenu.Control.Label[4]
             {
-                new VRCExpressionsMenu.Control.Label(){icon = icon_u,name = name_u}, 
-                new VRCExpressionsMenu.Control.Label(){icon = icon_r,name = name_r}, 
-                new VRCExpressionsMenu.Control.Label(){icon = icon_d,name = name_d}, 
-                new VRCExpressionsMenu.Control.Label(){icon = icon_l,name = name_l}, 
+                new VRCExpressionsMenu.Control.Label(){icon = icon_u,name = name_u},
+                new VRCExpressionsMenu.Control.Label(){icon = icon_r,name = name_r},
+                new VRCExpressionsMenu.Control.Label(){icon = icon_d,name = name_d},
+                new VRCExpressionsMenu.Control.Label(){icon = icon_l,name = name_l},
             };
             return c;
         }
-        
+
         public VRCExpressionsMenu Create()
         {
             return asset;
         }
-        
+
         /// <summary>
         /// ディレクトリにアセットを作成する
         /// </summary>
@@ -313,7 +304,7 @@ namespace HhotateA.AvatarModifyTools.Core
                     }
                 }
             }
-            
+
         }
 #endif
     }

@@ -1,19 +1,10 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
+﻿namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
 {
     public class EnvironmentGUIDs
     {
         public static string prefix = "HhotateA_MDI_";
         public static string suffix = "mdinventry";
-        
+
         public static string readme = "61ffc04aa833dd44f8fcd51b5b514984";
         public static string clothAlpha = "5e773ce0707a33d499caf8b57a6e6bac";
         public static string drawAmpha = "1ce2e8331db8ec24d945c3a1bc2c707b";
@@ -26,7 +17,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         public static string syutyusenAlpha = "11921a05eead25d40894ee443973b8ea";
         public static string uzuAlpha = "0ad80d54313449745af61a3b5b01c0eb";
         public static string leafAlpha = "df72dfab05fb5db4ab2d9537c10e4986";
-        
+
         public static string crystallizeMaterial = "3b369fb3507ff0648ae6fe66900cd01b";
         public static string disolveMaterial = "79650062e00167142bb836514625fe1e";
         public static string drawMaterial = "017d0a0b0ddf0c046bbe290c84c0dd65";
@@ -38,7 +29,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         public static string scaleMaterial = "685413e94c24d9a4ca5d5bde8029e930";
         public static string leafMaterial = "3dcf7fe49dbaba64889a6125d702baf6";
         public static string bloomMaterial = "80ecaa96e8d32ce4886f96e5cc6cf818";
-        
+
         public static string crystallizeShader = "8484e168103a0a5489cd24accf2d9c6a";
         public static string disolveShader = "12a86566e20249d40b32388e77e7e0c6";
         public static string drawShader = "314480800490e2b44a10a30094ef168a";
@@ -50,7 +41,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         public static string scaleShader = "1c355790eb97c8e4381587108c6920e4";
         public static string particleShader = "13f291bdcd56e654590b8159a6aace79";
         public static string bloomShader = "c2813c94b0550564f882b98be5175f1b";
-        
+
         public static string itemboxIcon = "f1417ebd8a3ad914c9bd1cdbe8d89a82";
         public static string dressAIcon = "ccecdba9fb2c5424ca975dd319d63fe4";
         public static string dressBIcon = "43a601d8b3a8bdb48aa1eaaae0037ea6";

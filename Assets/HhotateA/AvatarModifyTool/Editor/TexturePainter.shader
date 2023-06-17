@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-Shader "HhotateA/TexturePainter"
+﻿Shader "HhotateA/TexturePainter"
 {
     Properties
     {
@@ -225,7 +216,7 @@ Shader "HhotateA/TexturePainter"
 			    float e = 1.0e-10;
 			    return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 		    }
-		    
+
 		    inline fixed3 hsv2rgb(float3 hsv){
 			    fixed4 t = fixed4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
 			    fixed3 p = abs(frac(hsv.xxx + t.xyz) * 6.0 - t.www);
@@ -236,12 +227,12 @@ Shader "HhotateA/TexturePainter"
             {
                 return (rgb.x+rgb.y+rgb.z)*rgb.w*0.3333333333333333;
             }
-            
+
             float getGray(float3 rgb)
             {
                 return (rgb.x+rgb.y+rgb.z)*0.3333333333333333;
             }
-            
+
             float4 OverrideColor(float4 col,sampler2D tex,float2 uv,float4 color,float4 comparison,float4 settings,int mode,int alpha)
             {
 		        if(uv.x<0.0 || 1.0<uv.x || uv.y<0.0 || 1.0<uv.y ) return col;
@@ -324,10 +315,10 @@ Shader "HhotateA/TexturePainter"
                 }
 		        else if(mode == 10) // override
 		        {
-		            col = l;		            
+		            col = l;
 		        }
-                
-                return col; 
+
+                return col;
             }
 
             float4 frag(v2f_customrendertexture  IN) : COLOR

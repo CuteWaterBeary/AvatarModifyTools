@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-// made by ku(su)+
+﻿// made by ku(su)+
 Shader "HhotateA/DimensionalStorage/Explosion"
 {
     Properties
@@ -92,13 +83,13 @@ Shader "HhotateA/DimensionalStorage/Explosion"
                 float3 center = (input[0].vertex+input[1].vertex+input[2].vertex)/3;
                 float3 normal = (input[0].normal+input[1].normal+input[2].normal)/3;
 				for(uint i=0;i<3;i++)
-				{   
+				{
                     float3 norm = normal*(1.-_AnimationTime)*(random(input[i].uv)*5*_AnimationTime+1)*0.5*_normalDist;
                     float3 vert = (input[i].vertex-center)*_AnimationTime+center+norm;
-                    
+
 					o.vertex = UnityObjectToClipPos(vert + norm);
                     o.uv     = input[i].uv;
-					SpriteStream.Append(o);	
+					SpriteStream.Append(o);
 				}
 				SpriteStream.RestartStrip();
             }

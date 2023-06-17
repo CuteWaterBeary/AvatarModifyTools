@@ -1,18 +1,9 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-namespace HhotateA.AvatarModifyTools.TextureModifyTool
+﻿namespace HhotateA.AvatarModifyTools.TextureModifyTool
 {
     public static class EnvironmentGUIDs
     {
         public static string suffix = "layersavedata";
-        
+
         public static string readme = "464262472b68ab1409136664fe927d70";
         public static string penTooIcon = "bcad5870702a5b843944d470f70a2b7a";
         public static string splayToolIcon = "8ad291433c7f5354eacb47ad671c2c38";

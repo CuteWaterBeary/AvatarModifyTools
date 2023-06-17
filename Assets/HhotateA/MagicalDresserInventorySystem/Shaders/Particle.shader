@@ -1,13 +1,4 @@
-﻿/*
-AvatarModifyTools
-https://github.com/HhotateA/AvatarModifyTools
-
-Copyright (c) 2021 @HhotateA_xR
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-Shader "HhotateA/DimensionalStorage/Particle"
+﻿Shader "HhotateA/DimensionalStorage/Particle"
 {
     Properties
     {
@@ -72,7 +63,7 @@ Shader "HhotateA/DimensionalStorage/Particle"
             float4 _Grabity;
             uint _PidFactor;
             float4 _Noises;
-            
+
 			static float2 particleOffset[4] = {
 				float2(-1.0,-1.0),
 				float2(-1.0, 1.0),
@@ -84,7 +75,7 @@ Shader "HhotateA/DimensionalStorage/Particle"
             {
                 return v;
             }
-            
+
 			[maxvertexcount(4)]
 			void geom(triangle appdata v[3],uint pid : SV_PrimitiveID, inout TriangleStream<v2f> tristream)
 			{
@@ -95,7 +86,7 @@ Shader "HhotateA/DimensionalStorage/Particle"
             	float3 noise = randoms(pid);
             	//noise = normalize(noise);
             	noise *= _Noises.xyz;
-            	
+
             	vec.xyz = rot(vec.xyz,animationTime*_VortexFactor*(1.+noise.x));
             	vec.xz = vec.xz * (1.+animationTime*_MoveFactor*(1.+noise.y));
 	            float4 wwp = mul(UNITY_MATRIX_M,vec);
@@ -171,26 +162,26 @@ Shader "HhotateA/DimensionalStorage/Particle"
 					vpos.xyz += stereocamerapos();
 					return vpos;
 				}
-			
+
 				float getGray(float4 c)
 	            {
             		return (c.r+c.g+c.b)*c.a*0.3333333333;
-		            
+
 	            }
 
 				float2 rot(float2 pos,float r)
 	            {
             		float x = pos.x * cos(r) - pos.y * sin(r);
             		float y = pos.x * sin(r) + pos.y * cos(r);
-            		return float2(x,y);		            
+            		return float2(x,y);
 	            }
 
 				float3 rot(float3 pos,float r)
 	            {
             		pos.xz = rot(pos.xz,r);
-            		return pos;		            
+            		return pos;
 	            }
-			
+
 				float random(float3 seed) {
 				    return frac(sin(dot(seed+float3(500,500,500), float3(871.1, 510.92, 127.5))) * 7275.1)-1.0;
 				}
@@ -210,7 +201,7 @@ Shader "HhotateA/DimensionalStorage/Particle"
 				{
 					#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
 					float4x4 cofactors = float4x4(
-						minor(_22_23_24, _32_33_34, _42_43_44), 
+						minor(_22_23_24, _32_33_34, _42_43_44),
 						-minor(_21_23_24, _31_33_34, _41_43_44),
 						minor(_21_22_24, _31_32_34, _41_42_44),
 						-minor(_21_22_23, _31_32_33, _41_42_43),
