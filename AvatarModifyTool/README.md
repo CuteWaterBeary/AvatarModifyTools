@@ -39,7 +39,7 @@ using VRC.SDK3.Avatars.Components;
 
 public class TestSetupTool : EditorWindow
 {
-    [MenuItem("Window/TestSetupTool")]
+    [MenuItem("AvatarModifyTools/TestSetupTool")]
 
     public static void ShowWindow()
     {

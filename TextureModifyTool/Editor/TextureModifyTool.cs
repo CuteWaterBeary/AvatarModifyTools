@@ -10,11 +10,11 @@ namespace HhotateA.AvatarModifyTools.TextureModifyTool
 {
     public class TextureModifyTool : EditorWindow
     {
-        [MenuItem("Tools/Texture Modify Tool",false,202)]
+        [MenuItem("AvatarModifyTools/Avatar Painter",false,202)]
         static void  ShowWindow()
         {
             TextureModifyTool wnd = (TextureModifyTool)EditorWindow.GetWindow(typeof(TextureModifyTool));
-            wnd.titleContent = new GUIContent("Nyan Nyan Avatar Painter");
+            wnd.titleContent = new GUIContent("Avatar Painter");
             wnd.minSize = new Vector2(700,700);
         }
 

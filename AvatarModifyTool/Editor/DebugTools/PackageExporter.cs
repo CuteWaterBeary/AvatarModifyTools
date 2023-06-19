@@ -9,9 +9,9 @@ namespace HhotateA.AvatarModifyTools.DebugTools
 {
     public class PackageExporter
     {
-        const string toolsFolder = "Assets/HhotateA";
-        const string coreToolFolder = "Assets/HhotateA/AvatarModifyTool";
-        [MenuItem("Window/HhotateA/DebugTools/PackageExporter",false,2)]
+        const string toolsFolder = "Assets/AvatarModifyTool";
+        const string coreToolFolder = "Assets/AvatarModifyTool";
+        [MenuItem("AvatarModifyTools/DevTools/PackageExporter",false,2)]
         static void Export()
         {
             var path = EditorUtility.SaveFilePanel("Export", "Assets", "_v"+EnvironmentVariable.version,"unitypackage");

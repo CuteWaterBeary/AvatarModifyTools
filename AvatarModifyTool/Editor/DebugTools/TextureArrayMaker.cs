@@ -21,7 +21,7 @@ namespace HhotateA.AvatarModifyTools.DebugTools
             return false;
         }
 
-        [MenuItem("Window/HhotateA/DebugTools/TextureArrayMaker",false,4)]
+        [MenuItem("AvatarModifyTools/DevTools/TextureArrayMaker",false,4)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<TextureArrayMaker>();

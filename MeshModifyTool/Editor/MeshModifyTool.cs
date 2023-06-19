@@ -11,7 +11,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
 {
     public class MeshModifyTool : EditorWindow
     {
-        [MenuItem("Window/HhotateA/UnityMeshSimplifierNyanMeshModifyTool",false,201)]
+        [MenuItem("AvatarModifyTools/UnityMeshSimplifierModdedTool",false,201)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<MeshModifyTool>();

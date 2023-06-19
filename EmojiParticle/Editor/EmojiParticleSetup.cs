@@ -17,7 +17,7 @@ namespace HhotateA.AvatarModifyTools.EmojiParticle
 {
     public class EmojiParticleSetup : WindowBase
     {
-        [MenuItem("Window/HhotateA/EmojiParticleSetup",false,102)]
+        [MenuItem("AvatarModifyTools/EmojiParticleSetup",false,102)]
 
         public static void ShowWindow()
         {

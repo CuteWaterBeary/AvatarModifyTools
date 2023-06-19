@@ -14,7 +14,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
 {
     public class TailMoverSetup : WindowBase
     {
-        [MenuItem("Window/HhotateA/TailMoverSetup",false,103)]
+        [MenuItem("AvatarModifyTools/TailMoverSetup",false,103)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<TailMoverSetup>();

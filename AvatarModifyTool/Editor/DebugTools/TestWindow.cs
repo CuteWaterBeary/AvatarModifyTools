@@ -26,15 +26,15 @@ namespace HhotateA.AvatarModifyTools.Core
         public static void ShowWindow(AvatarModifyData data)
         {
             var wnd = GetWindow<TestWindow>();
-            wnd.titleContent = new GUIContent("AvatarModifyTool");
+            wnd.titleContent = new GUIContent("AvatarModifyTools");
             wnd.data = data;
         }
 
-        [MenuItem("Window/HhotateA/DebugTools/AvatarModifyTool",false,1)]
+        [MenuItem("AvatarModifyTools/DevTools/AvatarModifyTools",false,1)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<TestWindow>();
-            wnd.titleContent = new GUIContent("AvatarModifyTool");
+            wnd.titleContent = new GUIContent("AvatarModifyTools");
             wnd.data = CreateInstance<AvatarModifyData>();
         }
 
