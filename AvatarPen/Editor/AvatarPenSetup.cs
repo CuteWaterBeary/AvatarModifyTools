@@ -10,7 +10,7 @@ namespace HhotateA.AvatarModifyTools.AvatarPen
 {
     public class AvatarPenSetup : WindowBase
     {
-        [MenuItem("AvatarModifyTools/AvatarPenSetup",false,101)]
+        [MenuItem("Animation/Avatar Pen Setup",false,101)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<AvatarPenSetup>();

@@ -1157,7 +1157,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
         protected override bool CanRename(TreeViewItem item)
         {
             return true;
-            return item.displayName.Length <= 10;
+            // return item.displayName.Length <= 10;  // unreachable code according to Unity
         }
 
         protected override void RenameEnded(RenameEndedArgs args)

@@ -27,7 +27,7 @@ namespace HhotateA.AvatarModifyTools.MagicalDresserInventorySystem
             return false;
         }
 
-        [MenuItem("AvatarModifyTools/Magic Dresser Inventory (MDInventorySystem)",false,106)]
+        [MenuItem("Animation/Magic Dresser Inventory (MDInventorySystem)",false,106)]
         public static void ShowWindow()
         {
             OpenSavedWindow();

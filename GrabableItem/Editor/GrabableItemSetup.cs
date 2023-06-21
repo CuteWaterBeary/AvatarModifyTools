@@ -13,7 +13,7 @@ namespace HhotateA.AvatarModifyTools.GrabableItem
 {
     public class GrabableItemSetup : WindowBase
     {
-        [MenuItem("AvatarModifyTools/GrabableItemSetup",false,105)]
+        [MenuItem("Animation/Grabable Item Setup",false,105)]
 
         public static void ShowWindow()
         {

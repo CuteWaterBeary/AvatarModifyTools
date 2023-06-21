@@ -11,7 +11,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
 {
     public class MeshModifyTool : EditorWindow
     {
-        [MenuItem("AvatarModifyTools/UnityMeshSimplifierModdedTool",false,201)]
+        [MenuItem("Mesh+Bones/Mesh Simplifier GUI",false,201)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<MeshModifyTool>();
@@ -29,7 +29,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         private bool keyboardShift = false;
         private bool keyboardCtr = false;
         private bool keyboardAlt = false;
-        private int shortcutToolBuffer = -1;
+        // private int shortcutToolBuffer = -1; // never used according to Unity
 
         // Root object of the mesh to be modified
         private GameObject avatar;
@@ -72,7 +72,7 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
         AvatarMonitor avatarMonitor;
         private const int previewLayer = 2;
         private Vector2 rendsScroll = Vector2.zero;
-        private bool viewOption = false;
+        // private bool viewOption = false; // never used according to Unity
         private Material wireFrameMaterial;
         Color wireFrameColor = Color.white;
         private Material[] defaultMaterials;

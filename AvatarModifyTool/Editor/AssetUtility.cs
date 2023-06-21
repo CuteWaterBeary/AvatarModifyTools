@@ -130,7 +130,7 @@ namespace HhotateA.AvatarModifyTools.Core
             }
 
             return Path.GetFileName(path).Split('.')[0];
-            return Path.GetFileNameWithoutExtension(path);
+            // return Path.GetFileNameWithoutExtension(path);  // unreachable code according to Unity
         }
 
         public static Transform[] GetBones(this GameObject root)

@@ -14,7 +14,7 @@ namespace HhotateA.AvatarModifyTools.TailMover
 {
     public class TailMoverSetup : WindowBase
     {
-        [MenuItem("AvatarModifyTools/TailMoverSetup",false,103)]
+        [MenuItem("Animation/Idle Tail+Ear Animation Creator",false,103)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<TailMoverSetup>();

@@ -29,7 +29,7 @@ namespace HhotateA.AvatarModifyTools.EmoteMotionKit
             return false;
         }
 
-        [MenuItem("AvatarModifyTools/EmoteMotionKit",false,108)]
+        [MenuItem("Animation/Emote Motion Kit",false,108)]
         public static void ShowWindow()
         {
             OpenSavedWindow();

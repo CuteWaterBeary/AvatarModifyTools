@@ -11,7 +11,7 @@ namespace HhotateA.AvatarModifyTools.DebugTools
     {
         const string toolsFolder = "Assets/AvatarModifyTool";
         const string coreToolFolder = "Assets/AvatarModifyTool";
-        [MenuItem("AvatarModifyTools/DevTools/PackageExporter",false,2)]
+        [MenuItem("Tools/AvatarModify DevTools/PackageExporter",false,2)]
         static void Export()
         {
             var path = EditorUtility.SaveFilePanel("Export", "Assets", "_v"+EnvironmentVariable.version,"unitypackage");

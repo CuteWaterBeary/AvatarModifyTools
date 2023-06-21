@@ -30,7 +30,7 @@ namespace HhotateA.AvatarModifyTools.Core
             wnd.data = data;
         }
 
-        [MenuItem("AvatarModifyTools/DevTools/AvatarModifyTools",false,1)]
+        [MenuItem("Tools/AvatarModify DevTools/AvatarModifyTools",false,1)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<TestWindow>();
