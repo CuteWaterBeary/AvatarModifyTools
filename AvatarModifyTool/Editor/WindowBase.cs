@@ -39,7 +39,7 @@ namespace HhotateA.AvatarModifyTools.Core
                 textColor = Color.red
             };
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Please import VRCSDK3.0 in your project.",titleStyle);
+            EditorGUILayout.LabelField("Please import VRCSDK3.0 to your project.",titleStyle);
 #endif
         }
 
@@ -234,21 +234,21 @@ namespace HhotateA.AvatarModifyTools.Core
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("button modifies the AnimatorController, ExpressionParamrter, and ExpressionMenu for the avatar's FX.",instructions);
+            EditorGUILayout.LabelField("This modifies the AnimatorController, ExpressionParameter, and ExpressionMenu for the avatar's FX Controller.",instructions);
             EditorGUILayout.LabelField("The operation cannot be undone, so be sure you have made a backup.",instructions);
 
-            EditorGUILayout.Space();
+            // EditorGUILayout.Space();
 
-            var p = GUILayoutUtility.GetRect(0, 0, GUI.skin.box);
-            p.height = 70;
-            p.width = 70;
-            EditorGUI.DrawPreviewTexture(p,
-                AssetUtility.LoadAssetAtGuid<Texture>(EnvironmentVariable.icon),
-                AssetUtility.LoadAssetAtGuid<Material>(EnvironmentVariable.iconMat));
+            // var p = GUILayoutUtility.GetRect(0, 0, GUI.skin.box);
+            // p.height = 70;
+            // p.width = 70;
+            // EditorGUI.DrawPreviewTexture(p,
+            //     AssetUtility.LoadAssetAtGuid<Texture>(EnvironmentVariable.icon),
+            //     AssetUtility.LoadAssetAtGuid<Material>(EnvironmentVariable.iconMat));
 
-            EditorGUILayout.LabelField( "powered by AvatarModifyTool @HhotateA_xR" ,signature);
-            EditorGUILayout.LabelField( "Version " + EnvironmentVariable.version ,signature);
-            EditorGUILayout.LabelField( EnvironmentVariable.githubLink ,signature);
+            // EditorGUILayout.LabelField( "powered by AvatarModifyTool @HhotateA_xR" ,signature);
+            // EditorGUILayout.LabelField( "Version " + EnvironmentVariable.version ,signature);
+            // EditorGUILayout.LabelField( EnvironmentVariable.githubLink ,signature);
             // EditorGUILayout.LabelField( EnvironmentVariable.githubLink ,signature);
         }
 
