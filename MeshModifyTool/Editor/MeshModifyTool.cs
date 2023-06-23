@@ -11,11 +11,11 @@ namespace HhotateA.AvatarModifyTools.MeshModifyTool
 {
     public class MeshModifyTool : EditorWindow
     {
-        [MenuItem("Mesh+Bones/Mesh Simplifier GUI",false,201)]
+        [MenuItem("Mesh+Bones/Mesh Sculpting Tool",false,201)]
         public static void ShowWindow()
         {
             var wnd = GetWindow<MeshModifyTool>();
-            wnd.titleContent = new GUIContent("MeshModifyTool");
+            wnd.titleContent = new GUIContent("Mesh Sculpting Tool");
             wnd.minSize = new Vector2(800,400);
         }
 
